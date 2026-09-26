@@ -5,6 +5,8 @@ app:
   name: "Il viaggio di Lumi"
   shortName: "Lumi"
   description: "Un libro interattivo per bambini dai 7 ai 9 anni: dal Big Bang alla nascita della Terra."
+  # describes the picture shown when the link is shared (assets/images/social.png)
+  imageAlt: "La stellina Lumi viaggia dal Big Bang alle stelle, al Sole e alla Terra."
   # voice used for "read aloud" and format of the date on the diploma
   locale: "it-IT"
 

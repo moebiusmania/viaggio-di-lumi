@@ -1,5 +1,7 @@
 # Il viaggio di Lumi
 
+![Il viaggio di Lumi: dal Big Bang alla nascita della Terra](src/assets/images/social.svg)
+
 An interactive picture book for children aged 7–9, in Italian: from the Big Bang
 to the birth of the Earth. It has four lessons of about 30 minutes each, and
 each lesson ends with a quiz and a medal. The book ends with a printable
@@ -37,6 +39,8 @@ src/
                            credits.vto (license footnote on cover + index)
   assets/css/              base.css (fonts, tokens, layout, page transitions) · components.css · scenes.css
   assets/icons/            app icons: icon.svg is the source, the PNGs are rendered from it
+  assets/images/           social.svg (README banner and link preview card, text as paths) and social.png,
+                           rendered from it for og:image; left out of the offline cache
   assets/fonts/            Baloo 2 + Nunito variable woff2 (latin, latin-ext) and their OFL texts
   assets/js/
     app.js                 navigation (arrows, keyboard, swipe, trackpad), TOC, progress, read-aloud

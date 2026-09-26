@@ -6,6 +6,18 @@
   <title>{{ title }} · {{ ui.app.name }}</title>
   <meta name="description" content="{{ ui.app.description |> escape }}">
   <meta name="theme-color" content="#1b1446">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ ui.app.name |> escape }}">
+  <meta property="og:title" content="{{ title |> escape }} · {{ ui.app.name |> escape }}">
+  <meta property="og:description" content="{{ ui.app.description |> escape }}">
+  <meta property="og:url" content="{{ url |> url(true) }}">
+  <meta property="og:locale" content="{{ ui.app.locale |> replace('-', '_') }}">
+  <meta property="og:image" content="{{ '/assets/images/social.png' |> url(true) }}">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{{ ui.app.imageAlt |> escape }}">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="/assets/icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="{{ home }}manifest.webmanifest">

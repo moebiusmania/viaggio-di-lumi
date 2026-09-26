@@ -188,7 +188,10 @@ site.addEventListener("afterBuild", async () => {
     for (const entry of entries) {
       const path = dir ? `${dir}/${entry.name}` : entry.name;
       if (entry.isDirectory) await walk(path);
-      else if (entry.isFile && path !== "sw.js" && !entry.name.startsWith(".")) {
+      // the social card is only for link previews, the app never shows it
+      else if (
+        entry.isFile && path !== "sw.js" && !entry.name.startsWith(".") && !path.startsWith("assets/images/social.")
+      ) {
         // pages are served as folders: "lezione-1/00-copertina/index.html" -> "lezione-1/00-copertina/"
         const url = path === "index.html" ? "./" : path.replace(/(^|\/)index\.html$/, "$1");
         files.push(url);
