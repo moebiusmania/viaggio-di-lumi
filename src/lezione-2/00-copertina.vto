@@ -1,0 +1,33 @@
+---
+title: "Stelle e galassie"
+kind: cover
+when: "Circa 13,6 miliardi di anni fa"
+---
+<div class="cover">
+  <div class="cover-text">
+    <span class="lesson-no">2</span>
+    <p data-speak>Nel buio dei secoli bui, le nubi di gas aspettavano... Ma una forza invisibile stava lavorando in silenzio. E un giorno, finalmente, il cielo si è acceso!</p>
+    <h2>In questa lezione scoprirai:</h2>
+    <ul class="mission-list">
+      <li style="--i:0">qual è la «colla» dell'universo</li>
+      <li style="--i:1">come si accende una stella</li>
+      <li style="--i:2">perché siamo fatti di polvere di stelle</li>
+      <li style="--i:3">cosa sono le galassie, e qual è la nostra</li>
+    </ul>
+    <p class="time-chip">⏱ circa 30 minuti · 12 pagine</p>
+  </div>
+
+  <div class="scene" aria-hidden="true">
+    <svg viewBox="0 0 400 300">
+      <use href="#galaxy" x="110" y="60" width="180" height="180" class="spin" style="animation-duration: 40s"/>
+      {{ for s of [[50, 50, 30, 1], [340, 60, 38, 2], [70, 230, 34, 3], [330, 235, 28, 1], [200, 30, 22, 2]] }}
+      <g class="float delay-{{ s[3] }}">
+        <use href="#lumi" x="{{ s[0] - s[2] / 2 }}" y="{{ s[1] - s[2] / 2 }}" width="{{ s[2] }}" height="{{ s[2] }}"/>
+      </g>
+      {{ /for }}
+      {{ for s of [[130, 40], [270, 270], [30, 140], [380, 150], [160, 270], [250, 20]] }}
+      <use href="#star" x="{{ s[0] - 7 }}" y="{{ s[1] - 7 }}" width="14" height="14" class="twinkle"/>
+      {{ /for }}
+    </svg>
+  </div>
+</div>

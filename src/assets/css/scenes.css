@@ -1,0 +1,41 @@
+/* Shared cartoon helpers used inside the SVG illustrations */
+
+.ink { stroke: var(--ink); stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
+.ink-thin { stroke: var(--ink); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+
+/* Every face blinks now and then */
+#face .eyes { animation: blink 5s infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes blink { 0%, 94%, 100% { scale: 1 1; } 97% { scale: 1 .1; } }
+
+.float { animation: float 3.2s ease-in-out infinite; }
+.float-slow { animation: float 5s ease-in-out infinite; }
+.spin { animation: spin 12s linear infinite; }
+.spin-fast { animation: spin 3s linear infinite; }
+.spin-back { animation: spin 16s linear infinite reverse; }
+.pulse { animation: pulse 2s ease-in-out infinite; }
+.wiggle { animation: wiggle 2.4s ease-in-out infinite; }
+.twinkle { animation: twinkle 1.6s ease-in-out infinite alternate; }
+.delay-1 { animation-delay: -.6s; }
+.delay-2 { animation-delay: -1.3s; }
+.delay-3 { animation-delay: -2.1s; }
+
+@keyframes float { 50% { translate: 0 -8px; } }
+@keyframes spin { to { rotate: 360deg; } }
+@keyframes pulse { 50% { scale: 1.08; } }
+@keyframes wiggle { 25% { rotate: -6deg; } 75% { rotate: 6deg; } }
+
+/* Things that pop into view one after the other */
+.pop-in { animation: pop-in .7s var(--ease-bounce) both; animation-delay: calc(var(--i, 0) * 150ms); }
+@keyframes pop-in { from { scale: 0; opacity: 0; } }
+
+/* Glow filter look for hot objects */
+.glow { filter: drop-shadow(0 0 10px oklch(88% 0.17 92 / .9)) drop-shadow(0 0 30px oklch(74% 0.18 52 / .7)); }
+
+/* Cover illustration: gently orbiting badges */
+.orbit {
+  offset-path: circle(38% at 50% 50%);
+  offset-rotate: 0deg;
+  animation: orbit 14s linear infinite;
+  animation-delay: calc(var(--i, 0) * -3.5s);
+}
+@keyframes orbit { to { offset-distance: 100%; } }

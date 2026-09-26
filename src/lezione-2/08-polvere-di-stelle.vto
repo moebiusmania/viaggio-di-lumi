@@ -1,0 +1,37 @@
+---
+title: "Siamo fatti di stelle!"
+when: "Oggi, proprio dentro di te!"
+text:
+  - "Gli ingredienti lanciati dalle supernove hanno viaggiato nello spazio per milioni di anni..."
+  - "Si sono mescolati con le nubi di gas, sono diventati nuove stelle, nuovi pianeti... e alla fine anche <strong>te</strong>!"
+  - "Il carbonio dei tuoi muscoli, il calcio delle tue ossa, il ferro del tuo sangue: sono stati cucinati dentro stelle antichissime. Tu sei fatto di <strong>polvere di stelle</strong>!"
+task: "Tocca i punti interrogativi e scopri da dove vengono gli ingredienti del tuo corpo."
+fact: "L'idrogeno che c'è nell'acqua che bevi è ancora più antico: è nato proprio nei primi minuti dopo il Big Bang!"
+---
+<hot-spots>
+  <div class="scene">
+    <svg viewBox="0 0 400 300" aria-hidden="true">
+      {{ for s of [[40, 40], [360, 50], [50, 250], [350, 260], [110, 150], [300, 140]] }}
+      <use href="#star" x="{{ s[0] - 10 }}" y="{{ s[1] - 10 }}" width="20" height="20" class="twinkle"/>
+      {{ /for }}
+      <g class="kid float-slow">
+        <!-- a cheerful cartoon kid -->
+        <path d="M168 150 L128 196 M232 150 L276 110" stroke="#1d1846" stroke-width="18" stroke-linecap="round"/>
+        <path d="M168 150 L128 196 M232 150 L276 110" stroke="#ffcf9e" stroke-width="11" stroke-linecap="round"/>
+        <path d="M185 230 L178 285 M215 230 L222 285" stroke="#1d1846" stroke-width="20" stroke-linecap="round"/>
+        <path d="M185 230 L178 285 M215 230 L222 285" stroke="#4b7bff" stroke-width="13" stroke-linecap="round"/>
+        <path d="M165 140 Q200 125 235 140 L240 238 Q200 248 160 238 Z" fill="#ff5d8f" stroke="#1d1846" stroke-width="5" stroke-linejoin="round"/>
+        <use href="#star" x="186" y="170" width="28" height="28"/>
+        <circle cx="200" cy="92" r="42" fill="#ffcf9e" stroke="#1d1846" stroke-width="5"/>
+        <path d="M160 86 Q165 44 205 48 Q240 50 242 84 Q222 64 196 70 Q176 74 160 86 Z" fill="#7a4a2a" stroke="#1d1846" stroke-width="4" stroke-linejoin="round"/>
+        <use href="#face" x="178" y="92" width="44" height="26"/>
+      </g>
+    </svg>
+    <button class="spot" style="--x: 57%; --y: 32%" data-label="Carbonio" data-tip="i tuoi muscoli e la tua pelle ne sono pieni. È stato cucinato dentro stelle giganti."></button>
+    <button class="spot" style="--x: 45%; --y: 91%" data-label="Calcio" data-tip="rende forti le tue ossa e i tuoi denti. Anche lui viene dalle stelle!"></button>
+    <button class="spot" style="--x: 32%; --y: 63%" data-label="Ferro" data-tip="è nel tuo sangue e lo rende rosso. È stato lanciato nello spazio da una supernova."></button>
+    <button class="spot" style="--x: 43%; --y: 50%" data-label="Ossigeno" data-tip="lo respiri in ogni momento, ed è in tutta l'acqua del tuo corpo."></button>
+    <button class="spot" style="--x: 67%; --y: 36%" data-label="Idrogeno" data-tip="è nell'acqua del tuo corpo. Questo non viene dalle stelle: è nato col Big Bang!"></button>
+  </div>
+  <output class="caption"></output>
+</hot-spots>

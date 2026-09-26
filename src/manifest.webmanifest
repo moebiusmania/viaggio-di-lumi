@@ -1,0 +1,19 @@
+{
+  "id": "./",
+  "name": "Il viaggio di Lumi",
+  "short_name": "Lumi",
+  "description": "Un libro interattivo per bambini dai 7 ai 9 anni: dal Big Bang alla nascita della Terra.",
+  "lang": "it",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#1b1446",
+  "theme_color": "#1b1446",
+  "categories": ["education", "kids", "books"],
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "assets/icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

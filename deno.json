@@ -1,0 +1,27 @@
+{
+  "imports": {
+    "lume/": "https://deno.land/x/lume@v3.2.5/"
+  },
+  "tasks": {
+    "lume": "echo \"import 'lume/cli.ts'\" | deno run -A -",
+    "build": "deno task lume",
+    "serve": "deno task lume -s"
+  },
+  "compilerOptions": {
+    "types": [
+      "lume/types.ts"
+    ]
+  },
+  "lint": {
+    "plugins": [
+      "https://deno.land/x/lume@v3.2.5/lint.ts"
+    ]
+  },
+  "fmt": {
+    "lineWidth": 120,
+    "include": [
+      "_config.ts",
+      "src/assets/js/"
+    ]
+  }
+}

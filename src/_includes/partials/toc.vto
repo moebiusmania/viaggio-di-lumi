@@ -1,0 +1,29 @@
+<dialog id="toc" class="toc" aria-labelledby="toc-title">
+  <header class="toc-head">
+    <h2 id="toc-title">Indice del viaggio</h2>
+    <button class="icon-btn" type="button" data-close title="Chiudi (Esc)">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-close"/></svg><span class="sr-only">Chiudi</span>
+    </button>
+  </header>
+  <a class="toc-home" href="/" {{ if url == "/" }}aria-current="page"{{ /if }}>🏠 Copertina del libro</a>
+  <ol class="toc-lessons">
+    {{ for l of toc }}
+    <li class="toc-lesson" style="--c: var(--l{{ l.n }})">
+      <details name="toc-lesson" {{ if l.n == (lesson || 1) }}open{{ /if }}>
+        <summary>
+          <span class="toc-num">{{ l.n }}</span>
+          <span class="toc-title">{{ l.title }}<small>{{ l.subtitle }}</small></span>
+          <span class="toc-progress" data-lesson-progress="{{ l.n }}" style="--p: 0"></span>
+        </summary>
+        <ol class="toc-pages">
+          {{ for p of l.pages }}
+          <li><a href="{{ p.url }}" data-url="{{ p.url |> url }}" data-kind="{{ p.kind }}" {{ if p.url == url }}aria-current="page"{{ /if }}>{{ p.title }}</a></li>
+          {{ /for }}
+        </ol>
+      </details>
+    </li>
+    {{ /for }}
+  </ol>
+  <p class="toc-help">Usa le <kbd>←</kbd> <kbd>→</kbd> per sfogliare, oppure scorri col dito. <kbd>M</kbd> apre l'indice.</p>
+  {{ include "partials/credits.vto" }}
+</dialog>

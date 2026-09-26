@@ -1,0 +1,39 @@
+---
+title: "Le prime stelle, giganti!"
+when: "Circa 200 milioni di anni dopo il Big Bang"
+text:
+  - "Le prime stelle dell'universo erano diverse da quelle di oggi: erano <strong>gigantesche</strong>, <strong>blu</strong> e brillantissime!"
+  - "Alcune erano centinaia di volte più pesanti del nostro Sole."
+  - "Ma c'è un trucco: più una stella è grande, più in fretta consuma il suo carburante. Le stelle giganti vivono <strong>pochissimo</strong>... e finiscono con il botto!"
+task: "Trascina la barra per far crescere la stella gigante e confrontala con il nostro Sole."
+fact: "Il Sole vivrà circa 10 miliardi di anni. Le stelle più grandi, invece, solo pochi milioni: per l'universo, un battito di ciglia!"
+---
+<scene-slider data-steps='["Questo è il nostro Sole: una stella di media grandezza.", "Le prime stelle erano molto più grandi...", "...decine di volte più grandi e brillanti...", "...alcune erano centinaia di volte più pesanti del Sole! Il Sole, lì vicino, sembra un puntino."]'>
+  <div class="scene">
+    <svg viewBox="0 0 400 300" aria-hidden="true">
+      <defs>
+        <radialGradient id="blue-5"><stop offset="0" stop-color="#e6f7ff"/><stop offset=".6" stop-color="#8fd3ff"/><stop offset="1" stop-color="#4b7bff"/></radialGradient>
+        <radialGradient id="blueglow-5"><stop offset=".5" stop-color="#8fd3ff" stop-opacity=".6"/><stop offset="1" stop-color="#4b7bff" stop-opacity="0"/></radialGradient>
+      </defs>
+      <g class="giant">
+        <circle cx="250" cy="150" r="130" fill="url(#blueglow-5)"/>
+        <circle cx="250" cy="150" r="100" fill="url(#blue-5)" stroke="#1d1846" stroke-width="4"/>
+        <use href="#face" x="210" y="140" width="80" height="48"/>
+      </g>
+      <g class="sun-small">
+        <use href="#sun" x="40" y="215" width="50" height="50"/>
+        <text class="label" x="65" y="285" text-anchor="middle" font-size="16">Sole</text>
+      </g>
+      <text class="label giant-label" x="250" y="30" text-anchor="middle" font-size="18">Prima stella</text>
+    </svg>
+  </div>
+  <label class="slider"><span>☀️</span><input type="range" min="0" max="100" value="0" aria-label="Fai crescere la stella gigante"><span>💙 Gigante</span></label>
+  <output class="caption"></output>
+  <style>
+    @scope {
+      .giant { scale: calc(.2 + var(--t) * .95); transform-origin: 250px 150px !important; transform-box: view-box !important; }
+      .giant-label { opacity: calc(var(--t) * 3 - .5); }
+      .sun-small { scale: calc(1.3 - var(--t) * .5); transform-origin: 65px 240px !important; transform-box: view-box !important; }
+    }
+  </style>
+</scene-slider>

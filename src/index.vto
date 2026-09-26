@@ -1,0 +1,243 @@
+---
+layout: layouts/base.vto
+title: Dal Big Bang alla Terra
+---
+<main class="home">
+  <section class="hero">
+    <div class="hero-text">
+      <p class="kicker">Un libro interattivo per esploratori dai 7 ai 9 anni</p>
+      <h1>Il viaggio di <span>Lumi</span></h1>
+      <p class="hero-sub">Dal Big Bang alla nascita della Terra</p>
+      <div class="lumi-talk">
+        <svg class="lumi" viewBox="-4 -4 108 108" aria-hidden="true"><use href="#lumi"/></svg>
+        <div class="bubble" data-speak>
+          <p>Ciao! Io sono <strong>Lumi</strong>, una piccola stella curiosa.</p>
+          <p>Vuoi venire con me in un viaggio lunghissimo? Partiamo da <strong>13,8 miliardi di anni fa</strong>, quando tutto è cominciato, e arriviamo fino alla nascita della nostra casa: <strong>la Terra</strong>!</p>
+        </div>
+      </div>
+      <div class="btn-row hero-actions">
+        <a class="btn big" href="{{ toc[0].url }}">Partiamo! 🚀</a>
+        <a class="btn big sky" href="#" data-continue hidden>Continua il viaggio ▶</a>
+      </div>
+    </div>
+
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 400 320">
+        <path id="journey" d="M58 66 C 130 10, 170 190, 120 230 S 190 330, 250 250 S 250 90, 300 90 S 380 180, 335 250" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="4" stroke-dasharray="2 12" stroke-linecap="round"/>
+
+        <g class="burst">
+          <path d="M58 26 L66 50 L90 38 L78 60 L102 70 L78 78 L90 102 L66 88 L58 112 L50 88 L26 100 L38 78 L14 70 L38 60 L26 38 L50 50 Z" fill="#ffd23f" stroke="#1d1846" stroke-width="4" stroke-linejoin="round"/>
+          <circle cx="58" cy="69" r="16" fill="#fff7c2" stroke="#1d1846" stroke-width="3"/>
+        </g>
+        <text class="label" x="58" y="138" text-anchor="middle" font-size="16">Big Bang</text>
+
+        <g class="galaxy" transform="translate(120 225)">
+          <g class="spin">
+            <ellipse rx="42" ry="42" fill="#b28cff" opacity=".25"/>
+            <path d="M0 0 C 18 -30, 50 -10, 40 18 M0 0 C -18 30, -50 10, -40 -18" fill="none" stroke="#c9b5ff" stroke-width="9" stroke-linecap="round"/>
+            <path d="M0 0 C 18 -30, 50 -10, 40 18 M0 0 C -18 30, -50 10, -40 -18" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+            <circle r="10" fill="#fff3a3"/>
+          </g>
+        </g>
+        <text class="label" x="120" y="290" text-anchor="middle" font-size="16">Stelle</text>
+
+        <g class="sun">
+          <g class="spin">
+            <circle cx="300" cy="90" r="46" fill="none" stroke="#ffd23f" stroke-width="10" stroke-dasharray="6 12" opacity=".8"/>
+          </g>
+          <circle cx="300" cy="90" r="34" fill="#ffd23f" stroke="#1d1846" stroke-width="4"/>
+          <use href="#face" x="282" y="84" width="36" height="22"/>
+        </g>
+        <text class="label" x="300" y="158" text-anchor="middle" font-size="16">Sole</text>
+
+        <g class="earth">
+          <circle cx="335" cy="250" r="32" fill="#3fa9f5" stroke="#1d1846" stroke-width="4"/>
+          <path d="M312 236 q10 -12 22 -4 q6 10 -4 16 q-10 2 -18 -12z M340 262 q12 -8 20 2 q-4 14 -16 12z M338 224 q10 -4 16 4 q-8 4 -16 -4z" fill="#3ddc97" stroke="#1d1846" stroke-width="2.5"/>
+          <use href="#face" x="318" y="244" width="34" height="20"/>
+        </g>
+        <text class="label" x="335" y="305" text-anchor="middle" font-size="16">Terra</text>
+
+        <g class="traveller">
+          <use href="#lumi" x="-22" y="-22" width="44" height="44"/>
+          <animateMotion dur="14s" repeatCount="indefinite" rotate="0" keyPoints="0;1" keyTimes="0;1" calcMode="linear">
+            <mpath href="#journey"/>
+          </animateMotion>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <section class="lessons" aria-labelledby="lessons-title">
+    <h2 id="lessons-title">Le 4 tappe del viaggio</h2>
+    <ol class="lesson-cards">
+      {{ for l of toc }}
+      <li style="--c: var(--l{{ l.n }}); --i: {{ l.n }}">
+        <a class="lesson-card" href="{{ l.url }}">
+          <span class="lesson-card-num">{{ l.n }}</span>
+          <span class="lesson-card-body">
+            <b>{{ l.title }}</b>
+            <span>{{ l.subtitle }}</span>
+            <small>⏱ circa 30 minuti · {{ l.pages.length }} pagine</small>
+          </span>
+          <span class="lesson-card-medal" data-medal="{{ l.n }}" title="Medaglia della lezione">🏅</span>
+        </a>
+      </li>
+      {{ /for }}
+    </ol>
+  </section>
+
+  <section class="howto" aria-labelledby="howto-title">
+    <h2 id="howto-title">Come si usa questo libro?</h2>
+    <ul>
+      <li><span class="howto-icon"><kbd>←</kbd> <kbd>→</kbd></span> Sfoglia le pagine con le frecce della tastiera...</li>
+      <li><span class="howto-icon">👆</span> ...oppure tocca le frecce in basso, o scorri col dito sullo schermo.</li>
+      <li><span class="howto-icon">☰</span> Il pulsante <b>Indice</b> in alto ti porta in qualunque pagina.</li>
+      <li><span class="howto-icon">🔊</span> Il fumetto in alto fa leggere la pagina ad alta voce.</li>
+      <li><span class="howto-icon">⭐</span> Ogni attività completata ti regala una stella. Riesci a raccoglierle tutte?</li>
+    </ul>
+    <p class="grownups"><b>Per i grandi:</b> ogni lezione dura circa mezz'ora e alterna brevi letture, giochi e un quiz finale. I progressi restano salvati su questo dispositivo.</p>
+  </section>
+
+  {{ include "partials/credits.vto" }}
+
+  <style>
+    @scope {
+      :scope {
+        view-transition-name: slide;
+        width: min(100%, 76rem);
+        margin-inline: auto;
+        padding: clamp(1rem, 3vw, 2.5rem) clamp(.75rem, 2vw, 1.5rem) 4rem;
+        display: grid;
+        gap: 3rem;
+      }
+
+      .hero {
+        display: grid;
+        gap: 2rem;
+        align-items: center;
+        @media (width > 60rem) { grid-template-columns: 1fr 1fr; }
+      }
+
+      .hero-text { display: grid; gap: 1.1rem; }
+      .kicker { color: var(--ink); }
+
+      h1 {
+        font-size: clamp(3rem, 2rem + 5vw, 5.5rem);
+        line-height: .9;
+        & span {
+          color: var(--sun);
+          display: inline-block;
+          animation: wiggle 3s ease-in-out infinite;
+          text-shadow: 0 6px 0 var(--ink), 0 0 30px oklch(88% 0.17 92 / .6);
+        }
+      }
+
+      .hero-sub { font-family: var(--font-head); font-size: clamp(1.3rem, 1rem + 1.5vw, 2rem); color: var(--sky); }
+      .bubble { color: var(--ink); }
+      .hero-actions { justify-content: flex-start; }
+
+      .hero-art {
+        aspect-ratio: 400 / 320;
+        border: var(--border);
+        border-radius: calc(var(--radius) * 1.4);
+        background:
+          radial-gradient(circle at 20% 20%, oklch(55% 0.2 330 / .6), transparent 45%),
+          radial-gradient(circle at 80% 80%, oklch(55% 0.15 230 / .6), transparent 50%),
+          var(--space-1);
+        box-shadow: 0 10px 0 var(--ink), 0 30px 60px oklch(0% 0 0 / .4);
+        overflow: hidden;
+        & svg { width: 100%; height: 100%; overflow: visible; }
+        & svg * { transform-box: fill-box; transform-origin: center; }
+        & .burst { animation: pulse 1.6s ease-in-out infinite; }
+        & .galaxy .spin { animation-duration: 20s; }
+        & .sun .spin { animation-duration: 25s; }
+        & .earth { animation: float 4s ease-in-out infinite; }
+        & .label { font-family: var(--font-head); font-weight: 800; fill: #fff; paint-order: stroke; stroke: var(--ink); stroke-width: 5px; stroke-linejoin: round; }
+      }
+
+      h2 { font-size: clamp(1.8rem, 1.4rem + 1.5vw, 2.6rem); margin-bottom: 1rem; }
+
+      .lesson-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+        gap: 1.2rem;
+        & li { animation: pop-in .7s var(--ease-bounce) both; animation-delay: calc(var(--i) * 120ms); }
+      }
+
+      .lesson-card {
+        position: relative;
+        height: 100%;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: .9rem;
+        padding: 1.2rem;
+        border: var(--border);
+        border-radius: var(--radius);
+        background: color-mix(in oklch, var(--c) 30%, var(--paper));
+        color: var(--ink);
+        box-shadow: var(--shadow);
+        text-decoration: none;
+        transition: translate .25s var(--ease-bounce), rotate .25s var(--ease-bounce), box-shadow .25s;
+        &:hover { translate: 0 -6px; rotate: -1.5deg; box-shadow: 0 12px 0 var(--ink); }
+      }
+
+      .lesson-card-num {
+        display: grid;
+        place-items: center;
+        width: 3.4rem;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: var(--c);
+        border: var(--border);
+        font-family: var(--font-head);
+        font-size: 2rem;
+      }
+
+      .lesson-card-body {
+        display: grid;
+        gap: .3rem;
+        align-content: start;
+        & b { font-family: var(--font-head); font-size: 1.5rem; line-height: 1.05; }
+        & small { font-size: .85rem; opacity: .8; }
+      }
+
+      .lesson-card-medal {
+        position: absolute;
+        top: -.9rem;
+        right: -.6rem;
+        font-size: 2.4rem;
+        filter: grayscale(1) opacity(.25);
+        transition: filter .4s;
+        &[data-earned] { filter: none; animation: medal-in 1s var(--ease-bounce) both; }
+      }
+
+      .howto {
+        padding: clamp(1.2rem, 3vw, 2rem);
+        border: var(--border);
+        border-radius: var(--radius);
+        background: var(--paper);
+        color: var(--ink);
+        box-shadow: var(--shadow);
+        & ul { display: grid; gap: .7rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
+        & li { display: flex; gap: .8rem; align-items: center; }
+      }
+
+      .howto-icon {
+        flex-shrink: 0;
+        display: grid;
+        place-items: center;
+        min-width: 4.5rem;
+        height: 3rem;
+        border-radius: 1rem;
+        background: var(--sun);
+        border: 3px solid var(--ink);
+        font-size: 1.4rem;
+        & kbd { font-size: .9rem; }
+      }
+
+      .credits { text-align: center; margin-top: -1.5rem; }
+
+      .grownups { margin-top: 1.2rem; padding-top: 1rem; border-top: 3px dashed var(--ink-soft); font-size: .95rem; }
+    }
+  </style>
+</main>

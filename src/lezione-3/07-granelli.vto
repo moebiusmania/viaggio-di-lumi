@@ -1,0 +1,27 @@
+---
+title: "Granelli che si attaccano"
+when: "Circa 4,6 miliardi di anni fa"
+text:
+  - "Nel disco intorno al Sole bambino giravano miliardi di granellini di polvere e di ghiaccio."
+  - "Ogni tanto due granelli si scontravano piano e... restavano attaccati! Come i fiocchi di polvere che trovi sotto il letto."
+  - "Granello dopo granello si sono formati sassolini, poi massi, poi rocce grandi come montagne: i <strong>planetesimi</strong>, i mattoni dei pianeti."
+task: "Metti in ordine, dal più piccolo al più grande! Tocca prima quello più piccolo."
+fact: "Un planetesimo poteva essere grande come una città intera! E ce n'erano milioni, che giravano intorno al Sole."
+---
+<order-game>
+  <div class="pool">
+    <button class="chip" data-i="3"><svg viewBox="-50 -50 100 100" aria-hidden="true"><use href="#rock" x="-50" y="-50" width="100" height="100"/></svg> Planetesimo <small>grande come una città</small></button>
+    <button class="chip" data-i="0"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="6" fill="#a8927e"/><circle cx="30" cy="40" r="3" fill="#a8927e"/><circle cx="66" cy="62" r="4" fill="#a8927e"/></svg> Granello di polvere</button>
+    <button class="chip" data-i="4"><svg viewBox="-50 -50 100 100" aria-hidden="true"><circle r="44" fill="#c78f64" stroke="#1d1846" stroke-width="5"/><use href="#face" x="-18" y="-4" width="36" height="22"/></svg> Pianeta</button>
+    <button class="chip" data-i="1"><svg viewBox="-50 -50 100 100" aria-hidden="true"><use href="#rock" x="-20" y="-20" width="40" height="40"/></svg> Sassolino</button>
+    <button class="chip" data-i="2"><svg viewBox="-50 -50 100 100" aria-hidden="true"><use href="#rock" x="-34" y="-34" width="68" height="68"/></svg> Masso <small>grande come una casa</small></button>
+  </div>
+  <ol class="slots"></ol>
+  <output class="caption">Qual è il più piccolo di tutti?</output>
+  <style>
+    @scope {
+      .chip small { display: block; font-family: var(--font-body); font-size: .75rem; }
+      .chip svg { background: var(--space-1); border-radius: .6rem; }
+    }
+  </style>
+</order-game>

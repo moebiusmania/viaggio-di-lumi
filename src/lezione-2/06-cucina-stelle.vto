@@ -1,0 +1,27 @@
+---
+title: "La cucina delle stelle"
+when: "Dentro le stelle giganti"
+text:
+  - "Le stelle non fanno solo luce: sono delle vere <strong>cucine</strong>! Dentro di loro si «cucinano» nuovi ingredienti."
+  - "Prima l'idrogeno diventa elio. Poi l'elio diventa <strong>carbonio</strong>, poi arrivano l'<strong>ossigeno</strong>, il silicio... fino al <strong>ferro</strong>."
+  - "Una stella gigante, vista dentro, è fatta a strati, proprio come una cipolla!"
+task: "Tocca i punti interrogativi per scoprire gli ingredienti di ogni strato della stella."
+fact: "Il ferro è l'ultimo ingrediente che una stella riesce a cucinare. Quando il suo centro è pieno di ferro, la stella è pronta per... un gran finale!"
+---
+<hot-spots>
+  <div class="scene">
+    <svg viewBox="0 0 400 300" aria-hidden="true">
+      {{ for l of [[140, '#ffd23f'], [115, '#ffb347'], [90, '#ff8a3d'], [66, '#ff5d8f'], [44, '#b28cff'], [22, '#8a8f9e']] }}
+      <circle cx="200" cy="150" r="{{ l[0] }}" fill="{{ l[1] }}" stroke="#1d1846" stroke-width="4"/>
+      {{ /for }}
+      <path d="M200 150 L200 5 A145 145 0 0 1 345 150 Z" fill="#1b1446" opacity=".35"/>
+    </svg>
+    <button class="spot" style="--x: 50%; --y: 7%" data-label="Idrogeno" data-tip="lo strato più esterno. È il carburante di tutte le stelle, nato col Big Bang."></button>
+    <button class="spot" style="--x: 68%; --y: 26%" data-label="Elio" data-tip="nasce quando l'idrogeno si fonde. È il gas dei palloncini!"></button>
+    <button class="spot" style="--x: 36%; --y: 32%" data-label="Carbonio" data-tip="c'è nella mina delle matite, nei diamanti... e in ogni pezzetto del tuo corpo!"></button>
+    <button class="spot" style="--x: 60%; --y: 64%" data-label="Ossigeno" data-tip="è quello che respiri in questo momento! Ed è anche dentro l'acqua."></button>
+    <button class="spot" style="--x: 43%; --y: 59%" data-label="Silicio" data-tip="c'è nella sabbia delle spiagge e nelle rocce."></button>
+    <button class="spot" style="--x: 50%; --y: 50%" data-label="Ferro" data-tip="il cuore della stella. Lo stesso ferro che c'è nelle biciclette... e nel tuo sangue!"></button>
+  </div>
+  <output class="caption"></output>
+</hot-spots>

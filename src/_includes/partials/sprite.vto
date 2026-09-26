@@ -1,0 +1,92 @@
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <path id="star-shape" d="M50 8 L64.1 34.6 L93.7 39.8 L72.8 61.4 L77 91.2 L50 78 L23 91.2 L27.2 61.4 L6.3 39.8 L35.9 34.6 Z"/>
+
+    <!-- Cartoon face to put on anything: eyes blink, cheeks blush -->
+    <symbol id="face" viewBox="0 0 40 24" overflow="visible">
+      <ellipse class="cheek" cx="4" cy="15" rx="4" ry="2.6" fill="#ff7aa2" opacity=".75"/>
+      <ellipse class="cheek" cx="36" cy="15" rx="4" ry="2.6" fill="#ff7aa2" opacity=".75"/>
+      <g class="eyes">
+        <ellipse cx="11" cy="9" rx="3.6" ry="4.4" fill="#1d1846"/>
+        <ellipse cx="29" cy="9" rx="3.6" ry="4.4" fill="#1d1846"/>
+        <circle cx="12.2" cy="7.4" r="1.3" fill="#fff"/>
+        <circle cx="30.2" cy="7.4" r="1.3" fill="#fff"/>
+      </g>
+      <path d="M15 15.5 Q20 21 25 15.5" fill="none" stroke="#1d1846" stroke-width="2.4" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Lumi, the little star that guides the journey -->
+    <symbol id="lumi" viewBox="-4 -4 108 108" overflow="visible">
+      <use href="#star-shape" fill="#ffd23f" stroke="#1d1846" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M50 18 L58 34" stroke="#fff6c2" stroke-width="5" stroke-linecap="round" opacity=".8"/>
+      <use href="#face" x="30" y="44" width="40" height="24"/>
+    </symbol>
+
+    <symbol id="star" viewBox="-4 -4 108 108">
+      <use href="#star-shape" fill="#ffd23f" stroke="#1d1846" stroke-width="7" stroke-linejoin="round"/>
+    </symbol>
+
+    <symbol id="rocket" viewBox="0 0 64 64" overflow="visible">
+      <path class="flame" d="M14 26 L0 32 L14 38 Z" fill="#ff8a3d" stroke="#1d1846" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M18 23 L8 10 L30 23 Z M18 41 L8 54 L30 41 Z" fill="#ff5d8f" stroke="#1d1846" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M13 22 H40 Q56 22 63 32 Q56 42 40 42 H13 Z" fill="#fff7e6" stroke="#1d1846" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M52 25 Q58 28 63 32 Q58 36 52 39 Z" fill="#ff5d8f" stroke="#1d1846" stroke-width="2.5" stroke-linejoin="round"/>
+      <circle cx="36" cy="32" r="5.5" fill="#6fd3ff" stroke="#1d1846" stroke-width="2.5"/>
+    </symbol>
+
+    <symbol id="galaxy" viewBox="-50 -50 100 100" overflow="visible">
+      <ellipse rx="46" ry="46" fill="#b28cff" opacity=".28"/>
+      <path d="M0 0 C 20 -34, 56 -12, 44 20 M0 0 C -20 34, -56 12, -44 -20" fill="none" stroke="#d3c2ff" stroke-width="11" stroke-linecap="round"/>
+      <path d="M0 0 C 20 -34, 56 -12, 44 20 M0 0 C -20 34, -56 12, -44 -20" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" opacity=".85"/>
+      <circle r="12" fill="#fff3a3"/>
+    </symbol>
+
+    <symbol id="sun" viewBox="-60 -60 120 120" overflow="visible">
+      <circle r="52" fill="none" stroke="#ffd23f" stroke-width="10" stroke-dasharray="7 11" stroke-linecap="round"/>
+      <circle r="40" fill="#ffd23f" stroke="#1d1846" stroke-width="4"/>
+      <circle cx="-14" cy="-16" r="8" fill="#fff6c2" opacity=".8"/>
+      <use href="#face" x="-20" y="-6" width="40" height="24"/>
+    </symbol>
+
+    <symbol id="earth" viewBox="-50 -50 100 100" overflow="visible">
+      <circle r="44" fill="#3fa9f5" stroke="#1d1846" stroke-width="4"/>
+      <path d="M-34 -16 q12 -16 28 -6 q8 12 -6 20 q-14 4 -22 -14z M8 14 q16 -10 26 2 q-4 18 -22 16z M4 -36 q14 -4 22 6 q-10 6 -22 -6z" fill="#3ddc97" stroke="#1d1846" stroke-width="3" stroke-linejoin="round"/>
+      <use href="#face" x="-18" y="-4" width="36" height="22"/>
+    </symbol>
+
+    <symbol id="moon" viewBox="-50 -50 100 100" overflow="visible">
+      <circle r="44" fill="#e9e5f3" stroke="#1d1846" stroke-width="4"/>
+      <circle cx="-20" cy="-20" r="8" fill="#cfc8e0"/><circle cx="22" cy="-14" r="5" fill="#cfc8e0"/><circle cx="18" cy="24" r="9" fill="#cfc8e0"/>
+      <use href="#face" x="-18" y="-4" width="36" height="22"/>
+    </symbol>
+
+    <symbol id="ringed" viewBox="-60 -40 120 80" overflow="visible">
+      <path d="M-52 4 A52 13 0 0 1 52 4" fill="none" stroke="#1d1846" stroke-width="10"/>
+      <path d="M-52 4 A52 13 0 0 1 52 4" fill="none" stroke="#ffe0a8" stroke-width="5"/>
+      <circle r="26" fill="#f2b36b" stroke="#1d1846" stroke-width="4"/>
+      <path d="M-24 -8 h48 M-25 6 h50" stroke="#e08f4a" stroke-width="5"/>
+      <path d="M-52 4 A52 13 0 0 0 52 4" fill="none" stroke="#1d1846" stroke-width="10"/>
+      <path d="M-52 4 A52 13 0 0 0 52 4" fill="none" stroke="#ffe0a8" stroke-width="5"/>
+    </symbol>
+
+    <symbol id="rock" viewBox="-50 -50 100 100" overflow="visible">
+      <path d="M-38 -10 L-20 -38 L14 -40 L40 -16 L36 22 L8 40 L-26 34 L-42 12 Z" fill="#a8927e" stroke="#1d1846" stroke-width="5" stroke-linejoin="round"/>
+      <circle cx="-12" cy="-14" r="6" fill="#8a7564"/><circle cx="16" cy="12" r="8" fill="#8a7564"/>
+    </symbol>
+
+    <symbol id="medal" viewBox="0 0 100 130" overflow="visible">
+      <path d="M28 0 L50 40 L72 0 Z M28 0 L10 0 L36 50 L50 40 Z M72 0 L90 0 L64 50 L50 40 Z" fill="#ff5d8f" stroke="#1d1846" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M36 0 L50 28 L64 0 Z" fill="#6fd3ff" stroke="#1d1846" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="50" cy="84" r="40" fill="#ffd23f" stroke="#1d1846" stroke-width="5"/>
+      <circle cx="50" cy="84" r="30" fill="none" stroke="#e8a92a" stroke-width="4" stroke-dasharray="4 5"/>
+      <use href="#star-shape" transform="translate(26 60) scale(.48)" fill="#fff7c2" stroke="#1d1846" stroke-width="8" stroke-linejoin="round"/>
+    </symbol>
+
+    <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 4 L7 12 L15 20" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 4 L17 12 L9 20" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
+    <symbol id="i-sound" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5h4l5-4v13l-5-4H3z" fill="currentColor"/><path class="wave" d="M16 9a4.5 4.5 0 0 1 0 6M19 6a8.5 8.5 0 0 1 0 12"/></g></symbol>
+    <symbol id="i-read" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H10l-5 4v-4H4z"/><path d="M8 8.5h8M8 12h5"/></g></symbol>
+  </defs>
+</svg>

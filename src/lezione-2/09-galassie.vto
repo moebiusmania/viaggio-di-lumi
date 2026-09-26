@@ -1,0 +1,43 @@
+---
+title: "Le galassie, città di stelle"
+when: "Da circa 13 miliardi di anni fa"
+text:
+  - "Le stelle non sono sparse a caso: la gravità le raduna in enormi gruppi chiamati <strong>galassie</strong>. Sono come città fatte di miliardi di stelle!"
+  - "Ci sono galassie a <strong>spirale</strong>, con lunghe braccia che girano come una girandola."
+  - "Ci sono galassie <strong>ellittiche</strong>, a forma di pallone un po' schiacciato. E ci sono galassie <strong>irregolari</strong>, senza una forma precisa."
+task: "Sei un astronomo! Metti ogni galassia nella scatola giusta guardando la sua forma. Puoi trascinarla, oppure toccarla e poi toccare la scatola."
+fact: "Nell'universo ci sono circa 2000 miliardi di galassie. Se ne contassi una al secondo, ci metteresti più di 60 000 anni!"
+---
+<sort-game>
+  <div class="pool">
+    <button class="chip" data-bin="spirale" data-why="La Via Lattea, la nostra galassia, è a spirale!">
+      <svg viewBox="-50 -50 100 100" aria-hidden="true"><use href="#galaxy" x="-50" y="-50" width="100" height="100"/></svg> Via Lattea
+    </button>
+    <button class="chip" data-bin="spirale" data-why="Andromeda è la galassia a spirale più vicina a noi.">
+      <svg viewBox="-50 -50 100 100" aria-hidden="true"><use href="#galaxy" x="-50" y="-50" width="100" height="100" transform="rotate(70) scale(1 .7)"/></svg> Andromeda
+    </button>
+    <button class="chip" data-bin="ellittica" data-why="M87 è un'enorme galassia ellittica, con un buco nero gigante al centro.">
+      <svg viewBox="-50 -50 100 100" aria-hidden="true"><ellipse rx="44" ry="30" fill="#ffd9a8" opacity=".5"/><ellipse rx="30" ry="20" fill="#ffe7c2"/><ellipse rx="12" ry="8" fill="#fff"/></svg> M87
+    </button>
+    <button class="chip" data-bin="ellittica" data-why="Giusto: tonda come un pallone!">
+      <svg viewBox="-50 -50 100 100" aria-hidden="true"><ellipse rx="40" ry="38" fill="#ffc2d4" opacity=".5"/><ellipse rx="26" ry="24" fill="#ffd6e2"/><circle r="10" fill="#fff"/></svg> Maffei 1
+    </button>
+    <button class="chip" data-bin="irregolare" data-why="La Grande Nube di Magellano si vede a occhio nudo dall'emisfero sud!">
+      <svg viewBox="-50 -50 100 100" aria-hidden="true"><path d="M-40 -6 Q-30 -34 -4 -26 Q14 -40 32 -18 Q46 4 26 18 Q10 40 -12 28 Q-42 26 -40 -6 Z" fill="#b8f0d8" opacity=".7"/><circle cx="-12" cy="-6" r="7" fill="#fff"/><circle cx="14" cy="6" r="5" fill="#fff"/></svg> Grande Nube di Magellano
+    </button>
+    <button class="chip" data-bin="irregolare" data-why="Giusto! Senza una forma precisa: irregolare.">
+      <svg viewBox="-50 -50 100 100" aria-hidden="true"><path d="M-30 10 Q-40 -20 -10 -20 Q0 -40 20 -24 Q40 -10 24 14 Q10 34 -14 26 Z" fill="#c9d0ff" opacity=".8"/><circle cx="4" cy="-4" r="7" fill="#fff"/></svg> Piccola Nube di Magellano
+    </button>
+  </div>
+  <div class="bins">
+    <div class="bin" data-bin="spirale" style="--c: var(--purple)"><h3>🌀 Spirale<small>con le braccia</small></h3><div class="bin-items"></div></div>
+    <div class="bin" data-bin="ellittica" style="--c: var(--orange)"><h3>🥚 Ellittica<small>come un pallone</small></h3><div class="bin-items"></div></div>
+    <div class="bin" data-bin="irregolare" style="--c: var(--mint)"><h3>☁️ Irregolare<small>senza forma</small></h3><div class="bin-items"></div></div>
+  </div>
+  <output class="caption">Scegli una galassia!</output>
+  <style>
+    @scope {
+      .chip svg { background: var(--space-1); border-radius: .6rem; padding: 2px; }
+    }
+  </style>
+</sort-game>

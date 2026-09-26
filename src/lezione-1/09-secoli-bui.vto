@@ -1,0 +1,63 @@
+---
+title: "I secoli bui"
+when: "Da 380 000 a circa 200 milioni di anni dopo il Big Bang"
+text:
+  - "Dopo che la nebbia è sparita, l'universo è diventato... <strong>buio</strong>! Non c'era ancora nessuna stella ad accendere il cielo."
+  - "C'erano solo enormi <strong>nubi di gas</strong>, fatte di idrogeno ed elio, che fluttuavano nell'oscurità."
+  - "Gli scienziati chiamano questo periodo i <strong>secoli bui</strong>. È durato più di cento milioni di anni!"
+task: "Muovi la torcia sulla scena (col mouse o col dito) e trova le 5 nubi di gas nascoste nel buio. Toccale quando le vedi!"
+fact: "In quelle nubi addormentate si stava preparando una grande sorpresa... lo scoprirai nella prossima lezione!"
+---
+<torch-reveal>
+  <div class="scene torch-scene">
+    {{ for c of [[18, 25, 1], [72, 20, 0.8], [45, 55, 1.2], [15, 78, 0.9], [80, 72, 1]] }}
+    <span class="cloud" data-find style="--x: {{ c[0] }}%; --y: {{ c[1] }}%; --s: {{ c[2] }}">
+      <svg viewBox="0 0 120 80" aria-hidden="true">
+        <path d="M20 62 Q2 60 8 44 Q6 26 28 28 Q34 8 58 14 Q80 4 90 26 Q116 26 110 48 Q116 66 94 64 Z" fill="#9aa7ff" stroke="#1d1846" stroke-width="4" stroke-linejoin="round"/>
+        <path d="M44 40 q5 4 10 0 M66 40 q5 4 10 0" fill="none" stroke="#1d1846" stroke-width="3" stroke-linecap="round"/>
+        <text x="30" y="58" font-size="12" font-weight="800" fill="#1d1846">H</text><text x="84" y="58" font-size="12" font-weight="800" fill="#1d1846">He</text>
+      </svg>
+    </span>
+    {{ /for }}
+    <div class="dark" aria-hidden="true"></div>
+    <span class="torch-hint" aria-hidden="true">🔦 Muovi la torcia!</span>
+  </div>
+  <p class="counter-pill"></p>
+  <style>
+    @scope {
+      .torch-scene { cursor: none; touch-action: none; &::before { display: none; } }
+      .cloud {
+        position: absolute;
+        left: var(--x);
+        top: var(--y);
+        width: calc(24% * var(--s));
+        translate: -50% -50%;
+        cursor: pointer;
+        animation: float 4s ease-in-out infinite;
+        &:nth-child(2n) { animation-delay: -2s; }
+        &.found { z-index: 3; filter: drop-shadow(0 0 12px #9aa7ff); animation: placed .6s var(--ease-bounce), float 4s 0.6s ease-in-out infinite; }
+        &.found path:first-child { fill: #c9d0ff; }
+      }
+      .dark {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        pointer-events: none;
+        background: #07051a;
+        mask-image: radial-gradient(circle 4.5rem at var(--x, 50%) var(--y, 50%), transparent 0 55%, #000 100%);
+      }
+      .torch-hint {
+        position: absolute;
+        z-index: 4;
+        left: 50%;
+        bottom: 1rem;
+        translate: -50% 0;
+        font-family: var(--font-head);
+        font-size: 1.2rem;
+        pointer-events: none;
+        transition: opacity .4s;
+      }
+      .moved .torch-hint { opacity: 0; }
+    }
+  </style>
+</torch-reveal>

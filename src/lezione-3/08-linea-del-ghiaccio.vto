@@ -1,0 +1,32 @@
+---
+title: "La linea del ghiaccio"
+when: "Circa 4,6 miliardi di anni fa"
+text:
+  - "Vicino al Sole faceva troppo caldo: il ghiaccio si scioglieva e scappava via. Lì potevano restare solo <strong>roccia</strong> e <strong>metallo</strong>."
+  - "Più lontano, oltre la <strong>linea del ghiaccio</strong>, faceva freddissimo: i planetesimi potevano raccogliere anche tanto ghiaccio e diventare enormi. Così enormi da catturare anche il gas!"
+  - "Ecco perché ci sono due famiglie di pianeti: i <strong>rocciosi</strong>, piccoli e vicini al Sole, e i <strong>giganti</strong>, grandi e lontani."
+task: "Metti ogni pianeta nella sua famiglia: rocciosi vicini al Sole, oppure giganti lontani."
+fact: "Giove è il pianeta più grande: dentro ci starebbero più di 1300 Terre! Ed è quasi tutto fatto di gas."
+---
+<sort-game>
+  <div class="pool">
+    <button class="chip" data-bin="rocciosi" data-why="Mercurio è il pianeta più vicino al Sole: roccioso e piccolino."><svg viewBox="-50 -50 100 100" aria-hidden="true"><circle r="22" fill="#b5aca3" stroke="#1d1846" stroke-width="5"/></svg> Mercurio</button>
+    <button class="chip" data-bin="rocciosi" data-why="Venere è rocciosa, ed è il pianeta più caldo di tutti!"><svg viewBox="-50 -50 100 100" aria-hidden="true"><circle r="32" fill="#f2c57c" stroke="#1d1846" stroke-width="5"/></svg> Venere</button>
+    <button class="chip" data-bin="rocciosi" data-why="La Terra, la nostra casa: un pianeta roccioso!"><svg viewBox="-50 -50 100 100" aria-hidden="true"><use href="#earth" x="-34" y="-34" width="68" height="68"/></svg> Terra</button>
+    <button class="chip" data-bin="rocciosi" data-why="Marte, il pianeta rosso, è roccioso e pieno di polvere."><svg viewBox="-50 -50 100 100" aria-hidden="true"><circle r="26" fill="#e0663a" stroke="#1d1846" stroke-width="5"/></svg> Marte</button>
+    <button class="chip" data-bin="giganti" data-why="Giove, il gigante dei giganti, fatto quasi tutto di gas!"><svg viewBox="-50 -50 100 100" aria-hidden="true"><circle r="44" fill="#e8b27d" stroke="#1d1846" stroke-width="5"/><path d="M-40 -14 h80 M-42 6 h84 M-34 24 h68" stroke="#c0763f" stroke-width="7"/><ellipse cx="14" cy="14" rx="9" ry="6" fill="#c0463f"/></svg> Giove</button>
+    <button class="chip" data-bin="giganti" data-why="Saturno, con i suoi splendidi anelli di ghiaccio."><svg viewBox="-60 -40 120 80" aria-hidden="true"><use href="#ringed" x="-60" y="-40" width="120" height="80"/></svg> Saturno</button>
+    <button class="chip" data-bin="giganti" data-why="Urano è un gigante di ghiaccio che rotola su un fianco!"><svg viewBox="-50 -50 100 100" aria-hidden="true"><circle r="36" fill="#9fe3f0" stroke="#1d1846" stroke-width="5"/></svg> Urano</button>
+    <button class="chip" data-bin="giganti" data-why="Nettuno, il pianeta più lontano, blu e ventosissimo."><svg viewBox="-50 -50 100 100" aria-hidden="true"><circle r="35" fill="#4b7bff" stroke="#1d1846" stroke-width="5"/></svg> Nettuno</button>
+  </div>
+  <div class="bins">
+    <div class="bin" data-bin="rocciosi" style="--c: var(--orange)"><h3>🪨 Rocciosi<small>piccoli, vicini al Sole</small></h3><div class="bin-items"></div></div>
+    <div class="bin" data-bin="giganti" style="--c: var(--sky)"><h3>🪐 Giganti<small>grandi, oltre la linea del ghiaccio</small></h3><div class="bin-items"></div></div>
+  </div>
+  <output class="caption">Tocca o trascina un pianeta!</output>
+  <style>
+    @scope {
+      .chip svg { background: var(--space-1); border-radius: .6rem; }
+    }
+  </style>
+</sort-game>

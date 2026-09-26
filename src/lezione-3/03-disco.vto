@@ -1,0 +1,41 @@
+---
+title: "Gira gira: il disco"
+when: "Circa 4,6 miliardi di anni fa"
+text:
+  - "La gravità ha cominciato a stringere un pezzo della nube. E mentre si stringeva, la nube si è messa a <strong>girare</strong>, sempre più veloce!"
+  - "Girando velocissima, la nube si è <strong>appiattita</strong>, proprio come la pasta della pizza quando il pizzaiolo la fa girare in aria."
+  - "Così la nube è diventata un grande <strong>disco</strong> che gira, con una palla caldissima nel mezzo."
+task: "Trascina la barra per stringere la nube: guarda come si appiattisce e gira sempre più veloce."
+fact: "Anche i pattinatori sul ghiaccio fanno lo stesso trucco: quando stringono le braccia al corpo, girano molto più veloci!"
+---
+<scene-slider data-steps='["Una nube tonda che gira piano piano.", "La gravità la stringe... e lei gira più veloce!", "Si appiattisce come la pasta della pizza!", "Ecco un disco che gira velocissimo, con un centro caldissimo!"]'>
+  <div class="scene">
+    <svg viewBox="0 0 400 300" aria-hidden="true">
+      <defs>
+        <radialGradient id="disk-3"><stop offset="0" stop-color="#ffe3a3"/><stop offset=".5" stop-color="#ffb347" stop-opacity=".7"/><stop offset="1" stop-color="#9aa7ff" stop-opacity=".25"/></radialGradient>
+      </defs>
+      <g class="squash">
+        <circle cx="200" cy="150" r="115" fill="url(#disk-3)" stroke="#1d1846" stroke-width="4"/>
+        <g class="whirl">
+          {{ for d of [[0, 95], [60, 70], [120, 100], [180, 80], [240, 60], [300, 105], [30, 45], [150, 40], [270, 90]] }}
+          <circle cx="{{ 200 + d[1] }}" cy="150" r="6" fill="#fff" transform="rotate({{ d[0] }} 200 150)"/>
+          {{ /for }}
+        </g>
+      </g>
+      <circle class="core" cx="200" cy="150" r="26" fill="#ffd23f" stroke="#1d1846" stroke-width="4"/>
+      <g class="skater">
+        <text x="330" y="60" font-size="44">⛸️</text>
+      </g>
+    </svg>
+  </div>
+  <label class="slider"><span>🔵 Nube</span><input type="range" min="0" max="100" value="0" aria-label="Stringi e fai girare la nube"><span>💿 Disco</span></label>
+  <output class="caption"></output>
+  <style>
+    @scope {
+      .squash { scale: calc(1 - var(--t) * .05) calc(1 - var(--t) * .78); transform-box: view-box !important; transform-origin: 200px 150px !important; }
+      .whirl { transform-box: view-box !important; transform-origin: 200px 150px !important; animation: spin linear infinite; animation-duration: calc(8s - var(--t) * 7.2s); }
+      .core { scale: calc(.4 + var(--t) * .8); filter: drop-shadow(0 0 calc(var(--t) * 18px) #ffd23f); }
+      .skater { opacity: .9; }
+    }
+  </style>
+</scene-slider>

@@ -1,0 +1,81 @@
+---
+title: "Tre minuti magici"
+when: "3 minuti dopo il Big Bang"
+text:
+  - "Dopo circa <strong>3 minuti</strong> dal Big Bang, protoni e neutroni hanno cominciato ad attaccarsi tra loro. Così sono nati i primi <strong>nuclei</strong>!"
+  - "Il più semplice è quello dell'<strong>idrogeno</strong>: un protone tutto solo."
+  - "Poi c'è l'<strong>elio</strong>: 2 protoni e 2 neutroni stretti stretti."
+task: "Diventa un cuoco dell'universo! Costruisci un nucleo di idrogeno e poi uno di elio."
+fact: "L'elio è lo stesso gas che fa volare i palloncini delle feste! E se lo respiri, la voce diventa buffa e squillante."
+---
+<nucleus-builder>
+  <div class="scene">
+    <div class="nucleus" aria-live="polite"></div>
+  </div>
+  <ul class="goals">
+    <li data-goal="1-0">Idrogeno <small>1 protone</small></li>
+    <li data-goal="2-2">Elio <small>2 protoni + 2 neutroni</small></li>
+  </ul>
+  <div class="btn-row">
+    <button class="btn pink" type="button" data-add="p">+ Protone</button>
+    <button class="btn paper" type="button" data-add="n">+ Neutrone</button>
+    <button class="btn sky" type="button" data-add="reset">↺ Ricomincia</button>
+  </div>
+  <output class="caption"></output>
+  <style>
+    @scope {
+      .scene { display: grid; place-items: center; }
+      .nucleus {
+        position: relative;
+        width: 11rem;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        border: 3px dashed oklch(100% 0 0 / .35);
+        transition: box-shadow .5s;
+      }
+      :scope[data-p="1"][data-n="0"] .nucleus,
+      :scope[data-p="2"][data-n="2"] .nucleus { box-shadow: 0 0 60px 10px oklch(88% 0.17 92 / .55); border-color: var(--sun); }
+      .nucleon {
+        --pos: -1.5rem -1.5rem;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 4rem;
+        aspect-ratio: 1;
+        margin: -2rem;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        border: 4px solid var(--ink);
+        font: 900 2rem/1 var(--font-head);
+        color: var(--ink);
+        translate: var(--pos);
+        animation: drop-in .6s var(--ease-bounce) both;
+        &.p { background: radial-gradient(circle at 35% 30%, #fff8, transparent 40%), #ff8fb1; }
+        &.n { background: radial-gradient(circle at 35% 30%, #fff8, transparent 40%), #d7d3e6; }
+        &:nth-child(1) { --pos: 0 0; z-index: 2; }
+        &:nth-child(2) { --pos: 1.9rem -.6rem; }
+        &:nth-child(3) { --pos: -1.1rem 1.7rem; z-index: 3; }
+        &:nth-child(4) { --pos: .6rem -2rem; z-index: 1; }
+      }
+      .nucleus:has(.nucleon:nth-child(2)) .nucleon:nth-child(1) { --pos: -1.3rem -.4rem; }
+      @keyframes drop-in { from { translate: 0 -12rem; scale: .5; } }
+      .goals {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: .6rem;
+        & li {
+          padding: .4rem 1rem;
+          border: 3px solid var(--ink);
+          border-radius: 99px;
+          background: #fff;
+          font-family: var(--font-head);
+          &::before { content: "⬜ "; }
+          &.got { background: var(--mint); animation: placed .5s var(--ease-bounce); &::before { content: "✅ "; } }
+          & small { font-family: var(--font-body); font-size: .8rem; }
+        }
+      }
+    }
+  </style>
+</nucleus-builder>
