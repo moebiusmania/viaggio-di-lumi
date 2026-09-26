@@ -721,7 +721,7 @@ quiz-set { counter-reset: quiz; }
 
   & .scene { width: 100%; }
   & .cover-text { display: grid; gap: 1rem; }
-  & .cover-text > p { font-size: 1.15em; }
+  & .cover-text > :is(p, [data-speak]) { font-size: 1.15em; }
   & .lesson-no {
     font-family: var(--font-head);
     font-size: clamp(4rem, 10vw, 7rem);

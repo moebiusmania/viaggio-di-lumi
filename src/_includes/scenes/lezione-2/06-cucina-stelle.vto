@@ -1,0 +1,17 @@
+<hot-spots>
+  <div class="scene">
+    <svg viewBox="0 0 400 300" aria-hidden="true">
+      {{ for l of [[140, '#ffd23f'], [115, '#ffb347'], [90, '#ff8a3d'], [66, '#ff5d8f'], [44, '#b28cff'], [22, '#8a8f9e']] }}
+      <circle cx="200" cy="150" r="{{ l[0] }}" fill="{{ l[1] }}" stroke="#1d1846" stroke-width="4"/>
+      {{ /for }}
+      <path d="M200 150 L200 5 A145 145 0 0 1 345 150 Z" fill="#1b1446" opacity=".35"/>
+    </svg>
+    <button class="spot" style="--x: 50%; --y: 7%" data-label="{{ spots[0].label |> escape }}" data-tip="{{ spots[0].tip |> md(true) |> escape }}"></button>
+    <button class="spot" style="--x: 68%; --y: 26%" data-label="{{ spots[1].label |> escape }}" data-tip="{{ spots[1].tip |> md(true) |> escape }}"></button>
+    <button class="spot" style="--x: 36%; --y: 32%" data-label="{{ spots[2].label |> escape }}" data-tip="{{ spots[2].tip |> md(true) |> escape }}"></button>
+    <button class="spot" style="--x: 60%; --y: 64%" data-label="{{ spots[3].label |> escape }}" data-tip="{{ spots[3].tip |> md(true) |> escape }}"></button>
+    <button class="spot" style="--x: 43%; --y: 59%" data-label="{{ spots[4].label |> escape }}" data-tip="{{ spots[4].tip |> md(true) |> escape }}"></button>
+    <button class="spot" style="--x: 50%; --y: 50%" data-label="{{ spots[5].label |> escape }}" data-tip="{{ spots[5].tip |> md(true) |> escape }}"></button>
+  </div>
+  <output class="caption"></output>
+</hot-spots>

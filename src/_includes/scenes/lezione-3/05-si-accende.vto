@@ -1,0 +1,41 @@
+<tap-scene need="8">
+  <div class="scene sun-scene">
+    <svg viewBox="0 0 400 300" aria-hidden="true">
+      <defs>
+        <radialGradient id="halo-5"><stop offset=".3" stop-color="#fff7c2"/><stop offset=".6" stop-color="#ffb347" stop-opacity=".6"/><stop offset="1" stop-color="#ff8a3d" stop-opacity="0"/></radialGradient>
+      </defs>
+      <ellipse cx="200" cy="150" rx="190" ry="44" fill="#ffb347" opacity=".2"/>
+      {{ for g of [[-150, -30], [-110, 25], [120, -25], [160, 20], [-60, -40], [70, 35], [-180, 5], [185, -8]] }}
+      <circle class="gas" cx="{{ 200 + g[0] }}" cy="{{ 150 + g[1] }}" r="{{ 14 + (g[0] % 3 + 3) * 3 }}" fill="#9aa7ff" opacity=".7" style="--dir: {{ g[0] < 0 ? -1 : 1 }}"/>
+      {{ /for }}
+      {{ for r of [[90, 150, 4], [310, 142, 5], [60, 158, 3], [345, 152, 4], [130, 140, 3], [270, 160, 3]] }}
+      <circle cx="{{ r[0] }}" cy="{{ r[1] }}" r="{{ r[2] }}" fill="#c9a27e"/>
+      {{ /for }}
+      <circle class="halo" cx="200" cy="150" r="120" fill="url(#halo-5)"/>
+      <g class="proto" data-hit>
+        <circle cx="200" cy="150" r="50" stroke="#1d1846" stroke-width="5"/>
+        <use class="face-on" href="#face" x="176" y="142" width="48" height="29"/>
+      </g>
+    </svg>
+  </div>
+  <p class="counter-pill"></p>
+  <style>
+    @scope {
+      .proto {
+        cursor: pointer;
+        fill: color-mix(in oklch, #ff7a52, #ffd23f calc(var(--p) * 100%));
+        &:hover { filter: brightness(1.1); }
+        &.go { animation: squeeze .35s var(--ease-bounce); }
+        & circle { fill: inherit; }
+      }
+      @keyframes squeeze { 40% { scale: .9 1.08; } }
+      .halo { opacity: calc(var(--p) * .8); scale: calc(.4 + var(--p) * .6); }
+      :scope[data-count="8"] {
+        & .halo { opacity: 1; animation: pulse 2s ease-in-out infinite; }
+        & .gas { animation: blow-away 2.5s ease-in forwards; }
+        & .proto { fill: #ffd23f; }
+      }
+      @keyframes blow-away { to { translate: calc(var(--dir) * 260px) 0; opacity: 0; scale: .4; } }
+    }
+  </style>
+</tap-scene>

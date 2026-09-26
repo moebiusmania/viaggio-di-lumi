@@ -1,0 +1,26 @@
+<scene-slider done-at="0.5" data-steps="{{ steps |> JSON.stringify |> escape }}">
+  <div class="scene">
+    <svg viewBox="0 0 400 300" aria-hidden="true">
+      <circle cx="-30" cy="150" r="110" fill="#ffd23f" opacity=".3"/>
+      <circle cx="-30" cy="150" r="85" fill="#ffd23f" stroke="#1d1846" stroke-width="5"/>
+      <use href="#face" x="10" y="140" width="40" height="24"/>
+      <rect class="zone" x="222" y="20" width="100" height="260" rx="20" fill="#3ddc97" opacity=".18" stroke="#3ddc97" stroke-width="3" stroke-dasharray="8 8"/>
+      <text class="label" x="272" y="270" text-anchor="middle" font-size="14">{{ labels.zone }}</text>
+      <g class="world">
+        <use href="#earth" x="80" y="115" width="70" height="70"/>
+        <g class="cold"><circle cx="115" cy="150" r="33" fill="#e8f7ff" stroke="#1d1846" stroke-width="4"/><path d="M92 140 l10 6 M130 132 l8 10 M110 168 l12 -4" stroke="#8fd3ff" stroke-width="3" stroke-linecap="round"/><use href="#face" x="99" y="144" width="32" height="19"/></g>
+        <g class="hot"><circle cx="115" cy="150" r="33" fill="#c9764a" stroke="#1d1846" stroke-width="4"/><path d="M104 108 q-6 -10 0 -18 M118 104 q-6 -10 0 -18 M132 108 q-6 -10 0 -18" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/><use href="#face" x="99" y="144" width="32" height="19"/></g>
+      </g>
+    </svg>
+  </div>
+  <label class="slider"><span>{{ slider.from }}</span><input type="range" min="0" max="100" value="0" aria-label="{{ slider.label |> escape }}"><span>{{ slider.to }}</span></label>
+  <output class="caption"></output>
+  <style>
+    @scope {
+      .world { translate: calc(var(--t) * 250px) 0; }
+      .hot { opacity: clamp(0, 1.6 - var(--t) * 3.2, 1); }
+      .cold { opacity: clamp(0, var(--t) * 5 - 3.9, 1); }
+      .zone { animation: pulse 2s ease-in-out infinite; }
+    }
+  </style>
+</scene-slider>

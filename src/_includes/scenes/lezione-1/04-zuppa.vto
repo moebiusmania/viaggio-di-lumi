@@ -1,0 +1,5 @@
+<space-canvas mode="soup">
+  <div class="scene"><canvas aria-label="{{ canvas |> escape }}"></canvas></div>
+  <label class="slider"><span>{{ slider.from }}</span><input type="range" min="0" max="100" value="100" data-param="temp" aria-label="{{ slider.label |> escape }}"><span>{{ slider.to }}</span></label>
+  <output class="caption"></output>
+</space-canvas>

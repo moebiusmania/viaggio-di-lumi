@@ -1,0 +1,10 @@
+<div class="scene" aria-hidden="true">
+  <svg viewBox="0 0 400 300">
+    <g class="float"><use href="#earth" x="110" y="60" width="180" height="180"/></g>
+    <path id="moon-path" d="M50 150 a150 60 0 1 0 300 0 a150 60 0 1 0 -300 0" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="3" stroke-dasharray="3 10"/>
+    <g><use href="#moon" x="-25" y="-25" width="50" height="50"/><animateMotion dur="10s" repeatCount="indefinite"><mpath href="#moon-path"/></animateMotion></g>
+    {{ for s of [[50, 50], [350, 60], [60, 250], [340, 250], [200, 25]] }}
+    <use href="#star" x="{{ s[0] - 9 }}" y="{{ s[1] - 9 }}" width="18" height="18" class="twinkle"/>
+    {{ /for }}
+  </svg>
+</div>

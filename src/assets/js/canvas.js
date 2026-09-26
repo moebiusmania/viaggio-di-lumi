@@ -1,6 +1,7 @@
 // <space-canvas mode="…"> — small canvas simulations for the scenes that
 // need hundreds of moving particles. Each mode is a tiny self-contained world.
-import { confetti, pageDone, reduceMotion, restartAnimation, sound } from "./core.js";
+// The texts they show come from the `strings` of the page's .md file (see t()).
+import { confetti, pageDone, reduceMotion, restartAnimation, sound, t } from "./core.js";
 
 const TAU = Math.PI * 2;
 const INK = "#1d1846";
@@ -90,7 +91,7 @@ MODES.bang = (host) => {
     phase = "boom";
     t = 0;
     sound("boom");
-    host.caption("BUUUM! Lo spazio comincia a crescere in tutte le direzioni!");
+    host.caption(t("boom"));
     confetti(host.scene, 40);
     setTimeout(() => pageDone(host.scene), 1200);
   }
@@ -219,13 +220,7 @@ MODES.soup = (host) => {
     param(name, v) {
       if (name !== "temp") return;
       temp = v;
-      const label = temp > 0.7
-        ? "🔥 Caldissimo! Le particelle sfrecciano come matte e si scontrano."
-        : temp > 0.35
-        ? "🌡️ Si raffredda... le particelle rallentano un po'."
-        : temp > 0.12
-        ? "❄️ Più fresco! I quark si prendono per mano a gruppi di tre..."
-        : "🎉 Ecco i protoni (p, rosa) e i neutroni (n, grigi): i mattoncini della materia!";
+      const label = temp > 0.7 ? t("hot") : temp > 0.35 ? t("warm") : temp > 0.12 ? t("cool") : t("cold");
       if (label !== lastLabel) host.caption(label);
       lastLabel = label;
       if (temp < 0.12 && !reported) {
@@ -337,9 +332,7 @@ MODES.static = (host) => {
       host.el.classList.toggle("tv-on", on);
       sound(on ? "ding" : "pop");
       host.caption(
-        on
-          ? "Kssshhh! Un puntino su cento di questa neve è luce arrivata dal Big Bang!"
-          : "TV spenta. Riaccendila per vedere la luce più antica!",
+        on ? t("tvOn") : t("tvOff"),
       );
       if (on) setTimeout(() => pageDone(host.scene), 900);
     },
@@ -408,13 +401,13 @@ MODES.gravity = (host) => {
     click(x, y) {
       add(x, y, 14, 30);
       sound("pop");
-      host.caption("Altro gas! La gravità lo tira verso i gruppi più grandi.");
+      host.caption(t("moreGas"));
     },
     action(name) {
       if (name === "reset") {
         init();
         born = false;
-        host.caption("Una nuvola di gas, tutta sparpagliata...");
+        host.caption(t("restart"));
       }
     },
     step(dt) {
@@ -463,7 +456,7 @@ MODES.gravity = (host) => {
       if (!born && bodies.some((b) => b.m >= 30)) {
         born = true;
         sound("win");
-        host.caption("Guarda! Il gas si è stretto così tanto che si accende una stella! ⭐");
+        host.caption(t("starBorn"));
         pageDone(host.scene);
       }
     },
@@ -521,7 +514,7 @@ MODES.supernova = (host) => {
     phase = "boom";
     t = 0;
     sound("boom");
-    host.caption("KABOOM! Una supernova! La stella lancia nello spazio carbonio, ossigeno, ferro... e perfino oro!");
+    host.caption(t("boom"));
     confetti(host.scene, 50);
     setTimeout(() => pageDone(host.scene), 1500);
   }
@@ -535,11 +528,11 @@ MODES.supernova = (host) => {
       if (phase === "star") {
         phase = "collapse";
         t = 0;
-        host.caption("La stella ha finito il carburante... sta per crollare!");
+        host.caption(t("collapse"));
       } else if (phase === "boom" && t > 3) {
         phase = "star";
         parts = [];
-        host.caption("Un'altra stella gigante. Tocca per farla esplodere!");
+        host.caption(t("again"));
       }
     },
     step(dt) {
@@ -632,9 +625,7 @@ MODES.accretion = (host) => {
     action(name) {
       if (name === "fast") {
         speed = speed === 1 ? 5 : 1;
-        host.el.querySelector("[data-action=fast]").textContent = speed === 1
-          ? "⏩ Avanti veloce"
-          : "▶️ Velocità normale";
+        host.el.querySelector("[data-action=fast]").textContent = speed === 1 ? t("fast") : t("normal");
       }
       if (name === "reset") {
         init();
@@ -668,10 +659,10 @@ MODES.accretion = (host) => {
         }
       }
       const planets = bodies.filter((b) => b.m >= 10).length;
-      host.counter(`Pianeti in crescita: ${planets}`);
+      host.counter(t("counter", { n: planets }));
       if (!reported && planets >= 4) {
         reported = true;
-        host.caption("Evviva! I granelli si sono uniti e sono nati i pianeti! 🪐");
+        host.caption(t("done"));
         pageDone(host.scene);
       }
     },
@@ -697,7 +688,7 @@ MODES.accretion = (host) => {
       ctx.font = "800 12px 'Baloo 2', sans-serif";
       ctx.fillStyle = "rgba(190,235,255,.95)";
       ctx.textAlign = "center";
-      ctx.fillText("❄ linea del ghiaccio", cx, cy - frost - 6);
+      ctx.fillText(t("frostLine"), cx, cy - frost - 6);
       // the young Sun
       const sr = rin * 0.55;
       glow(ctx, cx, cy, sr * 2.4, "#ffd23f99");
@@ -771,20 +762,16 @@ MODES.earth = (host) => {
       const a = (blobs.length * 2.4) + rand(-0.4, 0.4);
       blobs.push({ a, d: rand(0.25, 0.75), r: 0, target: rand(0.35, 0.5) });
     }
-    host.counter(`${comets ? "Comete arrivate" : "Rocce catturate"}: ${Math.min(hits, need)} su ${need}`);
+    host.counter(t("counter", { n: Math.min(hits, need), need }));
     if (hits === need) {
-      host.caption(
-        comets
-          ? "Guarda quanta acqua! Le comete ghiacciate hanno portato i primi mari. 💧"
-          : "La Terra bambina è cresciuta! Ora è una palla di roccia fusa. 🔥",
-      );
+      host.caption(t("done"));
       pageDone(host.scene);
     }
   }
 
   return {
     init() {
-      host.counter(`${comets ? "Comete arrivate" : "Rocce catturate"}: 0 su ${need}`);
+      host.counter(t("counter", { n: 0, need }));
     },
     click(x, y) {
       const d = Math.hypot(x - host.w / 2, y - host.h / 2);

@@ -1,5 +1,5 @@
 // Interactive building blocks used by the pages. All vanilla custom elements.
-import { confetti, pageDone, progress, restartAnimation, shuffle, sound } from "./core.js";
+import { confetti, locale, pageDone, progress, restartAnimation, shuffle, sound, t } from "./core.js";
 
 const define = (name, cls) => customElements.get(name) || customElements.define(name, cls);
 
@@ -190,7 +190,7 @@ define(
       this.counter.className = "counter-pill";
       this.append(this.counter);
       this.spots.forEach((spot) => {
-        spot.setAttribute("aria-label", "Scopri cosa c'è qui");
+        spot.setAttribute("aria-label", t("spotHidden"));
         spot.addEventListener("click", () => this.reveal(spot));
       });
       this.paint();
@@ -213,7 +213,7 @@ define(
 
     paint() {
       const found = this.spots.filter((s) => s.classList.contains("found")).length;
-      this.counter.textContent = `Scoperti: ${found} su ${this.spots.length}`;
+      this.counter.textContent = t("spotsFound", { n: found, total: this.spots.length });
     }
   },
 );
@@ -319,12 +319,12 @@ define(
         chip.tabIndex = -1;
         bin.querySelector(".bin-items").append(chip);
         sound("ding");
-        if (this.hint) this.hint.textContent = chip.dataset.why ?? "Giusto! 👏";
+        if (this.hint) this.hint.textContent = chip.dataset.why ?? t("sortRight");
         if (this.chips.every((c) => c.classList.contains("placed"))) pageDone(this);
       } else {
         sound("oops");
         restartAnimation(chip, "wrong");
-        if (this.hint) this.hint.textContent = chip.dataset.hint ?? "Uhm... prova un'altra scatola!";
+        if (this.hint) this.hint.textContent = chip.dataset.hint ?? t("sortWrong");
       }
       if (this.hint) restartAnimation(this.hint, "pop");
     }
@@ -364,15 +364,13 @@ define(
         this.next++;
         sound("ding");
         if (this.hint) {
-          this.hint.textContent = this.next === this.total
-            ? "Perfetto, tutto in ordine! 🎉"
-            : "Giusto! E adesso cosa viene?";
+          this.hint.textContent = this.next === this.total ? t("orderDone") : t("orderRight");
         }
         if (this.next === this.total) pageDone(this);
       } else {
         sound("oops");
         restartAnimation(chip, "wrong");
-        if (this.hint) this.hint.textContent = "Non ancora... cosa succede prima?";
+        if (this.hint) this.hint.textContent = t("orderWrong");
       }
       if (this.hint) restartAnimation(this.hint, "pop");
     }
@@ -380,7 +378,7 @@ define(
 );
 
 /* ------------------------------------------------------------------
- * <tap-scene need="6" label="Vulcani: {n} su {need}">
+ * <tap-scene need="6">  (counter text: "tapCounter", e.g. "Vulcani: {n} su {need}")
  *   Every click on a [data-hit] element restarts its "go" animation,
  *   counts, and sets --p (0 → 1) on the element for progress visuals.
  * ------------------------------------------------------------------ */
@@ -419,17 +417,15 @@ define(
       this.style.setProperty("--p", Math.min(1, this.count / this.need));
       this.dataset.count = Math.min(this.count, this.need);
       if (this.counter) {
-        this.counter.textContent = (this.getAttribute("label") ?? "{n} su {need}")
-          .replace("{n}", Math.min(this.count, this.need))
-          .replace("{need}", this.need);
+        this.counter.textContent = t("tapCounter", { n: Math.min(this.count, this.need), need: this.need });
       }
     }
   },
 );
 
 /* ------------------------------------------------------------------
- * <torch-reveal need="5"> a dark scene explored with a torch.
- *   Hidden things are elements with [data-find].
+ * <torch-reveal> a dark scene explored with a torch.
+ *   Hidden things are elements with [data-find]. Texts: "torchFind", "torchCounter".
  * ------------------------------------------------------------------ */
 define(
   "torch-reveal",
@@ -449,7 +445,7 @@ define(
       this.finds.forEach((f) => {
         f.setAttribute("tabindex", "0");
         f.setAttribute("role", "button");
-        f.setAttribute("aria-label", "Nube di gas nascosta");
+        f.setAttribute("aria-label", t("torchFind"));
         const found = () => {
           if (f.classList.contains("found")) return;
           f.classList.add("found");
@@ -466,7 +462,7 @@ define(
 
     paint() {
       const n = this.finds.filter((f) => f.classList.contains("found")).length;
-      this.counter.textContent = `Nubi trovate: ${n} su ${this.finds.length}`;
+      this.counter.textContent = t("torchCounter", { n, total: this.finds.length });
     }
   },
 );
@@ -508,11 +504,7 @@ define(
         button.disabled = true;
         sound("oops");
         restartAnimation(button, "wrong");
-        this.retry.textContent = [
-          "Quasi! Riprova 💪",
-          "Non è questa... pensaci ancora!",
-          "Ops! Prova un'altra risposta.",
-        ][Math.floor(Math.random() * 3)];
+        this.retry.textContent = t("quizWrong");
       }
     }
   },
@@ -527,7 +519,7 @@ define(
         if (!qs.every((q) => q.solved)) return;
         const perfect = qs.filter((q) => q.firstTry).length;
         const score = this.querySelector("[data-score]");
-        if (score) score.textContent = `Hai indovinato ${perfect} domande su ${qs.length} al primo colpo!`;
+        if (score) score.textContent = t("quizScore", { n: perfect, total: qs.length });
         this.classList.add("complete");
         progress.addMedal(Number(this.getAttribute("lesson")));
         setTimeout(() => {
@@ -542,13 +534,10 @@ define(
 
 /* ------------------------------------------------------------------
  * <nucleus-builder>: add protons and neutrons, make hydrogen and helium.
+ *   <template data-nucleus="2-2">…</template> is shown for a nucleus with
+ *   2 protons and 2 neutrons. Texts: "nucleusEmpty", "nucleusFull",
+ *   "nucleusNoProton", "nucleusOdd".
  * ------------------------------------------------------------------ */
-const NUCLEI = {
-  "1-0": ["Idrogeno!", "1 protone da solo: è il nucleo più semplice di tutti."],
-  "1-1": ["Deuterio", "È idrogeno 'pesante'. Aggiungi ancora qualcosa..."],
-  "2-1": ["Elio-3", "Ci sei quasi! Manca un neutrone."],
-  "2-2": ["Elio!", "2 protoni + 2 neutroni: un nucleo di elio. Fortissimo!"],
-};
 
 define(
   "nucleus-builder",
@@ -567,7 +556,7 @@ define(
 
     add(kind) {
       if (this.p + this.n >= 4) {
-        this.caption.textContent = "Il nucleo è pieno! Premi 'Ricomincia' per costruirne un altro.";
+        this.caption.textContent = t("nucleusFull");
         restartAnimation(this.caption, "pop");
         return sound("oops");
       }
@@ -589,11 +578,11 @@ define(
 
     paint() {
       const key = `${this.p}-${this.n}`;
-      const found = NUCLEI[key];
+      const found = this.querySelector(`template[data-nucleus="${key}"]`);
       if (this.p + this.n === 0) {
-        this.caption.textContent = "Il nucleo è vuoto. Aggiungi un protone!";
+        this.caption.textContent = t("nucleusEmpty");
       } else if (found) {
-        this.caption.innerHTML = `<b>${found[0]}</b> ${found[1]}`;
+        this.caption.replaceChildren(found.content.cloneNode(true));
         if (key === "1-0" || key === "2-2") {
           if (!this.made.has(key)) confetti(this.core, 20);
           this.made.add(key);
@@ -601,9 +590,7 @@ define(
           sound("ding");
         }
       } else {
-        this.caption.textContent = this.p === 0
-          ? "Senza protoni non è un vero nucleo... aggiungine uno!"
-          : "Uhm, questo nucleo è strano e si romperebbe subito. Prova un'altra ricetta!";
+        this.caption.textContent = this.p === 0 ? t("nucleusNoProton") : t("nucleusOdd");
       }
       restartAnimation(this.caption, "pop");
       this.dataset.p = this.p;
@@ -618,6 +605,7 @@ define(
 
 /* ------------------------------------------------------------------
  * <fusion-game>: tap two hydrogen nuclei to fuse them into helium.
+ * Texts: "fusionStart", "fusionPicked", "fusionCount", "fusionDone", "fusionH", "fusionHe".
  * ------------------------------------------------------------------ */
 define(
   "fusion-game",
@@ -634,7 +622,7 @@ define(
         h.type = "button";
         h.className = "h-atom";
         h.innerHTML = "<span>H</span>";
-        h.setAttribute("aria-label", "Nucleo di idrogeno");
+        h.setAttribute("aria-label", t("fusionH"));
         h.style.setProperty("--i", i);
         h.addEventListener("click", () => this.pick(h));
         this.grid.append(h);
@@ -648,7 +636,7 @@ define(
         this.selected = h;
         h.setAttribute("aria-pressed", "true");
         sound("pop");
-        this.caption.textContent = "Ora tocca un altro idrogeno per scontrarli!";
+        this.caption.textContent = t("fusionPicked");
         return;
       }
       if (this.selected === h) {
@@ -671,7 +659,7 @@ define(
           a.disabled = true;
           h.classList.add("he");
           h.innerHTML = "<span>He</span>";
-          h.setAttribute("aria-label", "Nucleo di elio");
+          h.setAttribute("aria-label", t("fusionHe"));
           this.fused++;
           sound("boom");
           confetti(h, 16);
@@ -683,10 +671,10 @@ define(
     paint() {
       this.style.setProperty("--p", this.fused / this.need);
       this.caption.textContent = this.fused === this.need
-        ? "Tanta energia! Ecco perché le stelle brillano! ✨"
+        ? t("fusionDone")
         : this.fused
-        ? `BUM! Fusione! Luce ed energia: ${this.fused} su ${this.need}`
-        : "Tocca due nuclei di idrogeno (H) per farli scontrare.";
+        ? t("fusionCount", { n: this.fused, need: this.need })
+        : t("fusionStart");
       restartAnimation(this.caption, "pop");
     }
   },
@@ -729,7 +717,7 @@ define(
 );
 
 /* ------------------------------------------------------------------
- * <name-cert>: the final diploma with the child's name.
+ * <name-cert>: the final diploma with the child's name. Text: "certNoName".
  * ------------------------------------------------------------------ */
 define(
   "name-cert",
@@ -742,11 +730,11 @@ define(
       const date = this.querySelector("[data-date]");
       input.value = progress.state.name ?? "";
       const paint = () => {
-        out.textContent = input.value.trim() || "Esploratore del cosmo";
+        out.textContent = input.value.trim() || t("certNoName");
         stars.textContent = progress.state.done.length;
         medals.textContent = progress.state.medals.length;
       };
-      date.textContent = new Date().toLocaleDateString("it-IT", { day: "numeric", month: "long", year: "numeric" });
+      date.textContent = new Date().toLocaleDateString(locale, { day: "numeric", month: "long", year: "numeric" });
       input.addEventListener("input", () => {
         progress.set("name", input.value.trim());
         paint();

@@ -1,0 +1,42 @@
+<scene-slider data-steps="{{ steps |> JSON.stringify |> escape }}">
+  <div class="scene">
+    <svg viewBox="0 0 400 300" aria-hidden="true">
+      <defs>
+        <radialGradient id="core-2"><stop offset="0" stop-color="#fff7c2"/><stop offset=".5" stop-color="#ffb347"/><stop offset="1" stop-color="#ff5d3d" stop-opacity="0"/></radialGradient>
+      </defs>
+      <g class="cloud">
+        <path d="M60 170 Q30 120 80 90 Q100 40 160 50 Q210 20 250 60 Q310 50 320 110 Q360 150 320 200 Q300 250 230 240 Q180 270 130 240 Q60 240 60 170 Z" stroke="#1d1846" stroke-width="5" stroke-linejoin="round"/>
+        <g class="face-sleepy"><path d="M160 150 q10 8 20 0 M220 150 q10 8 20 0" fill="none" stroke="#1d1846" stroke-width="4" stroke-linecap="round"/></g>
+      </g>
+      <circle class="core" cx="195" cy="155" r="70" fill="url(#core-2)"/>
+      {{ for b of [[-150, -90], [140, -100], [-160, 80], [150, 90], [0, -130], [0, 130], [-190, 0], [185, 10]] }}
+      <circle class="bit" cx="195" cy="155" r="6" fill="#9aa7ff" style="--dx: {{ b[0] }}; --dy: {{ b[1] }}"/>
+      {{ /for }}
+      <g class="thermo">
+        <rect x="360" y="40" width="22" height="200" rx="11" fill="#fff" stroke="#1d1846" stroke-width="4"/>
+        <rect class="mercury" x="366" y="46" width="10" height="188" rx="5" fill="#ff5d3d"/>
+        <circle cx="371" cy="250" r="18" fill="#ff5d3d" stroke="#1d1846" stroke-width="4"/>
+      </g>
+    </svg>
+  </div>
+  <label class="slider"><span>{{ slider.from }}</span><input type="range" min="0" max="100" value="0" aria-label="{{ slider.label |> escape }}"><span>{{ slider.to }}</span></label>
+  <output class="caption"></output>
+  <style>
+    @scope {
+      .cloud {
+        scale: calc(1 - var(--t) * .6);
+        fill: color-mix(in oklch, #9aa7ff, #ff8a3d calc(var(--t) * 100%));
+        transform-origin: 195px 155px !important;
+        transform-box: view-box !important;
+      }
+      .cloud path:first-child { fill: inherit; }
+      .face-sleepy { opacity: calc(1 - var(--t) * 1.5); }
+      .core { scale: calc(.1 + var(--t) * .9); opacity: var(--t); animation: pulse 1s ease-in-out infinite; }
+      .bit {
+        translate: calc(var(--dx) * (1 - var(--t)) * 1px) calc(var(--dy) * (1 - var(--t)) * 1px);
+        opacity: calc(1 - var(--t));
+      }
+      .mercury { scale: 1 calc(.08 + var(--t) * .92); transform-origin: bottom !important; }
+    }
+  </style>
+</scene-slider>

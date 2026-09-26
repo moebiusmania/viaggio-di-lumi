@@ -3,9 +3,9 @@ Il viaggio di Lumi — lesson texts, quizzes and illustrations
 Dedicated to the public domain under Creative Commons CC0 1.0 Universal:
 https://creativecommons.org/publicdomain/zero/1.0/
 
-This covers the book's content: the lesson pages (src/index.vto, src/lezione-*/),
-the lesson data (src/_data/) and the illustrations (src/_includes/partials/sprite.vto
-and the inline SVG scenes in the pages). The source code is under the Zero-Clause
+This covers the book's content: the texts (src/content/), the home page
+(src/_includes/layouts/home.vto), the page scenes (src/_includes/scenes/) and the
+illustrations (src/_includes/partials/sprite.vto and the inline SVG in the scenes). The source code is under the Zero-Clause
 BSD License (see LICENSE); the bundled fonts are under the SIL Open Font License
 (see src/assets/fonts/OFL-*.txt).
 

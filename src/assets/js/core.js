@@ -2,6 +2,27 @@
 
 const KEY = "lumi-v1";
 
+// ---------- Texts ----------
+// Every text the scripts show comes from the page (see layouts/base.vto): the shared
+// ones from content/<lang>/_data/ui.yml, plus the `strings` of the page's .md file.
+const TEXT = (() => {
+  try {
+    return JSON.parse(document.getElementById("lumi-text")?.textContent ?? "{}");
+  } catch {
+    return {};
+  }
+})();
+
+/** The text for `key`, with its {placeholders} filled in. A list gives one of its items at random. */
+export function t(key, vars = {}) {
+  let text = TEXT[key] ?? key;
+  if (Array.isArray(text)) text = text[Math.floor(Math.random() * text.length)];
+  return String(text).replace(/\{(\w+)\}/g, (all, name) => String(vars[name] ?? all));
+}
+
+/** Language of the page, e.g. "it-IT" (read-aloud voice, dates) */
+export const locale = TEXT.locale ?? document.documentElement.lang;
+
 function load() {
   try {
     return JSON.parse(localStorage.getItem(KEY)) ?? {};
@@ -128,8 +149,6 @@ export function toast(message) {
   t.addEventListener("animationend", () => t.remove());
 }
 
-const PRAISE = ["Missione compiuta!", "Bravissimo!", "Fantastico!", "Super!", "Ce l'hai fatta!", "Stellare!"];
-
 /**
  * Call when the activity of the current page has been completed.
  * The first time it earns a star; every time it throws some confetti.
@@ -139,7 +158,7 @@ export function pageDone(el) {
   const url = location.pathname;
   if (progress.markDone(url)) {
     sound("win");
-    toast(`⭐ ${PRAISE[Math.floor(Math.random() * PRAISE.length)]} +1 stella`);
+    toast(t("star", { praise: t("praise") }));
     document.dispatchEvent(new CustomEvent("lumi:progress"));
   } else {
     sound("ding");

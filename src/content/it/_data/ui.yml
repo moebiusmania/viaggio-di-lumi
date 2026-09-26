@@ -1,0 +1,73 @@
+# Interface texts shared by every page (buttons, menus, messages of the games).
+# Words in {braces} are filled in by the app: keep them as they are.
+
+app:
+  name: "Il viaggio di Lumi"
+  shortName: "Lumi"
+  description: "Un libro interattivo per bambini dai 7 ai 9 anni: dal Big Bang alla nascita della Terra."
+  # voice used for "read aloud" and format of the date on the diploma
+  locale: "it-IT"
+
+topbar:
+  home: "Copertina del libro"
+  # {name} becomes the name of the app, in yellow
+  brand: "Il viaggio di {name}"
+  lesson: "Lezione {n}"
+  stars: "Stelle raccolte completando le attività"
+  starsCount: "stelle raccolte"
+  sound: "Suoni"
+  read: "Leggi ad alta voce"
+  toc: "Indice"
+  tocTitle: "Indice (tasto M)"
+
+toc:
+  title: "Indice del viaggio"
+  close: "Chiudi"
+  closeTitle: "Chiudi (Esc)"
+  home: "🏠 Copertina del libro"
+  help: "Usa le <kbd>←</kbd> <kbd>→</kbd> per sfogliare, oppure scorri col dito. <kbd>M</kbd> apre l'indice."
+
+page:
+  journey: "Sei alla tappa {n} di {total} del viaggio"
+  kicker: "Lezione {lesson} · Pagina {page} di {total}"
+  task: "Prova tu!"
+  fact: "Lo sapevi?"
+  pager: "Pagine della lezione"
+  prev: "Pagina precedente"
+  next: "Pagina successiva"
+  forward: "Avanti"
+  nextLesson: "Lezione {n}"
+  end: "Fine"
+
+cover:
+  missions: "In questa lezione scoprirai:"
+  time: "⏱ circa 30 minuti · {pages} pagine"
+
+medal:
+  title: "Lezione {n} completata!"
+  nextLesson: "Vai alla lezione {n} 🚀"
+  diploma: "Ritira il tuo diploma 🎓"
+
+# license note on the cover and in the index
+credits:
+  content: "Testi e illustrazioni"
+  code: "codice"
+  fonts: "caratteri Baloo 2 e Nunito"
+
+# Messages shown by the games while the child plays
+js:
+  soundOn: "Suoni attivi"
+  soundOff: "Suoni spenti"
+  # a random one is picked each time
+  praise: ["Missione compiuta!", "Bravissimo!", "Fantastico!", "Super!", "Ce l'hai fatta!", "Stellare!"]
+  star: "⭐ {praise} +1 stella"
+  spotHidden: "Scopri cosa c'è qui"
+  spotsFound: "Scoperti: {n} su {total}"
+  sortRight: "Giusto! 👏"
+  sortWrong: "Uhm... prova un'altra scatola!"
+  orderRight: "Giusto! E adesso cosa viene?"
+  orderDone: "Perfetto, tutto in ordine! 🎉"
+  orderWrong: "Non ancora... cosa succede prima?"
+  tapCounter: "{n} su {need}"
+  quizWrong: ["Quasi! Riprova 💪", "Non è questa... pensaci ancora!", "Ops! Prova un'altra risposta."]
+  quizScore: "Hai indovinato {n} domande su {total} al primo colpo!"

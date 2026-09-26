@@ -1,4 +1,4 @@
-import { progress, sound } from "./core.js";
+import { locale, progress, sound, t } from "./core.js";
 import "./components.js";
 
 const html = document.documentElement;
@@ -117,25 +117,26 @@ addEventListener("wheel", (e) => {
   }
 }, { passive: true });
 
-// ---------- Read aloud (Italian voice) ----------
+// ---------- Read aloud (in the language of the page) ----------
 const readBtn = document.querySelector("[data-read]");
 const synth = globalThis.speechSynthesis;
 
 if (!synth) readBtn?.remove();
 
 // Voices load asynchronously (getVoices() is often empty on first call), so
-// pick the Italian voice up front and refresh it whenever the list changes.
-let italianVoice = null;
-function pickItalianVoice() {
+// pick the voice up front and refresh it whenever the list changes.
+const wanted = locale.toLowerCase();
+let pageVoice = null;
+function pickVoice() {
   const voices = synth?.getVoices() ?? [];
   const lang = (v) => v.lang?.toLowerCase().replace("_", "-") ?? "";
-  italianVoice = voices.find((v) => lang(v) === "it-it" && v.localService) ??
-    voices.find((v) => lang(v) === "it-it") ??
-    voices.find((v) => lang(v).startsWith("it")) ??
+  pageVoice = voices.find((v) => lang(v) === wanted && v.localService) ??
+    voices.find((v) => lang(v) === wanted) ??
+    voices.find((v) => lang(v).startsWith(wanted.split("-")[0])) ??
     null;
 }
-pickItalianVoice();
-synth?.addEventListener?.("voiceschanged", pickItalianVoice);
+pickVoice();
+synth?.addEventListener?.("voiceschanged", pickVoice);
 
 function stopReading() {
   synth?.cancel();
@@ -147,12 +148,12 @@ readBtn?.addEventListener("click", () => {
   const parts = [...document.querySelectorAll("main h1, main [data-speak]")]
     .map((el) => el.innerText.replace(/\s+/g, " ").trim())
     .filter(Boolean);
-  if (!italianVoice) pickItalianVoice();
-  const voice = italianVoice;
+  if (!pageVoice) pickVoice();
+  const voice = pageVoice;
   synth.cancel();
   parts.forEach((text, i) => {
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = "it-IT";
+    u.lang = locale;
     u.rate = 0.92;
     u.pitch = 1.1;
     if (voice) u.voice = voice;
@@ -167,7 +168,7 @@ addEventListener("pagehide", stopReading);
 const soundBtn = document.querySelector("[data-sound]");
 function paintSound() {
   soundBtn?.setAttribute("aria-pressed", String(progress.state.sound));
-  soundBtn?.setAttribute("title", progress.state.sound ? "Suoni attivi" : "Suoni spenti");
+  soundBtn?.setAttribute("title", t(progress.state.sound ? "soundOn" : "soundOff"));
 }
 paintSound();
 soundBtn?.addEventListener("click", () => {

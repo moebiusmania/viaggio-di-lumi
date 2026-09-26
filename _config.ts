@@ -1,5 +1,6 @@
 import lume from "lume/mod.ts";
 import basePath from "lume/plugins/base_path.ts";
+import { Page } from "lume/core/file.ts";
 
 const site = lume({ src: "./src" });
 
@@ -8,9 +9,22 @@ const dev = Deno.env.get("LUME_LIVE_RELOAD") === "true";
 site.data("offline", !dev);
 
 site.add("assets");
-site.add("manifest.webmanifest");
 // Prefix internal URLs with the --location path (e.g. /<repo>/ on GitHub Pages)
 site.use(basePath());
+
+// "{name}" placeholders in UI texts, e.g. {{ ui.page.kicker |> fill({ lesson, page }) }}
+site.filter("fill", fill);
+
+function fill(text: string, vars: Record<string, unknown>) {
+  return String(text ?? "").replace(/\{(\w+)\}/g, (all, key) => String(vars[key] ?? all));
+}
+
+/**
+ * All the texts live in src/content/<lang>/ (Markdown pages + _data/*.yml);
+ * all the code (layouts, scenes, CSS, JS) lives elsewhere. The first language
+ * is served at the site root, the others under /<lang>/.
+ */
+const LANGS = ["it"];
 
 interface Lesson {
   n: number;
@@ -20,50 +34,139 @@ interface Lesson {
 }
 
 /**
- * Chains every "slide" page (the pages inside src/lezione-N) into one
- * ordered book: previous/next links, position on the cosmic journey and
- * the table of contents shared by every page.
- * Page order comes from the numeric prefix of the file name (03-zuppa.vto).
+ * The scene (illustration + activity) of a page is the file in
+ * src/_includes/scenes/ with the same lesson and page number
+ * (lezione-1/03-palloncino.md -> scenes/lezione-1/03-*.vto), so content
+ * files can be renamed or translated freely. Quizzes share scenes/quiz.vto.
+ */
+function findScenes() {
+  const scenes = new Map<string, string>();
+  const dir = site.src("_includes/scenes");
+  for (const folder of Deno.readDirSync(dir)) {
+    const lesson = folder.name.match(/(\d+)$/)?.[1];
+    if (!folder.isDirectory || !lesson) continue;
+    for (const file of Deno.readDirSync(`${dir}/${folder.name}`)) {
+      const order = parseInt(file.name, 10);
+      if (!Number.isNaN(order)) scenes.set(`${Number(lesson)}/${order}`, `scenes/${folder.name}/${file.name}`);
+    }
+  }
+  return scenes;
+}
+
+/**
+ * Turns the content folders into books, one per language:
+ * - src/content/it/index.md becomes the home page, lezione-N/NN-*.md the pages
+ *   of lesson N, ordered by their number (03-zuppa.md -> 3);
+ * - every page gets previous/next links, its position on the cosmic journey,
+ *   the table of contents and the texts the JS needs.
  */
 site.preprocess([".html"], (pages) => {
-  const lessons = (pages[0]?.data.lessons ?? []) as Lesson[];
+  const scenes = findScenes();
+  const books = new Map<string, Lume.Page[]>();
 
-  const slides = pages
-    .filter((p) => p.data.type === "slide")
-    .map((p) => {
-      p.data.order = parseInt(p.src.path.split("/").pop() ?? "0", 10);
-      return p;
-    })
-    .sort((a, b) => a.data.lesson - b.data.lesson || a.data.order - b.data.order);
-
-  const toc = lessons.map((lesson) => {
-    const lessonSlides = slides.filter((s) => s.data.lesson === lesson.n);
-    return {
-      ...lesson,
-      url: lessonSlides[0]?.data.url,
-      pages: lessonSlides.map((s) => ({
-        title: s.data.title,
-        url: s.data.url,
-        kind: s.data.kind ?? "page",
-      })),
-    };
-  });
-
-  slides.forEach((page, i) => {
+  for (const page of pages) {
+    const [, lang, path] = page.src.path.match(/^\/content\/([^/]+)\/(.+)$/) ?? [];
+    if (!lang) continue;
+    if (!LANGS.includes(lang)) throw new Error(`Unknown language "${lang}": add it to LANGS in _config.ts`);
     const data = page.data;
-    const lessonInfo = toc[data.lesson - 1];
-    Object.assign(data, {
-      index: i,
-      total: slides.length,
-      prev: slides[i - 1]?.data.url ?? "/",
-      next: slides[i + 1]?.data.url ?? "/",
-      lessonInfo,
-      pageNum: lessonInfo.pages.findIndex((p) => p.url === data.url) + 1,
-      lessonTotal: lessonInfo.pages.length,
-    });
-  });
+    const home = lang === LANGS[0] ? "/" : `/${lang}/`;
+    Object.assign(data, { lang, home, url: path === "index" ? home : `${home}${path}/` });
+    if (!books.has(lang)) books.set(lang, []);
 
-  for (const page of pages) page.data.toc = toc;
+    const slide = path.match(/^[^/]*?(\d+)\/(\d+)-[^/]+$/);
+    if (path === "index") {
+      data.layout = "layouts/home.vto";
+    } else if (slide) {
+      data.lesson = Number(slide[1]);
+      data.order = Number(slide[2]);
+      data.layout = "layouts/page.vto";
+      data.scene = data.kind === "quiz" ? "scenes/quiz.vto" : scenes.get(`${data.lesson}/${data.order}`);
+      if (!data.scene) {
+        throw new Error(
+          `No scene for ${page.src.path}: add src/_includes/scenes/lezione-${data.lesson}/${slide[2]}-….vto`,
+        );
+      }
+      books.get(lang)!.push(page);
+    }
+  }
+
+  for (const [lang, slides] of books) {
+    const langPages = pages.filter((p) => p.data.lang === lang);
+    const lessons = (langPages[0]?.data.lessons ?? []) as Lesson[];
+    slides.sort((a, b) => a.data.lesson - b.data.lesson || a.data.order - b.data.order);
+
+    const toc = lessons.map((lesson) => {
+      const lessonSlides = slides.filter((s) => s.data.lesson === lesson.n);
+      return {
+        ...lesson,
+        url: lessonSlides[0]?.data.url,
+        pages: lessonSlides.map((s) => ({
+          title: s.data.title,
+          url: s.data.url,
+          kind: s.data.kind ?? "page",
+        })),
+      };
+    });
+
+    slides.forEach((page, i) => {
+      const data = page.data;
+      const lessonInfo = toc.find((l) => l.n === data.lesson);
+      if (!lessonInfo) throw new Error(`Lesson ${data.lesson} is missing from content/${lang}/_data/lessons.yml`);
+      Object.assign(data, {
+        index: i,
+        total: slides.length,
+        prev: slides[i - 1]?.data.url ?? data.home,
+        next: slides[i + 1]?.data.url ?? data.home,
+        lessonInfo,
+        pageNum: lessonInfo.pages.findIndex((p) => p.url === data.url) + 1,
+        lessonTotal: lessonInfo.pages.length,
+        lastLesson: toc.at(-1)?.n,
+      });
+    });
+
+    for (const page of langPages) {
+      page.data.toc = toc;
+      // texts for the JS: the shared ones in _data/ui.yml, overridden by the page's own `strings`
+      const text = { locale: page.data.ui?.app?.locale, ...page.data.ui?.js, ...page.data.strings };
+      page.data.jsText = JSON.stringify(text).replaceAll("<", "\\u003c");
+    }
+  }
+});
+
+/** One web app manifest per language, with the name and description from _data/ui.yml */
+site.process("*", (pages, allPages) => {
+  for (const lang of LANGS) {
+    const app = pages.find((p) => p.data.lang === lang)?.data.ui?.app;
+    if (!app) continue;
+    const up = lang === LANGS[0] ? "" : "../";
+    const icon = (src: string, sizes: string, type: string, purpose = "any") => ({
+      src: up + src,
+      sizes,
+      type,
+      purpose,
+    });
+    const manifest = {
+      id: "./",
+      name: app.name,
+      short_name: app.shortName,
+      description: app.description,
+      lang,
+      start_url: "./",
+      scope: "./",
+      display: "standalone",
+      background_color: "#1b1446",
+      theme_color: "#1b1446",
+      categories: ["education", "kids", "books"],
+      icons: [
+        icon("assets/icons/icon-192.png", "192x192", "image/png"),
+        icon("assets/icons/icon-512.png", "512x512", "image/png"),
+        icon("assets/icons/icon-512.png", "512x512", "image/png", "maskable"),
+        icon("assets/icons/icon.svg", "any", "image/svg+xml"),
+      ],
+    };
+    const url = `${lang === LANGS[0] ? "/" : `/${lang}/`}manifest.webmanifest`;
+    allPages.push(Page.create({ url, content: JSON.stringify(manifest, null, 2) + "\n" }));
+  }
 });
 
 /**

@@ -1,11 +1,11 @@
 <dialog id="toc" class="toc" aria-labelledby="toc-title">
   <header class="toc-head">
-    <h2 id="toc-title">Indice del viaggio</h2>
-    <button class="icon-btn" type="button" data-close title="Chiudi (Esc)">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-close"/></svg><span class="sr-only">Chiudi</span>
+    <h2 id="toc-title">{{ ui.toc.title }}</h2>
+    <button class="icon-btn" type="button" data-close title="{{ ui.toc.closeTitle |> escape }}">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-close"/></svg><span class="sr-only">{{ ui.toc.close }}</span>
     </button>
   </header>
-  <a class="toc-home" href="/" {{ if url == "/" }}aria-current="page"{{ /if }}>🏠 Copertina del libro</a>
+  <a class="toc-home" href="{{ home }}" {{ if url == home }}aria-current="page"{{ /if }}>{{ ui.toc.home }}</a>
   <ol class="toc-lessons">
     {{ for l of toc }}
     <li class="toc-lesson" style="--c: var(--l{{ l.n }})">
@@ -24,6 +24,6 @@
     </li>
     {{ /for }}
   </ol>
-  <p class="toc-help">Usa le <kbd>←</kbd> <kbd>→</kbd> per sfogliare, oppure scorri col dito. <kbd>M</kbd> apre l'indice.</p>
+  <p class="toc-help">{{ ui.toc.help |> md(true) }}</p>
   {{ include "partials/credits.vto" }}
 </dialog>

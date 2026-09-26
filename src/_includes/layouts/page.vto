@@ -3,7 +3,7 @@ layout: layouts/base.vto
 ---
 <main class="book" data-kind="{{ kind || 'page' }}">
   <div class="journey">
-    <div class="journey-track" role="img" aria-label="Sei alla tappa {{ index + 1 }} di {{ total }} del viaggio">
+    <div class="journey-track" role="img" aria-label="{{ ui.page.journey |> fill({ n: index + 1, total }) |> escape }}">
       {{ for l of toc }}
       <span class="journey-seg" style="--c: var(--l{{ l.n }}); --n: {{ l.pages.length }}"></span>
       {{ /for }}
@@ -15,36 +15,54 @@ layout: layouts/base.vto
   <article class="slide">
     <div class="slide-scroll">
     <header class="slide-head">
-      <p class="kicker">Lezione {{ lesson }} · Pagina {{ pageNum }} di {{ lessonTotal }}</p>
+      <p class="kicker">{{ ui.page.kicker |> fill({ lesson, page: pageNum, total: lessonTotal }) }}</p>
       <h1>{{ title }}</h1>
     </header>
 
     <div class="slide-body">
-      {{ if text || task || fact }}
+      {{ if kind == "cover" }}
+      <div class="stage">
+        <div class="cover">
+          <div class="cover-text">
+            <span class="lesson-no">{{ lesson }}</span>
+            <div data-speak>{{ content }}</div>
+            <h2>{{ ui.cover.missions }}</h2>
+            <ul class="mission-list">
+              {{ for i, m of missions }}<li style="--i:{{ i }}">{{ m |> md(true) }}</li>{{ /for }}
+            </ul>
+            <p class="time-chip">{{ ui.cover.time |> fill({ pages: lessonTotal }) }}</p>
+          </div>
+          {{ include scene }}
+        </div>
+      </div>
+      {{ else }}
+      {{ set talk = kind != "cert" && content.trim() }}
+      {{ if talk || task || fact }}
       <div class="story">
-        {{ if text }}
+        {{ if talk }}
         <div class="lumi-talk">
           <svg class="lumi" viewBox="-4 -4 108 108" aria-hidden="true"><use href="#lumi"/></svg>
           <div class="bubble" data-speak>
-            {{ for p of text }}<p>{{ p }}</p>{{ /for }}
+            {{ content }}
           </div>
         </div>
         {{ /if }}
-        {{ if task }}<p class="task" data-speak><strong>Prova tu!</strong> {{ task }}</p>{{ /if }}
-        {{ if fact }}<details class="fact"><summary>Lo sapevi?</summary><p data-speak>{{ fact }}</p></details>{{ /if }}
+        {{ if task }}<p class="task" data-speak><strong>{{ ui.page.task }}</strong> {{ task |> md(true) }}</p>{{ /if }}
+        {{ if fact }}<details class="fact"><summary>{{ ui.page.fact }}</summary><p data-speak>{{ fact |> md(true) }}</p></details>{{ /if }}
       </div>
       {{ /if }}
       <div class="stage">
-        {{ content }}
+        {{ include scene }}
       </div>
+      {{ /if }}
     </div>
     </div>
   </article>
 
-  <nav class="pager" aria-label="Pagine della lezione">
+  <nav class="pager" aria-label="{{ ui.page.pager |> escape }}">
     <a class="nav-arrow" rel="prev" href="{{ prev }}" data-dir="back">
       <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-left"/></svg>
-      <span class="sr-only">Pagina precedente</span>
+      <span class="sr-only">{{ ui.page.prev }}</span>
     </a>
     <ol class="dots">
       {{ for i, p of lessonInfo.pages }}
@@ -52,9 +70,9 @@ layout: layouts/base.vto
       {{ /for }}
     </ol>
     <a class="nav-arrow next" rel="next" href="{{ next }}" data-dir="forward">
-      <span class="nav-label">{{ if pageNum == lessonTotal }}{{ if lesson < 4 }}Lezione {{ lesson + 1 }}{{ else }}Fine{{ /if }}{{ else }}Avanti{{ /if }}</span>
+      <span class="nav-label">{{ if pageNum == lessonTotal }}{{ if lesson < lastLesson }}{{ ui.page.nextLesson |> fill({ n: lesson + 1 }) }}{{ else }}{{ ui.page.end }}{{ /if }}{{ else }}{{ ui.page.forward }}{{ /if }}</span>
       <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-right"/></svg>
-      <span class="sr-only">Pagina successiva</span>
+      <span class="sr-only">{{ ui.page.next }}</span>
     </a>
   </nav>
 </main>

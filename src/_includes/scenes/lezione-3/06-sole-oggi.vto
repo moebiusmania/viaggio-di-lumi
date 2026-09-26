@@ -1,0 +1,18 @@
+<div class="cards">
+  <flip-card style="--c: var(--sun)">
+    <div class="face front"><svg viewBox="-60 -60 120 120" aria-hidden="true"><use href="#sun" x="-60" y="-60" width="120" height="120"/></svg>{{ cards[0].front }}</div>
+    <div class="face back"><span class="big-num">{{ cards[0].title }}</span><p>{{ cards[0].text |> md(true) }}</p></div>
+  </flip-card>
+  <flip-card style="--c: var(--orange)">
+    <div class="face front"><svg viewBox="0 0 100 100" aria-hidden="true"><text x="50" y="70" font-size="60" text-anchor="middle">🌡️</text></svg>{{ cards[1].front }}</div>
+    <div class="face back"><span class="big-num">{{ cards[1].title }}</span><p>{{ cards[1].text |> md(true) }}</p></div>
+  </flip-card>
+  <flip-card style="--c: var(--sky)">
+    <div class="face front"><svg viewBox="0 0 100 100" aria-hidden="true"><text x="50" y="70" font-size="60" text-anchor="middle">📏</text></svg>{{ cards[2].front }}</div>
+    <div class="face back"><span class="big-num">{{ cards[2].title }}</span><p>{{ cards[2].text |> md(true) }}</p></div>
+  </flip-card>
+  <flip-card style="--c: var(--pink)">
+    <div class="face front"><svg viewBox="0 0 100 100" aria-hidden="true"><text x="50" y="70" font-size="60" text-anchor="middle">⚡</text></svg>{{ cards[3].front }}</div>
+    <div class="face back"><span class="big-num">{{ cards[3].title }}</span><p>{{ cards[3].text |> md(true) }}</p></div>
+  </flip-card>
+</div>

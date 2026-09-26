@@ -1,0 +1,11 @@
+<div class="scene" aria-hidden="true">
+  <svg viewBox="0 0 400 300">
+    <ellipse cx="200" cy="150" rx="185" ry="48" fill="#ffb347" opacity=".25"/>
+    <ellipse cx="200" cy="150" rx="150" ry="36" fill="none" stroke="#ffd9a8" stroke-width="3" stroke-dasharray="3 9" opacity=".8"/>
+    <ellipse cx="200" cy="150" rx="110" ry="26" fill="none" stroke="#ffd9a8" stroke-width="3" stroke-dasharray="3 9" opacity=".8"/>
+    <g class="pulse"><use href="#sun" x="140" y="90" width="120" height="120"/></g>
+    {{ for p of [[60, 160, 14, '#c78f64', 0], [330, 140, 20, '#8fd8ff', 1], [95, 128, 10, '#e0b48c', 2], [370, 165, 26, '#f2b36b', 3]] }}
+    <g class="float delay-{{ p[4] }}"><circle cx="{{ p[0] }}" cy="{{ p[1] }}" r="{{ p[2] }}" fill="{{ p[3] }}" stroke="#1d1846" stroke-width="3"/></g>
+    {{ /for }}
+  </svg>
+</div>

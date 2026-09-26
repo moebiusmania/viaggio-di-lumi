@@ -1,7 +1,7 @@
 <div class="medal" role="status">
   <svg class="medal-icon" viewBox="0 0 100 130" aria-hidden="true"><use href="#medal"/></svg>
-  <h2>Lezione {{ lesson }} completata!</h2>
+  <h2>{{ ui.medal.title |> fill({ n: lesson }) }}</h2>
   <p data-score></p>
-  <p>{{ medalText }}</p>
-  <a class="btn big" href="{{ next }}">{{ if lesson < 4 }}Vai alla lezione {{ lesson + 1 }} 🚀{{ else }}Ritira il tuo diploma 🎓{{ /if }}</a>
+  <p>{{ medalText |> md(true) }}</p>
+  <a class="btn big" href="{{ next }}">{{ if lesson < lastLesson }}{{ ui.medal.nextLesson |> fill({ n: lesson + 1 }) }}{{ else }}{{ ui.medal.diploma }}{{ /if }}</a>
 </div>

@@ -1,15 +1,15 @@
 <!doctype html>
-<html lang="it" data-lesson="{{ lesson || 0 }}" data-index="{{ index ?? -1 }}"{{ if offline }} data-offline{{ /if }}>
+<html lang="{{ lang }}" data-lesson="{{ lesson || 0 }}" data-index="{{ index ?? -1 }}"{{ if offline }} data-offline{{ /if }}>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>{{ title }} · Il viaggio di Lumi</title>
-  <meta name="description" content="Un libro interattivo per bambini dai 7 ai 9 anni: dal Big Bang alla nascita della Terra.">
+  <title>{{ title }} · {{ ui.app.name }}</title>
+  <meta name="description" content="{{ ui.app.description |> escape }}">
   <meta name="theme-color" content="#1b1446">
   <link rel="icon" href="/assets/icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
-  <link rel="manifest" href="/manifest.webmanifest">
-  <meta name="apple-mobile-web-app-title" content="Lumi">
+  <link rel="manifest" href="{{ home }}manifest.webmanifest">
+  <meta name="apple-mobile-web-app-title" content="{{ ui.app.shortName |> escape }}">
   <link rel="preload" href="/assets/fonts/baloo-2-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/main.css">
@@ -26,32 +26,33 @@
       addEventListener("pagereveal", (e) => e.viewTransition?.types.add(dir));
     })();
   </script>
+  <script type="application/json" id="lumi-text">{{ jsText }}</script>
   <script type="module" src="/assets/js/app.js"></script>
 </head>
 <body>
   <div class="starfield" aria-hidden="true"><i></i><i></i><i></i></div>
 
   <header class="topbar">
-    <a class="brand" href="/" aria-label="Copertina del libro">
+    <a class="brand" href="{{ home }}" aria-label="{{ ui.topbar.home |> escape }}">
       <svg class="brand-lumi" viewBox="-4 -4 108 108" aria-hidden="true"><use href="#lumi"/></svg>
-      <span>Il viaggio di <b>Lumi</b></span>
+      <span>{{ ui.topbar.brand |> fill({ name: `<b>${ui.app.shortName}</b>` }) }}</span>
     </a>
     {{ if lesson }}
-    <p class="topbar-lesson"><span class="pill">Lezione {{ lesson }}</span> {{ lessonInfo.title }}</p>
+    <p class="topbar-lesson"><span class="pill">{{ ui.topbar.lesson |> fill({ n: lesson }) }}</span> {{ lessonInfo.title }}</p>
     {{ /if }}
     <div class="topbar-actions">
-      <span class="star-count" title="Stelle raccolte completando le attività">
+      <span class="star-count" title="{{ ui.topbar.stars |> escape }}">
         <svg viewBox="-4 -4 108 108" aria-hidden="true"><use href="#star"/></svg>
-        <b data-star-count>0</b><span class="sr-only"> stelle raccolte</span>
+        <b data-star-count>0</b><span class="sr-only"> {{ ui.topbar.starsCount }}</span>
       </span>
-      <button class="icon-btn" type="button" data-sound aria-pressed="true" title="Suoni attivi">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sound"/></svg><span class="sr-only">Suoni</span>
+      <button class="icon-btn" type="button" data-sound aria-pressed="true" title="{{ ui.js.soundOn |> escape }}">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sound"/></svg><span class="sr-only">{{ ui.topbar.sound }}</span>
       </button>
-      <button class="icon-btn" type="button" data-read aria-pressed="false" title="Leggi ad alta voce">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-read"/></svg><span class="sr-only">Leggi ad alta voce</span>
+      <button class="icon-btn" type="button" data-read aria-pressed="false" title="{{ ui.topbar.read |> escape }}">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-read"/></svg><span class="sr-only">{{ ui.topbar.read }}</span>
       </button>
-      <button class="icon-btn toc-btn" type="button" data-toc aria-haspopup="dialog" title="Indice (tasto M)">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-menu"/></svg><span>Indice</span>
+      <button class="icon-btn toc-btn" type="button" data-toc aria-haspopup="dialog" title="{{ ui.topbar.tocTitle |> escape }}">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-menu"/></svg><span>{{ ui.topbar.toc }}</span>
       </button>
     </div>
   </header>
