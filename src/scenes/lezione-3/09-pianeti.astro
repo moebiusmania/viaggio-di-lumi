@@ -1,0 +1,9 @@
+---
+const { buttons, canvas, caption } = Astro.props;
+---
+<space-canvas mode="accretion">
+  <div class="scene"><canvas aria-label={canvas}></canvas></div>
+  <div class="btn-row"><button class="btn sky" type="button" data-action="fast">{buttons.fast}</button><button class="btn paper" type="button" data-action="reset">{buttons.restart}</button></div>
+  <p class="counter-pill"></p>
+  <output class="caption">{caption}</output>
+</space-canvas>

@@ -1,0 +1,101 @@
+---
+import "../assets/css/main.css";
+import caveat from "../assets/fonts/caveat-brush-latin.woff2?url";
+import patrick from "../assets/fonts/patrick-hand-latin.woff2?url";
+import kraft from "../assets/textures/kraft.webp?url";
+import Sprite from "../components/Sprite.astro";
+import Toc from "../components/Toc.astro";
+import { fill, link } from "../lib/text";
+
+const { page } = Astro.props;
+const { lang, lesson, index, title, ui, url, home, lessonInfo, jsText } = page;
+const absolute = (path: string) => new URL(link(path), Astro.site).href;
+const full = `${title} · ${ui.app.name}`;
+---
+<!doctype html>
+<html lang={lang} data-lesson={lesson || 0} data-index={index ?? -1} data-offline={import.meta.env.PROD ? "" : undefined}>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{full}</title>
+  <meta name="description" content={ui.app.description}>
+  <meta name="theme-color" content="#c49a6c">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content={ui.app.name}>
+  <meta property="og:title" content={full}>
+  <meta property="og:description" content={ui.app.description}>
+  <meta property="og:url" content={absolute(url)}>
+  <meta property="og:locale" content={ui.app.locale.replace("-", "_")}>
+  <meta property="og:image" content={absolute("/assets/images/social.png")}>
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content={ui.app.imageAlt}>
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href={link("/assets/icons/icon.svg")} type="image/svg+xml">
+  <link rel="apple-touch-icon" href={link("/assets/icons/apple-touch-icon.png")}>
+  <link rel="manifest" href={link(`${home}manifest.webmanifest`)}>
+  <meta name="apple-mobile-web-app-title" content={ui.app.shortName}>
+  <link rel="preload" href={caveat} as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href={patrick} as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href={kraft} as="image" type="image/webp">
+  <script is:inline>
+    // Decide which way the page turns before the first paint (forward or back).
+    (() => {
+      const html = document.documentElement;
+      const index = Number(html.dataset.index);
+      const last = Number(sessionStorage.getItem("lumi-index") ?? -1);
+      const dir = last > index ? "back" : "forward";
+      html.dataset.dir = dir;
+      sessionStorage.setItem("lumi-index", String(index));
+      if (!("onpagereveal" in window)) html.classList.add("no-vt");
+      addEventListener("pagereveal", (e) => e.viewTransition?.types.add(dir));
+    })();
+  </script>
+  <script type="application/json" id="lumi-text" is:inline set:html={jsText}></script>
+  <script>
+    import "../assets/js/app.js";
+  </script>
+</head>
+<body x-data>
+  <div class="desk" aria-hidden="true"></div>
+  <div class="lamp" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href={link(home)} aria-label={ui.topbar.home}>
+      <svg class="brand-lumi" viewBox="-4 -4 108 108" aria-hidden="true"><use href="#lumi"/></svg>
+      <span set:html={fill(ui.topbar.brand, { name: `<b>${ui.app.shortName}</b>` })}></span>
+    </a>
+    {lesson && (
+      <p class="topbar-lesson"><span class="pill">{fill(ui.topbar.lesson, { n: lesson })}</span> {lessonInfo.title}</p>
+    )}
+    <div class="topbar-actions">
+      <span class="star-count" title={ui.topbar.stars}>
+        <svg viewBox="-4 -4 108 108" aria-hidden="true"><use href="#star"/></svg>
+        <b x-text="$store.book.done.length">0</b><span class="sr-only"> {ui.topbar.starsCount}</span>
+      </span>
+      <button class="icon-btn" type="button" data-sound aria-pressed="true" title={ui.js.soundOn}
+        @click="$store.book.toggleSound()"
+        :aria-pressed="String($store.book.sound)"
+        :title="$store.book.soundLabel">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sound"/></svg><span class="sr-only">{ui.topbar.sound}</span>
+      </button>
+      <button class="icon-btn" type="button" data-read aria-pressed="false" title={ui.topbar.read}
+        x-show="$store.book.canRead"
+        @click="$store.book.toggleReading()"
+        :aria-pressed="String($store.book.reading)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-read"/></svg><span class="sr-only">{ui.topbar.read}</span>
+      </button>
+      <button class="icon-btn toc-btn" type="button" aria-haspopup="dialog" title={ui.topbar.tocTitle}
+        @click="$store.book.openToc()">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-menu"/></svg><span>{ui.topbar.toc}</span>
+      </button>
+    </div>
+  </header>
+
+  <slot />
+
+  <Toc page={page} />
+  <Sprite />
+</body>
+</html>

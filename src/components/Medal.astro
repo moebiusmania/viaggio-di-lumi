@@ -1,0 +1,11 @@
+---
+import { fill, link, md } from "../lib/text";
+const { ui, lesson, lastLesson, medalText, next } = Astro.props;
+---
+<div class="medal" role="status">
+  <svg class="medal-icon" viewBox="0 0 100 130" aria-hidden="true"><use href="#medal"/></svg>
+  <h2>{fill(ui.medal.title, { n: lesson })}</h2>
+  <p data-score></p>
+  <p set:html={md(medalText)}></p>
+  <a class="btn big" href={link(next)}>{lesson < lastLesson ? fill(ui.medal.nextLesson, { n: lesson + 1 }) : ui.medal.diploma}</a>
+</div>

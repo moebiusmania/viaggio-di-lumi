@@ -1,0 +1,8 @@
+---
+const { ui, lang } = Astro.props;
+---
+<p class="credits">
+  {ui.credits.content} <a href={`https://creativecommons.org/publicdomain/zero/1.0/deed.${lang}`} target="_blank" rel="noopener license">CC0</a> ·
+  {ui.credits.code} <a href="https://opensource.org/license/0bsd" target="_blank" rel="noopener license">0BSD</a> ·
+  {ui.credits.fonts} <a href="https://openfontlicense.org" target="_blank" rel="noopener">SIL OFL</a>
+</p>

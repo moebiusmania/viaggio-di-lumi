@@ -1,0 +1,17 @@
+{
+  "name": "il-viaggio-di-lumi",
+  "type": "module",
+  "private": true,
+  "license": "0BSD",
+  "scripts": {
+    "dev": "bun --bun astro dev",
+    "build": "bun --bun astro build",
+    "preview": "bun --bun astro preview"
+  },
+  "dependencies": {
+    "alpinejs": "^3.17.5",
+    "astro": "^7.4.4",
+    "markdown-it": "^15.0.3",
+    "yaml": "^2.9.1"
+  }
+}

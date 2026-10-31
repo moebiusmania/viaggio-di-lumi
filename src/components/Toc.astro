@@ -1,0 +1,40 @@
+---
+import { link, md } from "../lib/text";
+import Credits from "./Credits.astro";
+
+const { page } = Astro.props;
+const { ui, home, url, toc, lesson, lang } = page;
+const current = (href: string) => (href === url ? "page" : undefined);
+---
+<dialog id="toc" class="toc" aria-labelledby="toc-title">
+  <header class="toc-head">
+    <h2 id="toc-title">{ui.toc.title}</h2>
+    <button class="icon-btn" type="button" title={ui.toc.closeTitle} @click="$store.book.closeToc()">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-close"/></svg><span class="sr-only">{ui.toc.close}</span>
+    </button>
+  </header>
+  <a class="toc-home" href={link(home)} aria-current={current(home)}>{ui.toc.home}</a>
+  <ol class="toc-lessons">
+    {toc.map((l) => (
+      <li class="toc-lesson" style={`--c: var(--l${l.n})`}>
+        <details name="toc-lesson" open={l.n === (lesson || 1)}>
+          <summary>
+            <span class="toc-num">{l.n}</span>
+            <span class="toc-title">{l.title}<small>{l.subtitle}</small></span>
+            <span class="toc-progress" style="--p: 0"
+              :style={`{ '--p': $store.book.lessonShare(${l.n}) }`}
+              :class={`{ complete: $store.book.medals.includes(${l.n}) }`}></span>
+          </summary>
+          <ol class="toc-pages">
+            {l.pages.map((p) => (
+              <li><a href={link(p.url)} data-url={link(p.url)} data-kind={p.kind} aria-current={current(p.url)}
+                :data-visited="$store.book.visitedMark($el)" :data-done="$store.book.doneMark($el)">{p.title}</a></li>
+            ))}
+          </ol>
+        </details>
+      </li>
+    ))}
+  </ol>
+  <p class="toc-help" set:html={md(ui.toc.help)}></p>
+  <Credits ui={ui} lang={lang} />
+</dialog>

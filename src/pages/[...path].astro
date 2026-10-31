@@ -1,0 +1,16 @@
+---
+import Home from "../layouts/Home.astro";
+import Slide from "../layouts/Slide.astro";
+import { allPages } from "../lib/book";
+
+export async function getStaticPaths() {
+  const pages = await allPages();
+  return pages.map((page) => ({
+    params: { path: page.url.replace(/^\/|\/$/g, "") || undefined },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+---
+{page.lesson ? <Slide page={page} /> : <Home page={page} />}

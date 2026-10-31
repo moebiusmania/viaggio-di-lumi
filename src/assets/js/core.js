@@ -3,7 +3,7 @@
 const KEY = "lumi-v1";
 
 // ---------- Texts ----------
-// Every text the scripts show comes from the page (see layouts/base.vto): the shared
+// Every text the scripts show comes from the page (see layouts/Base.astro): the shared
 // ones from content/<lang>/_data/ui.yml, plus the `strings` of the page's .md file.
 const TEXT = (() => {
   try {

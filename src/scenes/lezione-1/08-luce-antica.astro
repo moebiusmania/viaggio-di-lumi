@@ -1,0 +1,64 @@
+---
+const { button, canvas, caption } = Astro.props;
+---
+<space-canvas mode="static">
+  <div class="scene tv-scene">
+    <div class="tv">
+      <div class="screen"><canvas aria-label={canvas}></canvas></div>
+      <div class="panel"><i></i><i></i><span></span></div>
+    </div>
+  </div>
+  <div class="btn-row"><button class="btn big" type="button" data-action="tv">{button}</button></div>
+  <output class="caption">{caption}</output>
+  <style is:inline>
+    @scope {
+      .tv-scene { display: grid; place-items: center; background: linear-gradient(#3b2f6e, #221a48); }
+      .tv {
+        position: relative;
+        width: 74%;
+        aspect-ratio: 4 / 3;
+        margin-top: 8%;
+        display: grid;
+        grid-template-columns: 1fr 16%;
+        gap: 4%;
+        padding: 5%;
+        border: 5px solid var(--ink);
+        border-radius: 1.6rem;
+        background: linear-gradient(#e0925a, #c26f3c);
+        box-shadow: 0 8px 0 var(--ink);
+        /* antenna */
+        &::before, &::after {
+          content: "";
+          position: absolute;
+          bottom: 100%;
+          left: 45%;
+          width: 5px;
+          height: 38%;
+          background: var(--ink);
+          border-radius: 4px;
+          transform-origin: bottom;
+          rotate: -30deg;
+        }
+        &::after { rotate: 28deg; }
+      }
+      .screen {
+        position: relative;
+        border: 5px solid var(--ink);
+        border-radius: 1.2rem / 1.6rem;
+        overflow: hidden;
+        background: #1f2a38;
+        & canvas { width: 100%; height: 100%; display: block; cursor: pointer; }
+        :scope.tv-on & { box-shadow: 0 0 40px oklch(95% 0.02 90 / .4); }
+      }
+      .panel {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12%;
+        padding-top: 10%;
+        & i { width: 70%; aspect-ratio: 1; border-radius: 50%; background: #efbd38; border: var(--line); }
+        & span { width: 60%; flex: 1; max-height: 40%; border-radius: 6px; background: repeating-linear-gradient(#2c1d11 0 3px, transparent 3px 7px); }
+      }
+    }
+  </style>
+</space-canvas>

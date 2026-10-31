@@ -1,0 +1,50 @@
+---
+const { slider, steps } = Astro.props;
+---
+<scene-slider data-steps={JSON.stringify(steps)}>
+  <div class="scene">
+    <svg viewBox="0 0 400 300" aria-hidden="true">
+      <g class="balloon">
+        <path d="M200 272 q-12 14 4 24 q14 10 -2 20" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+        <path d="M200 262 l-9 12 h18 z" fill="#dd6682" stroke="#2c1d11" stroke-width="4" stroke-linejoin="round"/>
+        <ellipse cx="200" cy="145" rx="118" ry="118" fill="#dd6682" stroke="#2c1d11" stroke-width="5"/>
+        <ellipse cx="160" cy="95" rx="28" ry="16" fill="#fff" opacity=".45" transform="rotate(-30 160 95)"/>
+        <use href="#galaxy" x="112" y="118" width="40" height="40"/>
+        <use href="#galaxy" x="240" y="80" width="34" height="34"/>
+        <use href="#galaxy" x="190" y="190" width="30" height="30"/>
+        <use href="#galaxy" x="250" y="170" width="44" height="44"/>
+        <use href="#galaxy" x="150" y="60" width="28" height="28"/>
+        <line x1="132" y1="138" x2="272" y2="192" stroke="#fff" stroke-width="3" stroke-dasharray="6 6"/>
+        <circle cx="132" cy="138" r="11" fill="#efbd38" stroke="#2c1d11" stroke-width="3"/>
+        <text x="132" y="143" text-anchor="middle" font-size="14" font-weight="800" fill="#2c1d11">A</text>
+        <circle cx="272" cy="192" r="11" fill="#efbd38" stroke="#2c1d11" stroke-width="3"/>
+        <text x="272" y="197" text-anchor="middle" font-size="14" font-weight="800" fill="#2c1d11">B</text>
+      </g>
+    </svg>
+    <p class="ruler">A ↔ B: <b></b></p>
+  </div>
+  <label class="slider"><span>{slider.from}</span><input type="range" min="0" max="100" value="0" aria-label={slider.label}><span>{slider.to}</span></label>
+  <output class="caption"></output>
+  <style is:inline>
+    @scope {
+      .balloon {
+        transform-origin: 50% 40% !important;
+        scale: calc(.38 + var(--t) * .62);
+        animation: float 3s ease-in-out infinite;
+      }
+      .ruler {
+        position: absolute;
+        top: .6rem;
+        right: .6rem;
+        padding: .2rem .8rem;
+        border-radius: 99px;
+        background: var(--paper);
+        color: var(--ink);
+        border: var(--line);
+        font-family: var(--font-head);
+        counter-reset: d calc(2 + var(--t) * 8);
+        & b::after { content: counter(d) " cm"; }
+      }
+    }
+  </style>
+</scene-slider>

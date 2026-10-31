@@ -1,0 +1,15 @@
+---
+import { md } from "../lib/text";
+import Medal from "../components/Medal.astro";
+const { lesson, quiz } = Astro.props;
+---
+<quiz-set lesson={lesson}>
+  {(quiz).map((q) => (<>
+  <quiz-q answer={q.answer - 1}>
+    <p class="q"><Fragment set:html={md(q.question)} /></p>
+    <div class="opts">{(q.options).map((o) => (<><button><Fragment set:html={md(o)} /></button></>))}</div>
+    <p class="why"><Fragment set:html={md(q.why)} /></p>
+  </quiz-q>
+  </>))}
+  <Medal {...Astro.props} />
+</quiz-set>

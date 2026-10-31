@@ -1,0 +1,27 @@
+---
+import { md } from "../../lib/text";
+const { spots } = Astro.props;
+---
+<hot-spots>
+  <div class="scene">
+    <svg viewBox="0 0 400 300" aria-hidden="true">
+      <defs>
+        <radialGradient id="neb-a"><stop offset="0" stop-color="#e495a8" stop-opacity=".9"/><stop offset="1" stop-color="#dd6682" stop-opacity="0"/></radialGradient>
+        <radialGradient id="neb-b"><stop offset="0" stop-color="#93c3d9" stop-opacity=".9"/><stop offset="1" stop-color="#4570b5" stop-opacity="0"/></radialGradient>
+        <radialGradient id="neb-c"><stop offset="0" stop-color="#efbd38" stop-opacity=".8"/><stop offset="1" stop-color="#dd7f38" stop-opacity="0"/></radialGradient>
+      </defs>
+      <circle class="float-slow" cx="150" cy="130" r="120" fill="url(#neb-a)"/>
+      <circle class="float-slow delay-2" cx="260" cy="170" r="120" fill="url(#neb-b)"/>
+      <circle class="pulse" cx="210" cy="120" r="70" fill="url(#neb-c)"/>
+      {([[120, 90], [160, 200], [240, 110], [290, 200], [200, 160], [100, 170], [320, 130], [180, 80], [250, 240]]).map((d) => (<>
+      <circle cx={d[0]} cy={d[1]} r="3" fill="#6b4a3a"/>
+      </>))}
+      <path d="M40 240 Q120 200 180 250 Q240 290 330 250" fill="none" stroke="#3b2a50" stroke-width="18" stroke-linecap="round" opacity=".7"/>
+    </svg>
+    <button class="spot" style="--x: 38%; --y: 42%" data-label={spots[0].label} data-tip={md(spots[0].tip)}></button>
+    <button class="spot" style="--x: 30%; --y: 80%" data-label={spots[1].label} data-tip={md(spots[1].tip)}></button>
+    <button class="spot" style="--x: 72%; --y: 60%" data-label={spots[2].label} data-tip={md(spots[2].tip)}></button>
+    <button class="spot" style="--x: 55%; --y: 32%" data-label={spots[3].label} data-tip={md(spots[3].tip)}></button>
+  </div>
+  <output class="caption"></output>
+</hot-spots>

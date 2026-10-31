@@ -1,7 +1,7 @@
 # Editing the texts
 
 Every word of the book lives in **`src/content/it/`**. You can change anything in that folder without touching the
-code: the illustrations, games and styles are in other folders (`src/_includes/`, `src/assets/`) and read the texts
+code: the illustrations, games and styles are in other folders (`src/scenes/`, `src/components/`, `src/assets/`) and read the texts
 from here.
 
 ```
@@ -18,7 +18,7 @@ src/content/it/
     ui.yml                 buttons, menus and the messages of the games
 ```
 
-To see your changes, run `deno task serve` and open <http://localhost:3000>. The page reloads by itself every time
+To see your changes, run `bun run dev` and open <http://localhost:3000>. The page reloads by itself every time
 you save.
 
 ## A page
@@ -78,14 +78,14 @@ so on. Their names say what they are, and a `#` comment above them explains the 
 The number at the start of a file name sets the page order. The rest of the name becomes the page address
 (`lezione-1/03-palloncino.md` → `/lezione-1/03-palloncino/`). Renaming a file changes its address, so saved
 progress for that page is lost. Adding, removing or renumbering pages also needs a developer, because every page
-has its own illustration in `src/_includes/scenes/`.
+has its own illustration in `src/scenes/`.
 
 ## Translating the book
 
 1. Copy `src/content/it/` to `src/content/<code>/`, e.g. `src/content/en/`.
 2. Translate every `.md` file and both files in `_data/`. In `ui.yml`, set `locale` (e.g. `en-GB`): it picks the
    read-aloud voice and the date format.
-3. Ask a developer to add the language code to `LANGS` in `_config.ts`.
+3. Ask a developer to add the language code to `LANGS` in `src/lib/book.ts`.
 
 You can translate the file and folder names too (`lezione-1/03-palloncino.md` → `lesson-1/03-balloon.md`), as long
 as the numbers stay the same. The translated book is served at `/<code>/` (e.g. `/en/lesson-1/03-balloon/`).

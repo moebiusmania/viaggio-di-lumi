@@ -1,0 +1,99 @@
+---
+import { fill, md } from "../../lib/text";
+const { content, diploma, form, n, toc, total } = Astro.props;
+---
+<name-cert>
+  <div class="cert-wrap">
+    <div class="cert-form">
+      <div class="lumi-talk">
+        <svg class="lumi" viewBox="-4 -4 108 108" aria-hidden="true"><use href="#lumi"/></svg>
+        <div class="bubble" data-speak>
+          <Fragment set:html={content} />
+        </div>
+      </div>
+      <label class="name-field">
+        <span>{form.name}</span>
+        <input type="text" maxlength="30" placeholder={form.placeholder} autocomplete="given-name">
+      </label>
+      <div class="btn-row">
+        <button class="btn big pink" type="button" data-party>{form.party}</button>
+        <button class="btn big sky" type="button" data-print>{form.print}</button>
+      </div>
+    </div>
+
+    <div class="cert">
+      <svg class="cert-medal" viewBox="0 0 100 130" aria-hidden="true"><use href="#medal"/></svg>
+      <p class="cert-kicker">{diploma.kicker}</p>
+      <h2>{diploma.title}</h2>
+      <p>{diploma.certifies}</p>
+      <p class="cert-name" data-name></p>
+      <p><Fragment set:html={md(diploma.text)} /></p>
+      <div class="cert-stats">
+        <span><Fragment set:html={fill(diploma.stars, { n: "<b data-stars>0</b>" })} /></span>
+        <span><Fragment set:html={fill(diploma.medals, { n: "<b data-medals>0</b>", total: toc.length })} /></span>
+      </div>
+      <p class="cert-date" data-date></p>
+      <svg class="cert-lumi" viewBox="-4 -4 108 108" aria-hidden="true"><use href="#lumi"/></svg>
+    </div>
+  </div>
+  <style is:inline>
+    @scope {
+      .cert-wrap {
+        display: grid;
+        gap: 1.5rem;
+        align-items: center;
+        @container slide (width > 50rem) { grid-template-columns: 1fr 1.1fr; }
+      }
+      .cert-form { display: grid; gap: 1.2rem; }
+      .name-field {
+        display: grid;
+        gap: .4rem;
+        font-family: var(--font-head);
+        font-size: 1.3rem;
+        & input {
+          padding: .7rem 1rem;
+          border: var(--line);
+          border: 0;
+          border-radius: 3px;
+          font-size: 1.4rem;
+          box-shadow: inset 1px 2px 4px oklch(15% .04 60 / .4), 0 1px 0 oklch(100% 0 0 / .3);
+        }
+      }
+      .cert {
+        position: relative;
+        display: grid;
+        justify-items: center;
+        gap: .5rem;
+        padding: 2rem 1.5rem;
+        border-radius: 3px;
+        outline: 2.5px solid var(--stamp);
+        outline-offset: -12px;
+        text-align: center;
+        box-shadow: var(--lift-3);
+        rotate: .5deg;
+        animation: pop-in .8s var(--ease-bounce) both;
+      }
+      .cert-medal { width: 5rem; overflow: visible; filter: url(#cutout); animation: medal-in 1.2s var(--ease-bounce) both .3s; }
+      .cert-kicker { font-family: var(--font-stamp); font-size: 1.1rem; letter-spacing: .1em; text-transform: uppercase; color: var(--stamp); }
+      .cert h2 { font-size: clamp(1.8rem, 1.2rem + 2vw, 2.6rem); color: var(--ink); }
+      .cert-name {
+        min-width: 70%;
+        padding-bottom: .2rem;
+        border-bottom: var(--line);
+        font-family: var(--font-head);
+        font-size: clamp(1.8rem, 1.2rem + 2.5vw, 2.8rem);
+        line-height: 1.1;
+        color: var(--ink);
+      }
+      .cert-stats { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; font-family: var(--font-head); font-size: 1.2rem; }
+      .cert-date { font-size: 1rem; color: var(--ink-soft); }
+      .cert-lumi { position: absolute; width: 4rem; right: 1.2rem; bottom: 1.2rem; overflow: visible; filter: url(#cutout); animation: lumi-bob 2.6s ease-in-out infinite; }
+    }
+    @media print {
+      body > :not(main), .journey, .pager, .slide-head, .cert-form { display: none !important; }
+      body, .slide { background: #fff !important; box-shadow: none !important; border: none !important; }
+      .slide::before, .slide::after { display: none; }
+      .cert { box-shadow: none; rotate: none; }
+    }
+  </style>
+</name-cert>

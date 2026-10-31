@@ -1,0 +1,89 @@
+---
+import { fill, link, md } from "../lib/text";
+import Base from "./Base.astro";
+
+const { page } = Astro.props;
+const {
+  ui, toc, index, total, when, lessonInfo, lesson, pageNum, lessonTotal, title, kind, content, missions, task, fact,
+  prev, next, url, lastLesson, scene: Scene,
+} = page;
+const talk = kind !== "cert" && content.trim();
+const nextLabel = pageNum === lessonTotal
+  ? (lesson < lastLesson ? fill(ui.page.nextLesson, { n: lesson + 1 }) : ui.page.end)
+  : ui.page.forward;
+---
+<Base page={page}>
+<main class="book" data-kind={kind || "page"}>
+  <div class="journey">
+    <div class="journey-track" role="img" aria-label={fill(ui.page.journey, { n: index + 1, total })}>
+      {toc.map((l) => <span class="journey-seg" style={`--c: var(--l${l.n}); --n: ${l.pages.length}`}></span>)}
+      <svg class="journey-rocket" style={`--pos: ${index / (total - 1)}`} viewBox="0 0 64 64" aria-hidden="true"><use href="#rocket"/></svg>
+    </div>
+    <p class="journey-when">{when || lessonInfo.when}</p>
+  </div>
+
+  <article class="slide">
+    <div class="slide-scroll">
+    <header class="slide-head">
+      <p class="kicker">{fill(ui.page.kicker, { lesson, page: pageNum, total: lessonTotal })}</p>
+      <h1>{title}</h1>
+    </header>
+
+    <div class="slide-body">
+      {kind === "cover" ? (
+        <div class="stage">
+          <div class="cover">
+            <div class="cover-text">
+              <span class="lesson-no">{lesson}</span>
+              <div data-speak set:html={content}></div>
+              <h2>{ui.cover.missions}</h2>
+              <ul class="mission-list">
+                {missions.map((m, i) => <li style={`--i:${i}`} set:html={md(m)}></li>)}
+              </ul>
+              <p class="time-chip">{fill(ui.cover.time, { pages: lessonTotal })}</p>
+            </div>
+            <Scene {...page} />
+          </div>
+        </div>
+      ) : (
+        <>
+          {(talk || task || fact) && (
+            <div class="story">
+              {talk && (
+                <div class="lumi-talk">
+                  <svg class="lumi" viewBox="-4 -4 108 108" aria-hidden="true"><use href="#lumi"/></svg>
+                  <div class="bubble" data-speak set:html={content}></div>
+                </div>
+              )}
+              {task && <p class="task" data-speak><strong>{ui.page.task}</strong> <Fragment set:html={md(task)} /></p>}
+              {fact && <details class="fact"><summary>{ui.page.fact}</summary><p data-speak set:html={md(fact)}></p></details>}
+            </div>
+          )}
+          <div class="stage">
+            <Scene {...page} />
+          </div>
+        </>
+      )}
+    </div>
+    </div>
+  </article>
+
+  <nav class="pager" aria-label={ui.page.pager}>
+    <a class="nav-arrow" rel="prev" href={link(prev)} data-dir="back">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-left"/></svg>
+      <span class="sr-only">{ui.page.prev}</span>
+    </a>
+    <ol class="dots">
+      {lessonInfo.pages.map((p) => (
+        <li><a href={link(p.url)} data-url={link(p.url)} aria-current={p.url === url ? "page" : undefined} title={p.title}
+          :data-visited="$store.book.visitedMark($el)" :data-done="$store.book.doneMark($el)"><span class="sr-only">{p.title}</span></a></li>
+      ))}
+    </ol>
+    <a class="nav-arrow next" rel="next" href={link(next)} data-dir="forward">
+      <span class="nav-label">{nextLabel}</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-right"/></svg>
+      <span class="sr-only">{ui.page.next}</span>
+    </a>
+  </nav>
+</main>
+</Base>

@@ -1,0 +1,32 @@
+---
+const { labels, slider, steps } = Astro.props;
+---
+<scene-slider data-steps={JSON.stringify(steps)}>
+  <div class="scene">
+    <svg viewBox="0 0 400 300" aria-hidden="true">
+      <defs>
+        <radialGradient id="blue-5"><stop offset="0" stop-color="#e4eff1"/><stop offset=".6" stop-color="#93c3d9"/><stop offset="1" stop-color="#4570b5"/></radialGradient>
+        <radialGradient id="blueglow-5"><stop offset=".5" stop-color="#93c3d9" stop-opacity=".6"/><stop offset="1" stop-color="#4570b5" stop-opacity="0"/></radialGradient>
+      </defs>
+      <g class="giant">
+        <circle cx="250" cy="150" r="130" fill="url(#blueglow-5)"/>
+        <circle cx="250" cy="150" r="100" fill="url(#blue-5)" stroke="#2c1d11" stroke-width="4"/>
+        <use href="#face" x="210" y="140" width="80" height="48"/>
+      </g>
+      <g class="sun-small">
+        <use href="#sun" x="40" y="215" width="50" height="50"/>
+        <text class="label" x="65" y="285" text-anchor="middle" font-size="16">{labels.sun}</text>
+      </g>
+      <text class="label giant-label" x="250" y="30" text-anchor="middle" font-size="18">{labels.giant}</text>
+    </svg>
+  </div>
+  <label class="slider"><span>{slider.from}</span><input type="range" min="0" max="100" value="0" aria-label={slider.label}><span>{slider.to}</span></label>
+  <output class="caption"></output>
+  <style is:inline>
+    @scope {
+      .giant { scale: calc(.2 + var(--t) * .95); transform-origin: 250px 150px !important; transform-box: view-box !important; }
+      .giant-label { opacity: calc(var(--t) * 3 - .5); }
+      .sun-small { scale: calc(1.3 - var(--t) * .5); transform-origin: 65px 240px !important; transform-box: view-box !important; }
+    }
+  </style>
+</scene-slider>

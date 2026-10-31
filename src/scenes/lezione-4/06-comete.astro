@@ -1,0 +1,8 @@
+---
+const { canvas, caption } = Astro.props;
+---
+<space-canvas mode="earth" variant="comets">
+  <div class="scene"><canvas aria-label={canvas}></canvas></div>
+  <p class="counter-pill"></p>
+  <output class="caption">{caption}</output>
+</space-canvas>
