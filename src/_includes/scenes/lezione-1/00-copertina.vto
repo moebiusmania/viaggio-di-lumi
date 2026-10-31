@@ -2,11 +2,11 @@
   <svg viewBox="0 0 400 300">
     <g class="rays spin" style="transform-box: view-box; transform-origin: 200px 150px">
       {{ for i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] }}
-      <path d="M200 150 L190 20 L210 20 Z" fill="{{ i % 2 ? '#ff5d8f' : '#ffd23f' }}" opacity=".55" transform="rotate({{ i * 30 }} 200 150)"/>
+      <path d="M200 150 L190 20 L210 20 Z" fill="{{ i % 2 ? '#dd6682' : '#efbd38' }}" opacity=".55" transform="rotate({{ i * 30 }} 200 150)"/>
       {{ /for }}
     </g>
-    <path class="burst pulse" d="M200 70 L218 118 L266 96 L244 142 L292 160 L244 178 L266 224 L218 202 L200 250 L182 202 L134 224 L156 178 L108 160 L156 142 L134 96 L182 118 Z" fill="#ffd23f" stroke="#1d1846" stroke-width="5" stroke-linejoin="round"/>
-    <circle cx="200" cy="160" r="34" fill="#fff7c2" stroke="#1d1846" stroke-width="4"/>
+    <path class="burst pulse" d="M200 70 L218 118 L266 96 L244 142 L292 160 L244 178 L266 224 L218 202 L200 250 L182 202 L134 224 L156 178 L108 160 L156 142 L134 96 L182 118 Z" fill="#efbd38" stroke="#2c1d11" stroke-width="5" stroke-linejoin="round"/>
+    <circle cx="200" cy="160" r="34" fill="#f8ecc0" stroke="#2c1d11" stroke-width="4"/>
     <use href="#face" x="180" y="152" width="40" height="24"/>
     {{ for p of [[60, 60, 0], [340, 70, 1], [70, 240, 2], [330, 240, 3], [120, 30, 2], [280, 280, 1]] }}
     <use href="#star" x="{{ p[0] - 12 }}" y="{{ p[1] - 12 }}" width="24" height="24" class="twinkle delay-{{ p[2] }}"/>

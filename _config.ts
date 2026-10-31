@@ -154,8 +154,8 @@ site.process("*", (pages, allPages) => {
       start_url: "./",
       scope: "./",
       display: "standalone",
-      background_color: "#1b1446",
-      theme_color: "#1b1446",
+      background_color: "#84623f",
+      theme_color: "#c49a6c",
       categories: ["education", "kids", "books"],
       icons: [
         icon("assets/icons/icon-192.png", "192x192", "image/png"),

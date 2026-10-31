@@ -11,7 +11,7 @@
         position: absolute;
         inset: 8%;
         border-radius: 50%;
-        background: radial-gradient(circle, #fff7c2 0%, #ffd23f 35%, #ff8a3d 65%, transparent 72%);
+        background: radial-gradient(circle, #f8ecc0 0%, #efbd38 35%, #dd7f38 65%, transparent 72%);
         opacity: calc(.25 + var(--p) * .75);
         scale: calc(.8 + var(--p) * .25);
         filter: blur(4px);
@@ -28,8 +28,8 @@
         width: clamp(3rem, 8vw, 4.4rem);
         aspect-ratio: 1;
         border-radius: 50%;
-        border: 4px solid var(--ink);
-        background: radial-gradient(circle at 35% 30%, #fff9, transparent 40%), #ff8fb1;
+        border: var(--line);
+        background: radial-gradient(circle at 35% 30%, #fff9, transparent 40%), #e495a8;
         box-shadow: 0 4px 0 var(--ink);
         font: 800 1.5rem/1 var(--font-head);
         color: var(--ink);
@@ -39,9 +39,9 @@
         &:hover { scale: 1.1; }
         &[aria-pressed="true"] { scale: 1.2; box-shadow: 0 0 0 5px var(--sun), 0 4px 0 var(--ink); }
         &.he {
-          background: radial-gradient(circle at 35% 30%, #fff9, transparent 40%), #ffd23f;
+          background: radial-gradient(circle at 35% 30%, #fff9, transparent 40%), #efbd38;
           animation: he-born .6s var(--ease-bounce), pulse 1.5s .6s ease-in-out infinite;
-          box-shadow: 0 0 25px 6px #fff7c2;
+          box-shadow: 0 0 25px 6px #f8ecc0;
           cursor: default;
         }
         &.gone { visibility: hidden; }

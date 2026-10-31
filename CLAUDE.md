@@ -59,7 +59,7 @@ named descriptively: `slider`, `steps`, `cards`, `spots`, `chips`, `bins`, `labe
 `{{ include scene }}`. The scene holds only markup/SVG/`@scope` CSS and reads those keys (index-based for lists, so
 list order in the `.md` must match the markup). Pass texts through `|> md(true)` where inline Markdown is allowed
 and `|> escape` inside attributes. Elements marked `data-speak` (plus `main h1`) are what the read-aloud feature
-speaks. Scenes are usually inline SVG (`viewBox="0 0 400 300"` inside `.scene`). Reusable cartoon shapes are
+speaks. Scenes are usually inline SVG (`viewBox="0 0 400 300"` inside `.scene`). Reusable cut-out shapes are
 `<symbol>`s in `partials/sprite.vto`, referenced via `<use href="#id">`. Longer structured texts a component needs
 at runtime are rendered by the scene into markup the component reads, e.g. `<template data-nucleus="2-2">` for
 `<nucleus-builder>`, rather than being hard-coded in JS.
@@ -69,6 +69,9 @@ Gotchas:
 - Markdown bold renders as `<strong>`, not `<b>`, so CSS must not rely on `b` for authored text.
 - Frontmatter keys become Vento variables, so avoid JS reserved words as key names (e.g. `continue`).
 - Put `data-steps` and other JSON attributes through `|> JSON.stringify |> escape`.
+- Don't use `var(--tx-*)` inside a scene's inline `<style>`: relative `url()`s in custom properties resolve against the
+  page there. Put material rules in a stylesheet (the diploma's `.cert` is an example).
+- Symbols in `sprite.vto` aren't reached by the `.scene` outline rule, so they must not have outlines of their own.
 
 **JS modules** (`src/assets/js/`, ES modules, loaded from `base.vto` via `app.js`):
 - `core.js` — shared state and helpers: `t(key, vars)` and `locale` (from the `#lumi-text` JSON that `base.vto`
@@ -80,12 +83,21 @@ Gotchas:
   setting custom properties: `<scene-slider>` sets `--t` (0→1), `<tap-scene>`/`<hold-button>` set `--p`, so scenes
   animate purely in CSS.
 - `canvas.js` — `<space-canvas mode="…">`, large; dynamically imported by `app.js` only on pages that contain one.
+- `lamp.js` — desk light and diorama parallax from pointer/device tilt; switches to `[data-lite]` on slow devices.
 - `app.js` — navigation (arrows/keyboard/swipe/trackpad), TOC dialog, progress UI, read-aloud, SW registration.
 
 **CSS** is layered: `main.css` declares `@layer reset, tokens, base, layout, components, scenes, pages;` and imports
-`base.css` (reset/tokens/base/layout), `components.css` and `scenes.css`. Design tokens (colours incl. `--l1…--l4`,
-fonts) are in the `tokens` layer of `base.css`. Uses modern CSS freely (nesting, `@scope`, `@property`, `:has()`,
+`base.css` (reset/tokens/base/layout), `components.css`, `scenes.css` and `home.css`. Design tokens (colours incl.
+`--l1…--l4`, fonts, materials) are in the `tokens` layer of `base.css`. Uses modern CSS freely (nesting, `@scope`, `@property`, `:has()`,
 container queries, `oklch()`, cross-document View Transitions) — no need to add fallbacks for old browsers.
+
+**The cardboard look.** Everything should be something you could build from board and paper, lit by one lamp at the
+top left, so shadows fall down and right. Materials are tiles in `src/assets/textures/` baked by `tools/textures/bake.js`
+(`--tx-kraft`, `--tx-grain`, …), multiplied on a colour with `background-blend-mode`. Cut edges use `#cut`, `#torn` and
+`#cutout`, the SVG filters at the top of `partials/sprite.vto`. `scenes.css` turns inline SVG into paper automatically:
+filled shapes lose the `#2c1d11` outline (open strokes stay as felt tip) and each top-level piece of a `.scene` gets
+`#cutout`. `.scene` is a diorama: back wall, art, `::before` frame, `::after` grain. Only pick colours from the muted
+paper palette.
 
 **Offline / service worker.** `site.data("offline", !dev)` gates SW code in templates (`data-offline` on `<html>`).
 After a production build, the `afterBuild` hook walks `_site/`, hashes every file, and writes `sw.js` from the

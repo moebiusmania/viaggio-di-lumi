@@ -54,7 +54,7 @@ medal:
 credits:
   content: "Testi e illustrazioni"
   code: "codice"
-  fonts: "caratteri Baloo 2 e Nunito"
+  fonts: "caratteri Caveat Brush, Patrick Hand e Stardos Stencil"
 
 # Messages shown by the games while the child plays
 js:

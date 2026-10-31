@@ -1,12 +1,29 @@
-/* Shared cartoon helpers used inside the SVG illustrations */
+/* The illustrations are built like a real diorama: every shape is a piece of paper.
+   The drawings keep their own markup; these rules turn them into cut-outs. */
 
-.ink { stroke: var(--ink); stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
-.ink-thin { stroke: var(--ink); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+/* Pieces cut from card have no outline. Only open strokes (mouths, lines, rings) stay:
+   they are drawn on the paper with a felt tip. */
+.scene svg [stroke="#2c1d11"]:not([fill="none"], line, polyline),
+.hero-art svg [stroke="#2c1d11"]:not([fill="none"], line, polyline) { stroke: none; }
+
+/* Each top-level piece is cut out with its own rough edge, relief and cast shadow… */
+.scene > svg > :is(g, circle, ellipse, path, rect, polygon, use) { filter: url(#cutout); }
+
+/* …and pieces inside a group sit on top of one another */
+.scene > svg > g > :is(circle, ellipse, path, polygon, use) { filter: drop-shadow(.6px 1px .5px oklch(10% .03 60 / .42)); }
+
+/* Slow devices (see lamp.js): keep the shadows, skip the frayed edges and relief */
+[data-lite] .scene > svg > :is(g, circle, ellipse, path, rect, polygon, use) { filter: drop-shadow(1px 2px 1px oklch(10% .03 60 / .5)); }
+[data-lite] .scene > svg > g > * { filter: none; }
+
+.ink { stroke: var(--ink); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+.ink-thin { stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
 
 /* Every face blinks now and then */
 #face .eyes { animation: blink 5s infinite; transform-box: fill-box; transform-origin: center; }
 @keyframes blink { 0%, 94%, 100% { scale: 1 1; } 97% { scale: 1 .1; } }
 
+/* Cut-outs on wires tremble rather than float */
 .float { animation: float 3.2s ease-in-out infinite; }
 .float-slow { animation: float 5s ease-in-out infinite; }
 .spin { animation: spin 12s linear infinite; }
@@ -19,17 +36,18 @@
 .delay-2 { animation-delay: -1.3s; }
 .delay-3 { animation-delay: -2.1s; }
 
-@keyframes float { 50% { translate: 0 -8px; } }
+@keyframes float { 50% { translate: 0 -5px; rotate: 1.5deg; } }
 @keyframes spin { to { rotate: 360deg; } }
-@keyframes pulse { 50% { scale: 1.08; } }
-@keyframes wiggle { 25% { rotate: -6deg; } 75% { rotate: 6deg; } }
+@keyframes pulse { 50% { scale: 1.06; } }
+@keyframes wiggle { 25% { rotate: -5deg; } 75% { rotate: 5deg; } }
+@keyframes twinkle { from { opacity: .45; } to { opacity: 1; } }
 
 /* Things that pop into view one after the other */
 .pop-in { animation: pop-in .7s var(--ease-bounce) both; animation-delay: calc(var(--i, 0) * 150ms); }
 @keyframes pop-in { from { scale: 0; opacity: 0; } }
 
-/* Glow filter look for hot objects */
-.glow { filter: drop-shadow(0 0 10px oklch(88% 0.17 92 / .9)) drop-shadow(0 0 30px oklch(74% 0.18 52 / .7)); }
+/* Hot objects: a small bulb behind tissue paper */
+.glow { filter: drop-shadow(0 0 7px oklch(85% .13 85 / .85)) drop-shadow(0 0 22px oklch(72% .16 60 / .55)); }
 
 /* Cover illustration: gently orbiting badges */
 .orbit {

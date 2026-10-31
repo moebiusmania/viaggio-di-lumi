@@ -2,18 +2,18 @@
   <div class="scene" id="theia-scene">
     <svg viewBox="0 0 400 300" aria-hidden="true">
       <g class="earth-b">
-        <circle cx="240" cy="150" r="70" fill="#ff7a3d" stroke="#1d1846" stroke-width="5"/>
-        <path d="M200 120 q20 10 40 -4 M250 180 q20 -10 30 8 M215 170 q10 6 20 0" fill="none" stroke="#ffe066" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="240" cy="150" r="70" fill="#d9713c" stroke="#2c1d11" stroke-width="5"/>
+        <path d="M200 120 q20 10 40 -4 M250 180 q20 -10 30 8 M215 170 q10 6 20 0" fill="none" stroke="#f2cf63" stroke-width="4" stroke-linecap="round"/>
         <use class="calm" href="#face" x="212" y="146" width="56" height="34"/>
       </g>
       <g class="theia">
-        <circle cx="40" cy="60" r="36" fill="#b28cff" stroke="#1d1846" stroke-width="5"/>
+        <circle cx="40" cy="60" r="36" fill="#9a7dc0" stroke="#2c1d11" stroke-width="5"/>
         <use href="#face" x="24" y="54" width="32" height="20"/>
       </g>
-      <circle class="boom" cx="185" cy="115" r="30" fill="#fff7c2"/>
+      <circle class="boom" cx="185" cy="115" r="30" fill="#f8ecc0"/>
       <g class="debris">
         {{ for d of [[-120, -60], [-90, 70], [-40, -110], [60, -120], [130, -40], [120, 80], [20, 120], [-130, 10], [90, 110], [-70, -100]] }}
-        <circle cx="240" cy="150" r="{{ 5 + (d[0] > 0 ? 3 : 1) }}" fill="#a8927e" stroke="#1d1846" stroke-width="2" style="--dx: {{ d[0] }}px; --dy: {{ d[1] }}px"/>
+        <circle cx="240" cy="150" r="{{ 5 + (d[0] > 0 ? 3 : 1) }}" fill="#a8927e" stroke="#2c1d11" stroke-width="2" style="--dx: {{ d[0] }}px; --dy: {{ d[1] }}px"/>
         {{ /for }}
       </g>
     </svg>

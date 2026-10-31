@@ -3,45 +3,46 @@
 @property --p { syntax: "<number>"; inherits: true; initial-value: 0; }
 @property --spin { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
 
-/* Cross-document page transitions (the book "turns the page") */
+/* Cross-document page transitions (a thick page hinges around the spine) */
 @view-transition { navigation: auto; }
 
-/* Bundled variable fonts (SIL Open Font License, see assets/fonts/OFL-*.txt).
+/* Bundled fonts (SIL Open Font License, see assets/fonts/OFL-*.txt).
    latin covers Italian; latin-ext only downloads if a name on the diploma needs it. */
 @font-face {
-  font-family: "Baloo 2";
-  font-weight: 600 800;
+  font-family: "Caveat Brush";
   font-display: swap;
-  src: url("../fonts/baloo-2-latin.woff2") format("woff2");
+  src: url("../fonts/caveat-brush-latin.woff2") format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: "Baloo 2";
-  font-weight: 600 800;
+  font-family: "Caveat Brush";
   font-display: swap;
-  src: url("../fonts/baloo-2-latin-ext.woff2") format("woff2");
+  src: url("../fonts/caveat-brush-latin-ext.woff2") format("woff2");
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 @font-face {
-  font-family: "Nunito";
-  font-weight: 600 900;
+  font-family: "Patrick Hand";
   font-display: swap;
-  src: url("../fonts/nunito-latin.woff2") format("woff2");
+  src: url("../fonts/patrick-hand-latin.woff2") format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: "Nunito";
-  font-weight: 600 900;
+  font-family: "Patrick Hand";
   font-display: swap;
-  src: url("../fonts/nunito-latin-ext.woff2") format("woff2");
+  src: url("../fonts/patrick-hand-latin-ext.woff2") format("woff2");
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Stardos Stencil";
+  font-display: swap;
+  src: url("../fonts/stardos-stencil-latin.woff2") format("woff2");
 }
 
 @layer reset {
   *, *::before, *::after { box-sizing: border-box; }
   * { margin: 0; }
   html { -webkit-text-size-adjust: none; text-size-adjust: none; }
-  body { min-height: 100dvh; line-height: 1.45; -webkit-font-smoothing: antialiased; }
+  body { min-height: 100dvh; line-height: 1.32; -webkit-font-smoothing: antialiased; }
   img, picture, svg, canvas { display: block; max-width: 100%; }
   input, button, textarea, select { font: inherit; color: inherit; }
   button { cursor: pointer; }
@@ -54,29 +55,47 @@
 
 @layer tokens {
   :root {
-    color-scheme: dark;
+    color-scheme: light;
     interpolate-size: allow-keywords;
 
-    --ink: oklch(23% 0.09 285);
-    --ink-soft: oklch(40% 0.08 285);
-    --paper: oklch(98.5% 0.022 92);
-    --paper-2: oklch(94.5% 0.045 88);
-    --space-1: oklch(17% 0.07 285);
-    --space-2: oklch(27% 0.13 295);
-    --space-3: oklch(36% 0.16 310);
+    /* Materials: baked in tools/textures/, tileable, loaded once */
+    --tx-kraft: url("../textures/kraft.webp");
+    --tx-grain: url("../textures/grain.webp");
+    --tx-paper: url("../textures/paper.webp");
+    --tx-night: url("../textures/night.webp");
+    --tx-edge: url("../textures/edge.webp");
+    --tx-ribs: url("../textures/ribs.webp");
 
-    --sun: oklch(88% 0.17 92);
-    --gold: oklch(80% 0.17 75);
-    --orange: oklch(74% 0.18 52);
-    --red: oklch(64% 0.22 28);
-    --pink: oklch(73% 0.18 358);
-    --purple: oklch(62% 0.2 295);
-    --blue: oklch(62% 0.17 255);
-    --sky: oklch(81% 0.12 225);
-    --mint: oklch(84% 0.14 170);
-    --green: oklch(70% 0.17 148);
-    --brown: oklch(56% 0.09 55);
-    --rock: oklch(62% 0.03 60);
+    /* Ink: a felt-tip pen on brown card */
+    --ink: #2c1d11;
+    --ink-soft: #5e4832;
+    --stamp: #a7321f;
+
+    /* Board */
+    --kraft: #c49a6c;
+    --kraft-light: #fff3df;
+    --kraft-side: #a57f54;
+    --kraft-dark: #6e5236;
+    --kraft-deep: #3d2b1b;
+    --paper: #f6f0e3;
+    --paper-2: #e9dec8;
+    --space-1: #10142c;
+    --space-2: #1a2147;
+    --space-3: #2a2a5c;
+
+    /* Construction paper: matt, slightly dusty colours */
+    --sun: #efbd38;
+    --gold: #dca026;
+    --orange: #dd7f38;
+    --red: #c9463a;
+    --pink: #dd7188;
+    --purple: #7a5ba8;
+    --blue: #3f6cae;
+    --sky: #80b4cc;
+    --mint: #7dbb9c;
+    --green: #5a975d;
+    --brown: #875f3e;
+    --rock: #93826f;
 
     --l1: var(--pink);
     --l2: var(--sky);
@@ -84,14 +103,29 @@
     --l4: var(--mint);
     --accent: var(--sun);
 
-    --border-w: 4px;
-    --border: var(--border-w) solid var(--ink);
-    --radius: 1.5rem;
-    --shadow: 0 6px 0 var(--ink);
-    --shadow-sm: 0 4px 0 var(--ink);
+    /* Shapes cut by hand are never quite regular */
+    --cut: 14px 19px 12px 17px / 17px 12px 19px 13px;
+    --cut-sm: 9px 12px 8px 11px / 11px 8px 12px 9px;
+    --radius: 1rem;
 
-    --font-head: "Baloo 2", "Chalkboard SE", "Comic Sans MS", system-ui, sans-serif;
-    --font-body: "Nunito", "Avenir Next", system-ui, sans-serif;
+    /* Fine lines are kept for labels drawn inside scenes */
+    --line: 1.5px solid oklch(0% 0 0 / .28);
+    --border-w: 0px;
+    --border: 0 solid transparent;
+
+    /* Light comes from a lamp at the top left. Each value stacks the visible
+       thickness of the board, then its contact shadow, then its soft shadow. */
+    --lift-1: 0 1px 1px oklch(20% .03 60 / .5), 1px 2px 3px oklch(20% .03 60 / .35);
+    --lift-2: 0 1px 1px oklch(20% .03 60 / .55), 2px 4px 6px oklch(20% .03 60 / .35), 4px 9px 16px oklch(20% .03 60 / .2);
+    --lift-3: 0 2px 2px oklch(20% .03 60 / .6), 4px 8px 12px oklch(20% .03 60 / .35), 10px 20px 36px oklch(20% .03 60 / .32);
+    --thick: 0 3px 0 var(--kraft-side), 0 4px 0 var(--kraft-dark), 0 5px 0 var(--kraft-side);
+    --shadow: var(--lift-2);
+    --shadow-sm: var(--lift-1);
+    --hole: inset 1px 2px 4px oklch(10% .03 60 / .8), inset 0 -1px 0 oklch(100% 0 0 / .2), 0 1px 0 oklch(100% 0 0 / .28);
+
+    --font-head: "Caveat Brush", "Marker Felt", "Comic Sans MS", cursive;
+    --font-body: "Patrick Hand", "Chalkboard SE", "Comic Sans MS", system-ui, sans-serif;
+    --font-stamp: "Stardos Stencil", "Courier New", monospace;
 
     --ease-out: cubic-bezier(.2, .8, .2, 1);
     --ease-bounce: linear(0, 0.36 8%, 0.9 19%, 1.08 26%, 1.12 30%, 1.06 38%, 0.98 47%, 1.01 62%, 1);
@@ -105,39 +139,42 @@
 }
 
 @layer base {
-  html { scrollbar-gutter: stable; }
+  html { scrollbar-gutter: stable; background: var(--kraft-dark); }
   html:has(.book) { scrollbar-gutter: auto; overflow: hidden; }
 
   body {
     font-family: var(--font-body);
-    font-weight: 700;
-    font-size: clamp(1.05rem, 0.95rem + 0.35vw, 1.3rem);
-    color: var(--paper);
-    background: var(--space-1);
+    font-weight: 400;
+    font-size: clamp(1.15rem, 1.08rem + 0.3vw, 1.32rem);
+    color: var(--ink);
+    background: transparent;
     display: grid;
     grid-template-rows: auto 1fr;
     grid-template-columns: minmax(0, 1fr);
     overflow-x: clip;
+    font-synthesis: none;
   }
 
-  h1, h2, h3 { font-family: var(--font-head); font-weight: 800; line-height: 1.05; }
+  h1, h2, h3 { font-family: var(--font-head); font-weight: 400; line-height: 1; }
+  strong, b { font-weight: 400; font-family: var(--font-head); font-size: 1.08em; }
 
   a { color: inherit; }
 
   :focus-visible {
-    outline: 4px solid var(--sun);
+    outline: 3px dashed var(--stamp);
     outline-offset: 3px;
-    border-radius: 0.6rem;
+    border-radius: 0.5rem;
   }
 
   kbd {
-    font-family: var(--font-head);
+    font-family: var(--font-body);
     display: inline-block;
     min-width: 1.7em;
     padding: 0 .35em;
-    border: 2px solid currentColor;
-    border-bottom-width: 4px;
-    border-radius: .45em;
+    background: var(--tx-grain) 0 0 / 300px, var(--paper);
+    background-blend-mode: multiply;
+    box-shadow: 0 2px 0 var(--kraft-side), 0 3px 2px oklch(0% 0 0 / .35);
+    border-radius: .35em;
     text-align: center;
     line-height: 1.3;
   }
@@ -152,59 +189,43 @@
 
   .sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
 
-  /* Twinkling starry sky behind every page */
-  .starfield {
+  /* The work table: a big scuffed sheet of board, darker than the book on it */
+  .desk {
     position: fixed;
     inset: 0;
     z-index: -1;
-    background:
-      radial-gradient(60vmax 45vmax at 12% 8%, oklch(40% 0.17 300 / .55), transparent 70%),
-      radial-gradient(55vmax 40vmax at 92% 95%, oklch(45% 0.16 350 / .35), transparent 70%),
-      radial-gradient(40vmax 30vmax at 80% 15%, oklch(45% 0.12 240 / .35), transparent 70%),
-      linear-gradient(170deg, var(--space-2), var(--space-1) 60%);
-    overflow: hidden;
-
-    & i {
-      position: absolute;
-      inset: -50%;
-      background-image:
-        radial-gradient(2px 2px at 20px 30px, #fff, transparent),
-        radial-gradient(2px 2px at 140px 70px, #fff9c4, transparent),
-        radial-gradient(1.5px 1.5px at 90px 160px, #fff, transparent),
-        radial-gradient(2.5px 2.5px at 200px 120px, #c8f0ff, transparent),
-        radial-gradient(1.5px 1.5px at 250px 220px, #fff, transparent);
-      background-size: 280px 260px;
-      animation: twinkle 4s ease-in-out infinite alternate, drift 180s linear infinite;
-    }
-    & i:nth-child(2) {
-      background-size: 390px 350px;
-      opacity: .7;
-      animation-duration: 6s, 260s;
-      animation-delay: -2s, 0s;
-    }
-    & i:nth-child(3) {
-      background-size: 520px 470px;
-      opacity: .9;
-      filter: blur(.4px);
-      animation-duration: 3s, 340s;
-      animation-direction: alternate, reverse;
-    }
+    background: var(--tx-kraft) 0 0 / 760px, #a5917c;
+    background-blend-mode: multiply;
   }
 
-  @keyframes twinkle { from { opacity: .35; } to { opacity: 1; } }
-  @keyframes drift { to { translate: 280px 140px; } }
+  /* The pool of light from the desk lamp. It lives on its own composited layer and
+     is only ever translated, so moving it repaints nothing. */
+  .lamp {
+    position: fixed;
+    inset: -60vmax;
+    z-index: 40;
+    pointer-events: none;
+    background: radial-gradient(
+      closest-side at 50% 50%,
+      oklch(96% .05 85 / .14) 0%,
+      oklch(96% .05 85 / 0) 34%,
+      oklch(18% .04 60 / 0) 44%,
+      oklch(18% .04 60 / .34) 100%
+    );
+    translate: calc(var(--lx, -.12) * 34vw) calc(var(--ly, -.2) * 34vh);
+    will-change: translate;
+  }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-iteration-count: 1 !important;
       scroll-behavior: auto !important;
     }
-    .starfield i { animation: none; }
   }
 }
 
 @layer layout {
-  /* ---------- Top bar ---------- */
+  /* ---------- Top bar: a strip of board, cut along its lower edge ---------- */
   .topbar {
     view-transition-name: topbar;
     position: sticky;
@@ -213,72 +234,91 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding: .5rem clamp(.75rem, 2vw, 1.5rem);
-    background: oklch(17% 0.07 285 / .7);
-    backdrop-filter: blur(10px) saturate(1.4);
-    border-bottom: 3px solid oklch(100% 0 0 / .08);
+    padding: .4rem clamp(.75rem, 2vw, 1.5rem) .5rem;
+    background: var(--tx-kraft) 120px 40px / 760px, #f0e0c8;
+    background-blend-mode: multiply;
+    box-shadow: 0 1px 0 var(--kraft-light) inset, var(--lift-2);
+
+    /* the corrugated cross-section shows where the strip was cut */
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 100% 0 auto;
+      height: 11px;
+      background: var(--tx-edge) 0 0 / auto 100%;
+      filter: url(#cut-fine);
+      box-shadow: 0 3px 6px oklch(15% .03 60 / .5);
+    }
   }
 
   .brand {
     display: flex;
     align-items: center;
-    gap: .5rem;
+    gap: .4rem;
     text-decoration: none;
     font-family: var(--font-head);
-    font-size: 1.25rem;
-    font-weight: 700;
+    font-size: 1.6rem;
+    line-height: 1;
     white-space: nowrap;
 
-    & b { color: var(--sun); }
+    & b { color: var(--stamp); font-size: 1em; }
     & span { @media (width < 36rem) { display: none; } }
-    & svg { width: 2.4rem; transition: rotate .6s var(--ease-bounce); }
+    & svg { width: 2.7rem; transition: rotate .6s var(--ease-bounce); filter: url(#cutout); overflow: visible; }
     &:hover svg { rotate: 72deg; }
   }
 
   .topbar-lesson {
     display: none;
     align-items: center;
-    gap: .5rem;
+    gap: .6rem;
     font-family: var(--font-head);
-    font-size: 1.1rem;
+    font-size: 1.35rem;
     min-width: 0;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    padding-block: .3rem;
     @media (width > 56rem) { display: flex; }
   }
 
+  /* A strip of coloured masking tape */
   .pill {
-    padding: .05rem .7rem;
-    border-radius: 99px;
-    background: var(--accent);
-    color: var(--ink);
-    border: 3px solid var(--ink);
+    padding: 0 .8rem;
+    background: var(--tx-grain) 0 0 / 300px, var(--accent);
+    background-blend-mode: multiply;
+    clip-path: polygon(0 0, 1.5% 12%, 0 25%, 1.5% 38%, 0 50%, 1.5% 63%, 0 75%, 1.5% 88%, 0 100%, 100% 100%, 98.5% 88%, 100% 75%, 98.5% 63%, 100% 50%, 98.5% 38%, 100% 25%, 98.5% 12%, 100% 0);
+    rotate: -1.2deg;
   }
 
   .topbar-actions {
     margin-inline-start: auto;
     display: flex;
     align-items: center;
-    gap: .5rem;
+    gap: .55rem;
   }
 
+  /* A little tag on a string */
   .star-count {
     display: flex;
     align-items: center;
-    gap: .3rem;
-    padding: .2rem .7rem .2rem .35rem;
-    border-radius: 99px;
-    background: oklch(100% 0 0 / .1);
+    gap: .2rem;
+    padding: .05rem .75rem .05rem .3rem;
+    background: var(--tx-paper) 0 0 / 300px, var(--paper);
+    background-blend-mode: multiply;
+    border-radius: 2px 10px 10px 2px;
+    clip-path: polygon(10% 0, 100% 0, 100% 100%, 10% 100%, 0 50%);
+    filter: drop-shadow(1px 2px 1px oklch(15% .03 60 / .5));
     font-family: var(--font-head);
-    font-size: 1.2rem;
-    & svg { width: 1.8rem; }
+    font-size: 1.45rem;
+    line-height: 1.2;
+    & svg { width: 1.9rem; overflow: visible; filter: url(#cutout); }
+    & b { font-size: 1em; }
     &.bump svg { animation: bump .6s var(--ease-bounce); }
   }
 
   @keyframes bump { 40% { scale: 1.6; rotate: 40deg; } }
 
-  /* ---------- The book page ---------- */
+  /* ---------- The book ---------- */
   /* Slide pages behave like an app: the book fills the screen and each
      page scrolls inside its card, so the pager never covers anything. */
   body:has(.book) { height: 100dvh; overflow: hidden; }
@@ -286,10 +326,10 @@
   .book {
     width: min(100%, 84rem);
     margin-inline: auto;
-    padding: .6rem clamp(.5rem, 2vw, 1.5rem) .6rem;
+    padding: 1rem clamp(.5rem, 2vw, 1.5rem) .7rem;
     display: grid;
     grid-template-rows: auto minmax(0, 1fr) auto;
-    gap: .7rem;
+    gap: .75rem;
     min-height: 0;
   }
 
@@ -300,21 +340,25 @@
     padding-inline: .5rem;
   }
 
+  /* A slot cut through the desk sheet; the rocket slides in it */
   .journey-track {
     position: relative;
     flex: 1;
     display: flex;
-    gap: 3px;
+    gap: 2px;
     height: .8rem;
-    padding: 2px;
-    border-radius: 99px;
-    background: oklch(100% 0 0 / .12);
+    padding: 3px 4px;
+    border-radius: 6px 8px 7px 6px;
+    background: var(--kraft-deep);
+    box-shadow: var(--hole);
   }
 
   .journey-seg {
     flex: var(--n);
-    border-radius: 99px;
-    background: color-mix(in oklch, var(--c) 75%, transparent);
+    border-radius: 2px;
+    background: var(--tx-grain) 0 0 / 300px, var(--c);
+    background-blend-mode: multiply;
+    box-shadow: 0 1px 1px oklch(0% 0 0 / .5);
   }
 
   .journey-rocket {
@@ -322,17 +366,16 @@
     position: absolute;
     top: 50%;
     left: calc(var(--pos) * 100%);
-    width: 2.8rem;
+    width: 3rem;
     translate: -50% -50%;
-    filter: drop-shadow(0 3px 0 oklch(0% 0 0 / .35));
-    animation: rocket-wobble 1.4s ease-in-out infinite alternate;
-
-    & .flame { transform-origin: 13px 32px; animation: flame .18s steps(2) infinite alternate; }
+    overflow: visible;
+    filter: url(#cutout);
+    animation: rocket-wobble 1.8s ease-in-out infinite alternate;
   }
 
-  @keyframes rocket-wobble { to { rotate: -8deg; translate: -50% -62%; } }
-  @keyframes flame { to { scale: 1.35 .8; } }
+  @keyframes rocket-wobble { to { rotate: -5deg; translate: -50% -58%; } }
 
+  /* A price-tag label stuck on the desk */
   .journey-when {
     view-transition-name: when;
     min-width: 0;
@@ -340,14 +383,18 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    padding: .15rem .8rem;
-    border-radius: 99px;
-    background: var(--ink);
-    border: 2px solid oklch(100% 0 0 / .2);
-    font-size: .95rem;
-    color: var(--sun);
+    padding: .02rem .8rem;
+    background: var(--tx-paper) 0 0 / 300px, var(--paper);
+    background-blend-mode: multiply;
+    border-radius: 3px;
+    box-shadow: var(--lift-1);
+    rotate: .6deg;
+    font-size: 1.05rem;
+    color: var(--ink);
   }
 
+  /* A page of a thick board book. The stacked shadows on the right and below
+     are the next pages of the book, peeking out. */
   .slide {
     view-transition-name: slide;
     container: slide / inline-size;
@@ -355,24 +402,45 @@
     display: grid;
     grid-template-rows: minmax(0, 1fr);
     min-height: 0;
-    padding-inline-start: .8rem;
-    background:
-      radial-gradient(circle at 1px 1px, oklch(23% 0.09 285 / .07) 1.5px, transparent 0) 0 0 / 22px 22px,
-      var(--paper);
+    margin: 0 10px 14px 1.1rem;
+    background: var(--tx-kraft) 0 0 / 760px, var(--kraft-light);
+    background-blend-mode: multiply;
     color: var(--ink);
-    border: var(--border);
-    border-radius: calc(var(--radius) * 1.3);
-    box-shadow: 0 10px 0 var(--ink), 0 30px 60px oklch(0% 0 0 / .45);
+    border-radius: 6px var(--radius) var(--radius) 6px;
+    box-shadow:
+      inset 1px 1px 0 oklch(100% 0 0 / .3),
+      inset -1px -1px 0 oklch(0% 0 0 / .12),
+      3px 2px 0 var(--kraft-side), 4px 3px 0 var(--kraft-dark),
+      6px 4px 0 var(--kraft), 7px 5px 0 var(--kraft-dark),
+      9px 6px 0 var(--kraft-side), 10px 7px 0 var(--kraft-deep),
+      18px 22px 34px oklch(15% .04 60 / .55);
 
-    /* the lesson-coloured book spine */
+    /* the spine: bare ribs held by a strip of cloth tape in the colour of the lesson */
     &::before {
       content: "";
       position: absolute;
-      inset: -4px auto -4px -4px;
-      width: 1.1rem;
-      background: var(--accent);
-      border: var(--border);
-      border-radius: calc(var(--radius) * 1.3) 0 0 calc(var(--radius) * 1.3);
+      z-index: 2;
+      inset: -5px auto -11px -1.1rem;
+      width: 2.1rem;
+      background:
+        linear-gradient(90deg, oklch(0% 0 0 / .32), oklch(100% 0 0 / .12) 30%, oklch(100% 0 0 / 0) 55%, oklch(0% 0 0 / .26)),
+        repeating-linear-gradient(90deg, oklch(0% 0 0 / .06) 0 1px, transparent 1px 3px),
+        var(--tx-grain) 0 0 / 240px,
+        var(--accent);
+      background-blend-mode: normal, normal, multiply;
+      border-radius: 5px 3px 3px 5px;
+      filter: url(#cut) drop-shadow(2px 1px 2px oklch(15% .03 60 / .55));
+    }
+
+    /* bottom cut edge of the page */
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 100% 0 auto 0;
+      height: 14px;
+      margin-top: -1px;
+      background: var(--tx-edge) 0 0 / auto 100%;
+      border-radius: 0 0 var(--radius) 6px;
     }
   }
 
@@ -383,9 +451,9 @@
     min-height: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding: clamp(1rem, 2.5vw, 2rem);
+    padding: clamp(.9rem, 2.2vw, 1.8rem) clamp(1rem, 2.5vw, 2rem) clamp(1rem, 2.5vw, 2rem) clamp(1.8rem, 3.2vw, 2.8rem);
     scrollbar-width: thin;
-    scrollbar-color: var(--accent) transparent;
+    scrollbar-color: var(--kraft-dark) transparent;
     scroll-padding-block: 1rem;
   }
 
@@ -395,21 +463,27 @@
     gap: .3rem;
 
     & h1 {
-      font-size: clamp(1.9rem, 1.2rem + 2.2vw, 2.9rem);
-      letter-spacing: -.01em;
+      font-size: clamp(2.3rem, 1.5rem + 2.6vw, 3.5rem);
+      /* felt tip soaks a little into the card */
+      text-shadow: 0 0 1px oklch(20% .04 60 / .55);
     }
   }
 
+  /* Rubber stamp */
   .kicker {
     align-self: flex-start;
-    padding: .1rem .75rem;
-    border-radius: 99px;
-    background: var(--accent);
-    border: 3px solid var(--ink);
-    font-size: .85rem;
-    font-weight: 900;
+    padding: .12rem .6rem 0;
+    color: var(--stamp);
+    border: 2.5px solid currentColor;
+    border-radius: 5px;
+    font-family: var(--font-stamp);
+    font-size: .95rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: .06em;
+    letter-spacing: .08em;
+    rotate: -1.1deg;
+    opacity: .86;
+    mix-blend-mode: multiply;
   }
 
   .slide-body {
@@ -425,99 +499,120 @@
   .story {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.05rem;
   }
 
   .lumi-talk {
     display: grid;
-    grid-template-columns: 4.5rem 1fr;
-    gap: .6rem;
+    grid-template-columns: 4.8rem 1fr;
+    gap: .7rem;
     align-items: start;
 
     & .lumi {
       view-transition-name: lumi;
       width: 100%;
       margin-top: .4rem;
-      animation: lumi-bob 2.6s ease-in-out infinite;
-      filter: drop-shadow(0 4px 0 oklch(23% 0.09 285 / .25));
+      overflow: visible;
+      transform-origin: 50% 90%;
+      filter: url(#cutout);
+      animation: lumi-bob 3s ease-in-out infinite;
     }
   }
 
   @keyframes lumi-bob {
-    0%, 100% { translate: 0 0; rotate: -6deg; }
-    50% { translate: 0 -8px; rotate: 6deg; }
+    0%, 100% { translate: 0 0; rotate: -5deg; }
+    50% { translate: 0 -5px; rotate: 5deg; }
   }
 
+  /* A sheet of drawing paper torn out of a pad, glued to the board */
   .bubble {
     position: relative;
+    isolation: isolate;
     display: grid;
-    gap: .6rem;
-    padding: 1rem 1.2rem;
-    background: #fff;
-    border: var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
+    gap: .55rem;
+    padding: 1rem 1.25rem 1.1rem;
     font-size: 1em;
-    line-height: 1.42;
+    line-height: 1.3;
 
     &::before {
       content: "";
       position: absolute;
-      top: 1.4rem;
-      left: -12px;
-      width: 20px;
-      height: 20px;
-      background: inherit;
-      border-left: var(--border);
-      border-bottom: var(--border);
-      rotate: 45deg;
+      z-index: -1;
+      inset: 0;
+      background: var(--tx-paper) 0 0 / 420px, var(--paper);
+      background-blend-mode: multiply;
+      filter: url(#torn);
     }
 
-    & strong { color: oklch(from var(--accent) calc(l - .3) c h); }
+    /* the speech tail: a small triangle torn from the same sheet */
+    &::after {
+      content: "";
+      position: absolute;
+      z-index: -2;
+      top: 1.3rem;
+      left: -13px;
+      width: 24px;
+      height: 26px;
+      background: var(--paper);
+      clip-path: polygon(100% 0, 0 45%, 100% 100%);
+      filter: drop-shadow(-1px 2px 1px oklch(15% .03 60 / .4));
+    }
+
+    & strong { color: var(--stamp); }
   }
 
+  /* Notes cut from coloured card */
   .task, .fact {
-    padding: .7rem 1rem .7rem 3.3rem;
-    border-radius: var(--radius);
-    border: var(--border);
     position: relative;
+    padding: .65rem 1rem .7rem 3.4rem;
+    border-radius: var(--cut-sm);
+    background: var(--tx-grain) 0 0 / 420px, var(--note);
+    background-blend-mode: multiply;
+    box-shadow: var(--lift-2);
 
     &::before {
+      content: "";
       position: absolute;
-      left: .8rem;
-      top: .65rem;
-      font-size: 1.6rem;
-      line-height: 1;
+      left: .75rem;
+      top: .7rem;
+      width: 2.1rem;
+      aspect-ratio: 1;
+      background: center / contain no-repeat var(--icon);
     }
 
     & > strong {
       display: block;
-      font-family: var(--font-head);
-      font-size: 1.15em;
+      font-size: 1.4rem;
       line-height: 1.1;
     }
   }
 
   .task {
-    background: color-mix(in oklch, var(--accent) 45%, var(--paper));
-    &::before { content: "🎯"; }
+    --note: color-mix(in oklch, var(--accent) 72%, var(--paper));
+    --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none' stroke='%232c1d11' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M20 3.5a16.5 16.5 0 1 1-.4 0M20 11a9 9 0 1 1-.3 0'/%3E%3Ccircle cx='20' cy='20' r='2.6' fill='%232c1d11'/%3E%3C/svg%3E");
+    rotate: -.35deg;
   }
 
   .fact {
-    background: var(--paper-2);
-    border-style: dashed;
-    font-size: .95em;
-    &::before { content: "💡"; transition: scale .4s var(--ease-bounce); }
-    &[open]::before { scale: 1.3; }
+    --note: var(--paper-2);
+    --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none' stroke='%232c1d11' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 4c-7 0-12 5-12 11.500 0 4.500 2.500 7 4.500 9.500 1 1.500 1 2.500 1 4h13c0-1.500 0-2.500 1-4 2-2.500 4.500-5 4.500-9.500C32 9 27 4 20 4zM15 34h10M17 37.500h6'/%3E%3C/svg%3E");
+    rotate: .3deg;
+    font-size: .98em;
+    /* stitched with a sewing machine */
+    outline: 2px dashed oklch(30% .05 60 / .42);
+    outline-offset: -6px;
+
+    &::before { transition: scale .4s var(--ease-bounce), rotate .4s var(--ease-bounce); }
+    &[open]::before { scale: 1.15; rotate: 8deg; }
 
     & summary {
       font-family: var(--font-head);
-      font-size: 1.15em;
+      font-size: 1.4rem;
       line-height: 1.1;
       cursor: pointer;
       list-style: none;
       &::-webkit-details-marker { display: none; }
-      &::after { content: " — tocca per scoprirlo!"; font-family: var(--font-body); font-size: .75em; opacity: .7; }
+      &::after { content: " — tocca per scoprirlo!"; font-family: var(--font-body); font-size: .75em; color: var(--ink-soft); }
     }
     &[open] summary::after { content: ""; }
     & p { padding-top: .3rem; }
@@ -531,7 +626,7 @@
     &:not([open]) { animation: fact-wiggle 4s ease-in-out 3s infinite; }
   }
 
-  @keyframes fact-wiggle { 0%, 90%, 100% { rotate: 0deg; } 93% { rotate: -1.2deg; } 96% { rotate: 1.2deg; } }
+  @keyframes fact-wiggle { 0%, 90%, 100% { rotate: .3deg; } 93% { rotate: -.8deg; } 96% { rotate: 1.1deg; } }
 
   .stage {
     min-width: 0;
@@ -540,7 +635,7 @@
     gap: .9rem;
   }
 
-  /* ---------- Pager ---------- */
+  /* ---------- Pager: a stiff strip with a row of punched holes ---------- */
   .pager {
     view-transition-name: pager;
     z-index: 10;
@@ -550,41 +645,42 @@
     grid-template-columns: auto 1fr auto;
     align-items: center;
     gap: 1rem;
-    padding: .45rem;
-    border-radius: 99px;
-    background: oklch(17% 0.07 285 / .82);
-    backdrop-filter: blur(10px);
-    border: 3px solid oklch(100% 0 0 / .14);
-    box-shadow: 0 10px 30px oklch(0% 0 0 / .4);
+    padding: .4rem .55rem;
+    border-radius: var(--cut);
+    background: var(--tx-kraft) 300px 80px / 760px, #f0e0c8;
+    background-blend-mode: multiply;
+    box-shadow: inset 1px 1px 0 oklch(100% 0 0 / .3), var(--thick), 3px 11px 14px oklch(15% .04 60 / .5);
   }
 
   .nav-arrow {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: .4rem;
-    min-width: 3.4rem;
-    height: 3.4rem;
-    padding-inline: .9rem;
-    border-radius: 99px;
-    background: var(--paper);
+    gap: .35rem;
+    min-width: 3.3rem;
+    height: 3.1rem;
+    padding-inline: .8rem;
+    margin-bottom: 5px;
+    border-radius: var(--cut-sm);
+    background: var(--tx-grain) 0 0 / 300px, var(--paper-2);
+    background-blend-mode: multiply;
     color: var(--ink);
-    border: var(--border);
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 1px 0 oklch(100% 0 0 / .5) inset, 0 3px 0 #b09a78, 0 5px 0 var(--kraft-dark), 1px 6px 5px oklch(15% .03 60 / .5);
     text-decoration: none;
     font-family: var(--font-head);
-    font-size: 1.25rem;
-    transition: translate .2s var(--ease-out), box-shadow .2s var(--ease-out), background .2s;
+    font-size: 1.55rem;
+    line-height: 1;
+    transition: translate .12s var(--ease-out), box-shadow .12s var(--ease-out);
 
     & svg { width: 1.8rem; flex-shrink: 0; }
 
-    &.next { background: var(--sun); padding-inline: 1.3rem 1rem; }
-    &:hover { translate: 0 -3px; box-shadow: 0 9px 0 var(--ink); }
-    &:active { translate: 0 5px; box-shadow: 0 1px 0 var(--ink); }
+    &.next { --bg: var(--sun); background-color: var(--sun); padding-inline: 1.2rem .9rem; box-shadow: 0 1px 0 oklch(100% 0 0 / .4) inset, 0 3px 0 #b98c22, 0 5px 0 var(--kraft-dark), 1px 6px 5px oklch(15% .03 60 / .5); }
+    &:hover { translate: 0 -1px; }
+    &:active, &.pressed { translate: 0 4px; box-shadow: 0 1px 0 var(--kraft-dark), 0 2px 2px oklch(15% .03 60 / .5); }
     &.next:hover svg { animation: nudge .6s ease-in-out infinite alternate; }
   }
 
-  @keyframes nudge { to { translate: 5px 0; } }
+  @keyframes nudge { to { translate: 4px 0; } }
 
   .nav-label { @media (width < 30rem) { display: none; } }
 
@@ -592,50 +688,81 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: .45rem;
-    @media (width < 30rem) { gap: .3rem; & a { width: .7rem !important; height: .7rem !important; } }
+    gap: .5rem;
+    @media (width < 30rem) { gap: .3rem; & a { width: .75rem !important; height: .75rem !important; } }
 
     & a {
+      position: relative;
       display: block;
-      width: .95rem;
-      height: .95rem;
+      width: 1rem;
+      height: 1rem;
       border-radius: 50%;
-      background: oklch(100% 0 0 / .18);
-      border: 2px solid oklch(100% 0 0 / .45);
-      transition: scale .3s var(--ease-bounce), background .3s;
-      &:hover { scale: 1.35; }
-      &[data-visited] { background: color-mix(in oklch, var(--accent) 60%, transparent); }
-      &[data-done] { background: var(--sun); border-color: var(--sun); }
-      &[aria-current] {
-        scale: 1.45;
-        background: var(--accent);
-        border-color: #fff;
-        box-shadow: 0 0 0 3px oklch(100% 0 0 / .25);
+      background: var(--kraft-deep);
+      box-shadow: var(--hole);
+      transition: scale .3s var(--ease-bounce);
+      &:hover { scale: 1.2; }
+
+      /* the paper disc that plugs a visited hole */
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 1px;
+        border-radius: 50%;
+        scale: 0;
+        background: var(--tx-grain) 0 0 / 120px, var(--accent);
+        background-blend-mode: multiply;
+        box-shadow: 0 1px 1px oklch(0% 0 0 / .55);
+        transition: scale .35s var(--ease-bounce);
       }
+      &[data-visited]::after { scale: 1; }
+      &[data-done]::after { background-color: var(--sun); }
+      &[aria-current] { scale: 1.25; outline: 2.5px solid var(--ink); outline-offset: 2.5px; }
+      &[aria-current]::after { scale: 1; }
     }
   }
 
-  /* ---------- Page transitions ---------- */
+  /* ---------- Page turn: a stiff board swings around the spine ---------- */
   ::view-transition-group(*) { animation-duration: .55s; animation-timing-function: var(--ease-out); }
 
-  ::view-transition-old(slide) { animation: page-out-left .45s var(--ease-out) both; }
-  ::view-transition-new(slide) { animation: page-in-right .7s var(--ease-spring) both; }
-  html:active-view-transition-type(back)::view-transition-old(slide) { animation-name: page-out-right; }
-  html:active-view-transition-type(back)::view-transition-new(slide) { animation-name: page-in-left; }
+  ::view-transition-group(slide) { animation-duration: .75s; }
+  ::view-transition-image-pair(slide) { isolation: isolate; }
 
-  ::view-transition-old(lumi) { animation: lumi-hop-out .35s ease-in both; }
-  ::view-transition-new(lumi) { animation: lumi-hop-in .6s var(--ease-bounce) .15s both; }
+  ::view-transition-old(slide), ::view-transition-new(slide) {
+    mix-blend-mode: normal;
+    transform-origin: 0 50%;
+    backface-visibility: hidden;
+  }
 
-  @keyframes page-out-left { to { translate: -35% 0; rotate: -5deg; opacity: 0; } }
-  @keyframes page-out-right { to { translate: 35% 0; rotate: 5deg; opacity: 0; } }
-  @keyframes page-in-right { from { translate: 45% 3%; rotate: 6deg; scale: .9; opacity: 0; } }
-  @keyframes page-in-left { from { translate: -45% 3%; rotate: -6deg; scale: .9; opacity: 0; } }
-  @keyframes lumi-hop-out { to { translate: 0 -60px; scale: .4; opacity: 0; } }
-  @keyframes lumi-hop-in { from { translate: 0 -80px; scale: .3; rotate: -180deg; opacity: 0; } }
+  /* forward: the old page lifts off and folds to the left, over the new one */
+  ::view-transition-old(slide) { z-index: 2; animation: leaf-away .75s cubic-bezier(.45, .05, .55, .95) both; }
+  ::view-transition-new(slide) { z-index: 1; animation: leaf-reveal .75s ease-out both; }
+
+  /* back: the previous page falls down from the left, over the current one */
+  html:active-view-transition-type(back)::view-transition-old(slide) { z-index: 1; animation: leaf-dim .75s ease-in both; }
+  html:active-view-transition-type(back)::view-transition-new(slide) { z-index: 2; animation: leaf-land .75s cubic-bezier(.3, .1, .3, 1) both; }
+
+  @keyframes leaf-away {
+    0% { transform: perspective(2200px) rotateY(0); filter: brightness(1); }
+    60% { filter: brightness(.72); }
+    100% { transform: perspective(2200px) rotateY(-112deg); filter: brightness(.5); }
+  }
+  @keyframes leaf-land {
+    0% { transform: perspective(2200px) rotateY(-112deg); filter: brightness(.5); }
+    45% { filter: brightness(.74); }
+    100% { transform: perspective(2200px) rotateY(0); filter: brightness(1); }
+  }
+  @keyframes leaf-reveal { from { filter: brightness(.55); } }
+  @keyframes leaf-dim { to { filter: brightness(.55); } }
+
+  ::view-transition-old(lumi) { animation: lumi-hop-out .3s ease-in both; }
+  ::view-transition-new(lumi) { animation: lumi-hop-in .55s var(--ease-bounce) .3s both; }
+
+  @keyframes lumi-hop-out { to { translate: 0 -40px; rotate: -20deg; opacity: 0; } }
+  @keyframes lumi-hop-in { from { translate: 0 -60px; rotate: 30deg; opacity: 0; } }
 
   /* Browsers without cross-document view transitions still get an entrance */
-  .no-vt .slide { animation: page-in-right .7s var(--ease-spring) both; }
-  .no-vt[data-dir="back"] .slide { animation-name: page-in-left; }
+  .no-vt .slide { animation: leaf-settle .6s var(--ease-out) both; transform-origin: 0 50%; }
+  @keyframes leaf-settle { from { transform: perspective(2200px) rotateY(-24deg); } }
 
   @media (prefers-reduced-motion: reduce) {
     ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation-duration: .01s !important; }

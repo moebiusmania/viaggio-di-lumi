@@ -15,17 +15,17 @@
         & i {
           aspect-ratio: 1;
           border-radius: 50%;
-          background: #9aa7ff;
+          background: #8d9bd0;
           transition: background .4s, scale .4s var(--ease-bounce);
-          &.sun { background: #ffd23f; }
-          &.rest { background: #ff5d8f; scale: 2.2; box-shadow: 0 0 0 1px #1d1846; position: relative; z-index: 2; animation: pulse 1s ease-in-out infinite; }
+          &.sun { background: #efbd38; }
+          &.rest { background: #dd6682; scale: 2.2; box-shadow: 0 0 0 1px #2c1d11; position: relative; z-index: 2; animation: pulse 1s ease-in-out infinite; }
         }
       }
       .result {
         position: absolute;
         inset: auto 8% 8%;
         padding: .7rem 1rem;
-        border: 4px solid var(--ink);
+        border: var(--line);
         border-radius: 1rem;
         background: var(--paper);
         color: var(--ink);

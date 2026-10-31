@@ -4,7 +4,7 @@
 import { confetti, pageDone, reduceMotion, restartAnimation, sound, t } from "./core.js";
 
 const TAU = Math.PI * 2;
-const INK = "#1d1846";
+const INK = "#2c1d11";
 const rand = (a, b) => a + Math.random() * (b - a);
 const pick = (list) => list[Math.floor(Math.random() * list.length)];
 
@@ -44,16 +44,28 @@ function glow(ctx, x, y, r, color) {
   ctx.fill();
 }
 
-function ball(ctx, x, y, r, fill, stroke = INK, lw = 3) {
+/** A disc of paper. Its cast shadow and grain come from the scene (see .scene in components.css). */
+function ball(ctx, x, y, r, fill) {
+  // a hint of the board's thickness on the side away from the lamp
+  ctx.beginPath();
+  ctx.arc(x + 0.4, y + Math.min(2, r * 0.14), r, 0, TAU);
+  ctx.fillStyle = "#6e5236";
+  ctx.fill();
   ctx.beginPath();
   ctx.arc(x, y, r, 0, TAU);
   ctx.fillStyle = fill;
   ctx.fill();
-  if (stroke) {
-    ctx.lineWidth = lw;
-    ctx.strokeStyle = stroke;
-    ctx.stroke();
-  }
+}
+
+/** A tumbling snippet of paper: wide when it faces us, a sliver when it is edge-on. */
+function snippet(ctx, x, y, size, color, turn) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(turn);
+  ctx.scale(1, Math.max(0.2, Math.abs(Math.sin(turn * 1.7))));
+  ctx.fillStyle = color;
+  ctx.fillRect(-size, -size * 0.7, size * 2, size * 1.4);
+  ctx.restore();
 }
 
 /* =================================================================
@@ -64,11 +76,11 @@ const MODES = {};
 /* ---------- The Big Bang: countdown, flash, expanding fireworks ---------- */
 MODES.bang = (host) => {
   let phase = "idle";
-  let t = 0;
+  let clock = 0;
   let parts = [];
   let flash = 0;
   let ring = 0;
-  const COLORS = ["#ffffff", "#fff3a3", "#ffd23f", "#ff9f43", "#ff5d8f", "#c38cff", "#6fd3ff"];
+  const COLORS = ["#ffffff", "#f6e6a6", "#efbd38", "#e0943f", "#dd6682", "#a784c4", "#7fbfd6"];
 
   function boom() {
     const { w, h } = host;
@@ -89,7 +101,7 @@ MODES.bang = (host) => {
     flash = 1;
     ring = 0;
     phase = "boom";
-    t = 0;
+    clock = 0;
     sound("boom");
     host.caption(t("boom"));
     confetti(host.scene, 40);
@@ -100,7 +112,7 @@ MODES.bang = (host) => {
     action(name) {
       if (name !== "bang" || phase === "count") return;
       phase = "count";
-      t = 0;
+      clock = 0;
       let n = 3;
       host.caption("3...");
       const iv = setInterval(() => {
@@ -117,7 +129,7 @@ MODES.bang = (host) => {
       this.action("bang");
     },
     step(dt) {
-      t += dt;
+      clock += dt;
       flash = Math.max(0, flash - dt * 1.6);
       ring += dt * Math.max(host.w, host.h) * 0.9;
       const damp = Math.pow(0.35, dt);
@@ -131,7 +143,7 @@ MODES.bang = (host) => {
         p.y += p.vy * dt;
         p.tw += dt * 4;
       }
-      if (phase === "boom" && t > 7) {
+      if (phase === "boom" && clock > 7) {
         parts = parts.filter((p) => p.x > -20 && p.x < host.w + 20 && p.y > -20 && p.y < host.h + 20);
       }
     },
@@ -139,32 +151,18 @@ MODES.bang = (host) => {
       const { w, h } = host;
       const cx = w / 2;
       const cy = h / 2;
-      if (phase !== "boom" || t > 3.5) {
+      if (phase !== "boom" || clock > 3.5) {
         // the tiny, super-hot dot waiting to begin
         const speed = phase === "count" ? 30 : 5;
         const r = 5 + Math.sin(performance.now() / 1000 * speed) * 2 + (phase === "count" ? 3 : 0);
-        const a = phase === "boom" ? Math.min(1, (t - 3.5) / 2) : 1;
+        const a = phase === "boom" ? Math.min(1, (clock - 3.5) / 2) : 1;
         ctx.globalAlpha = a;
         glow(ctx, cx, cy, r * 8, "#fff3a3cc");
-        ball(ctx, cx, cy, r, "#fff", null);
+        ball(ctx, cx, cy, r, "#fff");
         ctx.globalAlpha = 1;
       }
       for (const p of parts) {
-        const sp = Math.hypot(p.vx, p.vy);
-        ctx.strokeStyle = p.c;
-        ctx.globalAlpha = 0.6 + Math.sin(p.tw) * 0.4;
-        ctx.lineWidth = p.r;
-        ctx.lineCap = "round";
-        ctx.beginPath();
-        ctx.moveTo(p.x, p.y);
-        ctx.lineTo(p.x - p.vx * 0.04 - 0.1, p.y - p.vy * 0.04);
-        ctx.stroke();
-        if (sp < 20) {
-          ctx.fillStyle = p.c;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r * 0.7, 0, TAU);
-          ctx.fill();
-        }
+        snippet(ctx, p.x, p.y, p.r * 1.25, p.c, p.tw * 0.5);
       }
       ctx.globalAlpha = 1;
       if (phase === "boom" && ring < Math.max(w, h)) {
@@ -185,7 +183,7 @@ MODES.bang = (host) => {
 /* ---------- Hot quark soup that cools into protons and neutrons ---------- */
 MODES.soup = (host) => {
   let temp = 1;
-  const QUARK = ["#ff5d6c", "#43d18a", "#4ba3ff"];
+  const QUARK = ["#c9534f", "#62a97c", "#4a86bf"];
   let parts = [];
   let groups = [];
 
@@ -281,13 +279,13 @@ MODES.soup = (host) => {
         groups.forEach((g, gi) => {
           const [mx, my] = centre(gi);
           ctx.globalAlpha = Math.min(1, (bind - 0.3) * 2);
-          ball(ctx, mx, my, 17, g.kind === "p" ? "#ffb3c9" : "#d7d3e6", INK, 3);
+          ball(ctx, mx, my, 17, g.kind === "p" ? "#ecb7bf" : "#d3cfd9");
           ctx.globalAlpha = 1;
         });
       }
       for (const p of parts) {
-        if (p.type === "q") ball(ctx, p.x, p.y, p.r, p.c, INK, 2);
-        else if (p.type === "e") ball(ctx, p.x, p.y, p.r, "#ffe066", null);
+        if (p.type === "q") ball(ctx, p.x, p.y, p.r, p.c);
+        else if (p.type === "e") ball(ctx, p.x, p.y, p.r, "#f2cf63");
         else {
           ctx.strokeStyle = "#fffbe0";
           ctx.lineWidth = 2;
@@ -301,12 +299,12 @@ MODES.soup = (host) => {
         }
       }
       if (bind > 0.6) {
-        ctx.font = "800 13px 'Baloo 2', sans-serif";
+        ctx.font = "800 13px 'Caveat Brush', cursive";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         groups.forEach((g, gi) => {
           const [mx, my] = centre(gi);
-          ball(ctx, mx + 15, my - 15, 8, g.kind === "p" ? "#ff5d8f" : "#8a8f9e", INK, 2);
+          ball(ctx, mx + 15, my - 15, 8, g.kind === "p" ? "#dd6682" : "#8a8f9e");
           ctx.fillStyle = "#fff";
           ctx.fillText(g.kind === "p" ? "p" : "n", mx + 15, my - 15);
         });
@@ -465,11 +463,11 @@ MODES.gravity = (host) => {
         const r = radius(b.m);
         if (b.m >= 30) {
           glow(ctx, b.x, b.y, r * 3.2, "#ffd23faa");
-          ball(ctx, b.x, b.y, r, "#ffe066", INK, 3);
+          ball(ctx, b.x, b.y, r, "#f2cf63");
           face(ctx, b.x, b.y + r * 0.1, r * 0.9);
         } else if (b.m >= 8) {
           glow(ctx, b.x, b.y, r * 2.2, "#ff9f4366");
-          ball(ctx, b.x, b.y, r, "#ffb36b", INK, 2.5);
+          ball(ctx, b.x, b.y, r, "#ffb36b");
         } else {
           ctx.fillStyle = b.m > 2 ? "#b8d8ff" : "#8fb4ffcc";
           ctx.beginPath();
@@ -484,12 +482,12 @@ MODES.gravity = (host) => {
 /* ---------- A giant star explodes and scatters new elements ---------- */
 MODES.supernova = (host) => {
   let phase = "star";
-  let t = 0;
+  let clock = 0;
   let parts = [];
-  const ELEMENTS = [["C", "#3a3a3a"], ["O", "#6fd3ff"], ["Fe", "#c7743a"], ["Au", "#ffd23f"], ["Si", "#b28cff"], [
+  const ELEMENTS = [["C", "#3a3a3a"], ["O", "#7fbfd6"], ["Fe", "#c7743a"], ["Au", "#efbd38"], ["Si", "#9a7dc0"], [
     "Ca",
     "#ffffff",
-  ], ["N", "#7ee8b8"]];
+  ], ["N", "#8dc9a6"]];
 
   function explode() {
     const { w, h } = host;
@@ -502,7 +500,7 @@ MODES.supernova = (host) => {
         y: h / 2,
         vx: Math.cos(a) * v,
         vy: Math.sin(a) * v,
-        c: pick(["#ff5d8f", "#ffd23f", "#6fd3ff", "#c38cff", "#ff9f43"]),
+        c: pick(["#dd6682", "#efbd38", "#7fbfd6", "#a784c4", "#e0943f"]),
         r: rand(1.5, 3.5),
       };
     });
@@ -512,7 +510,7 @@ MODES.supernova = (host) => {
       parts.push({ x: w / 2, y: h / 2, vx: Math.cos(a) * v, vy: Math.sin(a) * v, c, r: 15, sym });
     });
     phase = "boom";
-    t = 0;
+    clock = 0;
     sound("boom");
     host.caption(t("boom"));
     confetti(host.scene, 50);
@@ -527,17 +525,17 @@ MODES.supernova = (host) => {
       if (name !== "boom") return;
       if (phase === "star") {
         phase = "collapse";
-        t = 0;
+        clock = 0;
         host.caption(t("collapse"));
-      } else if (phase === "boom" && t > 3) {
+      } else if (phase === "boom" && clock > 3) {
         phase = "star";
         parts = [];
         host.caption(t("again"));
       }
     },
     step(dt) {
-      t += dt;
-      if (phase === "collapse" && t > 0.9) explode();
+      clock += dt;
+      if (phase === "collapse" && clock > 0.9) explode();
       const damp = Math.pow(0.5, dt);
       for (const p of parts) {
         p.vx *= p.sym ? Math.pow(0.35, dt) : damp;
@@ -552,22 +550,22 @@ MODES.supernova = (host) => {
       const cy = h / 2;
       const R = Math.min(w, h) * 0.2;
       if (phase === "star" || phase === "collapse") {
-        const k = phase === "collapse" ? Math.max(0.15, 1 - t) : 1 + Math.sin(performance.now() / 400) * 0.03;
+        const k = phase === "collapse" ? Math.max(0.15, 1 - clock) : 1 + Math.sin(performance.now() / 400) * 0.03;
         const r = R * k;
         glow(ctx, cx, cy, r * 1.8, "#ff5d3d88");
         const g = ctx.createRadialGradient(cx - r * 0.3, cy - r * 0.3, r * 0.1, cx, cy, r);
         g.addColorStop(0, "#ffd08a");
-        g.addColorStop(1, "#ff5d3d");
-        ball(ctx, cx, cy, r, g, INK, 4);
+        g.addColorStop(1, "#cb5136");
+        ball(ctx, cx, cy, r, g);
         face(ctx, cx, cy + r * 0.1, r * 0.8, phase === "collapse" ? "wow" : "happy");
         return;
       }
-      if (t < 0.4) {
-        ctx.fillStyle = `rgba(255,255,255,${1 - t / 0.4})`;
+      if (clock < 0.4) {
+        ctx.fillStyle = `rgba(255,255,255,${1 - clock / 0.4})`;
         ctx.fillRect(0, 0, w, h);
       }
-      const ringR = t * Math.max(w, h) * 0.8;
-      ctx.strokeStyle = `rgba(111,211,255,${Math.max(0, 1 - t / 1.5)})`;
+      const ringR = clock * Math.max(w, h) * 0.8;
+      ctx.strokeStyle = `rgba(111,211,255,${Math.max(0, 1 - clock / 1.5)})`;
       ctx.lineWidth = 10;
       ctx.beginPath();
       ctx.arc(cx, cy, ringR, 0, TAU);
@@ -575,20 +573,14 @@ MODES.supernova = (host) => {
       // tiny leftover core
       glow(ctx, cx, cy, 16, "#ffffffcc");
       for (const p of parts) {
-        if (p.sym) continue;
-        ctx.fillStyle = p.c;
-        ctx.globalAlpha = 0.85;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, TAU);
-        ctx.fill();
+        if (!p.sym) snippet(ctx, p.x, p.y, p.r * 1.2, p.c, p.x * 0.05 + clock * 3);
       }
-      ctx.globalAlpha = 1;
-      ctx.font = "800 15px 'Baloo 2', sans-serif";
+      ctx.font = "800 15px 'Caveat Brush', cursive";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       for (const p of parts) {
         if (!p.sym) continue;
-        ball(ctx, p.x, p.y, p.r, p.c, INK, 3);
+        ball(ctx, p.x, p.y, p.r, p.c);
         ctx.fillStyle = p.c === "#3a3a3a" ? "#fff" : INK;
         ctx.fillText(p.sym, p.x, p.y + 1);
       }
@@ -685,14 +677,14 @@ MODES.accretion = (host) => {
       ctx.arc(cx, cy, frost, 0, TAU);
       ctx.stroke();
       ctx.setLineDash([]);
-      ctx.font = "800 12px 'Baloo 2', sans-serif";
+      ctx.font = "800 12px 'Caveat Brush', cursive";
       ctx.fillStyle = "rgba(190,235,255,.95)";
       ctx.textAlign = "center";
       ctx.fillText(t("frostLine"), cx, cy - frost - 6);
       // the young Sun
       const sr = rin * 0.55;
       glow(ctx, cx, cy, sr * 2.4, "#ffd23f99");
-      ball(ctx, cx, cy, sr, "#ffe066", INK, 3);
+      ball(ctx, cx, cy, sr, "#f2cf63");
       face(ctx, cx, cy + sr * 0.1, sr * 0.85);
       for (const b of bodies) {
         const x = cx + Math.cos(b.a) * b.R;
@@ -701,7 +693,7 @@ MODES.accretion = (host) => {
         const icy = b.R > frost;
         if (b.m >= 10) {
           const color = icy ? (b.m > 20 ? "#f2b36b" : "#8fd8ff") : "#c78f64";
-          ball(ctx, x, y, r, color, INK, 2.5);
+          ball(ctx, x, y, r, color);
           if (r > 7) face(ctx, x, y + r * 0.1, r * 0.8);
         } else {
           ctx.fillStyle = icy ? "#cdeeff" : "#e0b48c";
@@ -754,7 +746,7 @@ MODES.earth = (host) => {
         vx: Math.cos(a) * rand(40, 140),
         vy: Math.sin(a) * rand(40, 140),
         life: 1,
-        c: comets ? "#bfefff" : pick(["#ffd23f", "#ff9f43", "#ff5d3d"]),
+        c: comets ? "#bfefff" : pick(["#efbd38", "#e0943f", "#cb5136"]),
       });
     }
     if (comets) {
@@ -821,12 +813,12 @@ MODES.earth = (host) => {
       ctx.save();
       ctx.beginPath();
       ctx.arc(cx, cy, R, 0, TAU);
-      ctx.fillStyle = comets ? "#8d6e5a" : "#ff7a3d";
+      ctx.fillStyle = comets ? "#8d6e5a" : "#d9713c";
       ctx.fill();
       ctx.clip();
       if (!comets) {
         // glowing lava cracks and darker cooling crust patches
-        ctx.strokeStyle = "#ffe066";
+        ctx.strokeStyle = "#f2cf63";
         ctx.lineWidth = 3;
         const t = performance.now() / 1000;
         for (let i = 0; i < 6; i++) {
@@ -854,7 +846,7 @@ MODES.earth = (host) => {
           ctx.arc(cx + Math.cos(i * 1.9) * R * 0.6, cy + Math.sin(i * 1.9) * R * 0.55, R * 0.16, 0, TAU);
           ctx.fill();
         }
-        ctx.fillStyle = "#3fa9f5";
+        ctx.fillStyle = "#4a8fc0";
         for (const b of blobs) {
           ctx.beginPath();
           ctx.arc(cx + Math.cos(b.a) * b.d * R, cy + Math.sin(b.a) * b.d * R, b.r * R, 0, TAU);
@@ -868,11 +860,6 @@ MODES.earth = (host) => {
       ctx.fillStyle = shade;
       ctx.fillRect(cx - R, cy - R, R * 2, R * 2);
       ctx.restore();
-      ctx.lineWidth = 4;
-      ctx.strokeStyle = INK;
-      ctx.beginPath();
-      ctx.arc(cx, cy, R, 0, TAU);
-      ctx.stroke();
       face(ctx, cx, cy + R * 0.12, R * 0.6, wobble > 0.3 ? "wow" : "happy");
 
       for (const r of rocks) {
@@ -888,7 +875,7 @@ MODES.earth = (host) => {
           ctx.moveTo(r.x, r.y);
           ctx.lineTo(r.x - Math.cos(a) * 60, r.y - Math.sin(a) * 60);
           ctx.stroke();
-          ball(ctx, r.x, r.y, r.r, "#e8fbff", INK, 2.5);
+          ball(ctx, r.x, r.y, r.r, "#e8fbff");
         } else {
           ctx.save();
           ctx.translate(r.x, r.y);
@@ -902,9 +889,6 @@ MODES.earth = (host) => {
           ctx.closePath();
           ctx.fillStyle = "#9c8a7a";
           ctx.fill();
-          ctx.strokeStyle = INK;
-          ctx.lineWidth = 2.5;
-          ctx.stroke();
           ctx.restore();
         }
       }

@@ -3,3 +3,4 @@
 @import url("./base.css");
 @import url("./components.css") layer(components);
 @import url("./scenes.css") layer(scenes);
+@import url("./home.css") layer(pages);

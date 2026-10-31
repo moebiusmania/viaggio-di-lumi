@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>{{ title }} · {{ ui.app.name }}</title>
   <meta name="description" content="{{ ui.app.description |> escape }}">
-  <meta name="theme-color" content="#1b1446">
+  <meta name="theme-color" content="#c49a6c">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="{{ ui.app.name |> escape }}">
   <meta property="og:title" content="{{ title |> escape }} · {{ ui.app.name |> escape }}">
@@ -22,8 +22,9 @@
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="{{ home }}manifest.webmanifest">
   <meta name="apple-mobile-web-app-title" content="{{ ui.app.shortName |> escape }}">
-  <link rel="preload" href="/assets/fonts/baloo-2-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/caveat-brush-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/patrick-hand-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/textures/kraft.webp" as="image" type="image/webp">
   <link rel="stylesheet" href="/assets/css/main.css">
   <script>
     // Decide which way the page turns before the first paint (forward or back).
@@ -42,7 +43,8 @@
   <script type="module" src="/assets/js/app.js"></script>
 </head>
 <body>
-  <div class="starfield" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="desk" aria-hidden="true"></div>
+  <div class="lamp" aria-hidden="true"></div>
 
   <header class="topbar">
     <a class="brand" href="{{ home }}" aria-label="{{ ui.topbar.home |> escape }}">

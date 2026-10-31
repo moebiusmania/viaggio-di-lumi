@@ -48,12 +48,11 @@
         font-size: 1.3rem;
         & input {
           padding: .7rem 1rem;
-          border: var(--border);
-          border-radius: 1rem;
-          background: #fff;
-          font-size: 1.3rem;
-          font-weight: 800;
-          box-shadow: var(--shadow-sm);
+          border: var(--line);
+          border: 0;
+          border-radius: 3px;
+          font-size: 1.4rem;
+          box-shadow: inset 1px 2px 4px oklch(15% .04 60 / .4), 0 1px 0 oklch(100% 0 0 / .3);
         }
       }
       .cert {
@@ -62,39 +61,35 @@
         justify-items: center;
         gap: .5rem;
         padding: 2rem 1.5rem;
-        border: 6px double var(--ink);
-        outline: 4px solid var(--sun);
-        outline-offset: -16px;
-        border-radius: var(--radius);
-        background:
-          radial-gradient(circle at 20% 15%, color-mix(in oklch, var(--sun) 30%, transparent), transparent 40%),
-          radial-gradient(circle at 85% 85%, color-mix(in oklch, var(--pink) 25%, transparent), transparent 45%),
-          #fff;
+        border-radius: 3px;
+        outline: 2.5px solid var(--stamp);
+        outline-offset: -12px;
         text-align: center;
-        box-shadow: var(--shadow);
+        box-shadow: var(--lift-3);
+        rotate: .5deg;
         animation: pop-in .8s var(--ease-bounce) both;
       }
-      .cert-medal { width: 5rem; animation: medal-in 1.2s var(--ease-bounce) both .3s; }
-      .cert-kicker { font-family: var(--font-head); font-size: 1.2rem; letter-spacing: .1em; text-transform: uppercase; }
-      .cert h2 { font-size: clamp(1.8rem, 1.2rem + 2vw, 2.6rem); color: var(--purple); }
+      .cert-medal { width: 5rem; overflow: visible; filter: url(#cutout); animation: medal-in 1.2s var(--ease-bounce) both .3s; }
+      .cert-kicker { font-family: var(--font-stamp); font-size: 1.1rem; letter-spacing: .1em; text-transform: uppercase; color: var(--stamp); }
+      .cert h2 { font-size: clamp(1.8rem, 1.2rem + 2vw, 2.6rem); color: var(--ink); }
       .cert-name {
         min-width: 70%;
         padding-bottom: .2rem;
-        border-bottom: 3px dashed var(--ink);
+        border-bottom: var(--line);
         font-family: var(--font-head);
         font-size: clamp(1.8rem, 1.2rem + 2.5vw, 2.8rem);
         line-height: 1.1;
         color: var(--ink);
       }
       .cert-stats { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; font-family: var(--font-head); font-size: 1.2rem; }
-      .cert-date { font-size: .9rem; opacity: .7; }
-      .cert-lumi { position: absolute; width: 4rem; right: 1rem; bottom: 1rem; animation: lumi-bob 2.6s ease-in-out infinite; }
+      .cert-date { font-size: 1rem; color: var(--ink-soft); }
+      .cert-lumi { position: absolute; width: 4rem; right: 1.2rem; bottom: 1.2rem; overflow: visible; filter: url(#cutout); animation: lumi-bob 2.6s ease-in-out infinite; }
     }
     @media print {
       body > :not(main), .journey, .pager, .slide-head, .cert-form { display: none !important; }
       body, .slide { background: #fff !important; box-shadow: none !important; border: none !important; }
-      .slide::before { display: none; }
-      .cert { box-shadow: none; }
+      .slide::before, .slide::after { display: none; }
+      .cert { box-shadow: none; rotate: none; }
     }
   </style>
 </name-cert>

@@ -1,5 +1,6 @@
 import { locale, progress, sound, t } from "./core.js";
 import "./components.js";
+import "./lamp.js";
 
 const html = document.documentElement;
 const here = location.pathname;
@@ -67,8 +68,13 @@ function go(dir) {
   const link = document.querySelector(dir === "back" ? 'a[rel="prev"]' : 'a[rel="next"]');
   if (!link) return;
   link.classList.add("pressed");
+  sound("flip");
   location.href = link.href;
 }
+
+document.querySelectorAll('a[rel="prev"], a[rel="next"]').forEach((a) =>
+  a.addEventListener("click", () => sound("flip"))
+);
 
 function isTyping(el) {
   return el?.closest?.("input, textarea, select, [contenteditable], [role='slider']");

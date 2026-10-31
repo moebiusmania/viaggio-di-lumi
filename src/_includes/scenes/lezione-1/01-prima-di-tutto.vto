@@ -3,7 +3,7 @@
     <svg viewBox="0 0 400 300" aria-hidden="true">
       <circle class="heat" cx="200" cy="150" r="120" fill="url(#heat-1)"/>
       <defs>
-        <radialGradient id="heat-1"><stop offset="0" stop-color="#fff3a3"/><stop offset=".4" stop-color="#ff9f43" stop-opacity=".7"/><stop offset="1" stop-color="#ff5d8f" stop-opacity="0"/></radialGradient>
+        <radialGradient id="heat-1"><stop offset="0" stop-color="#f6e6a6"/><stop offset=".4" stop-color="#e0943f" stop-opacity=".7"/><stop offset="1" stop-color="#dd6682" stop-opacity="0"/></radialGradient>
       </defs>
       <g class="thing" style="--dx:-115; --dy:-75"><use href="#galaxy" x="170" y="120" width="60" height="60" class="spin"/></g>
       <g class="thing" style="--dx:120; --dy:70"><use href="#galaxy" x="175" y="125" width="50" height="50" class="spin-back"/></g>
@@ -28,7 +28,7 @@
       }
       .heat { scale: calc(var(--t) * 1.2); opacity: var(--t); }
       .dot { scale: calc(.2 + var(--t)); opacity: calc(var(--t) * 2 - 1); filter: drop-shadow(0 0 8px #fff); }
-      .scene { background-color: color-mix(in oklch, var(--space-1), #ff7a3d calc(var(--t) * 35%)); }
+      .scene { background-color: color-mix(in oklch, var(--space-1), #d9713c calc(var(--t) * 35%)); }
       .slider { flex-wrap: wrap; justify-content: center; }
     }
   </style>

@@ -1,6 +1,6 @@
 # Il viaggio di Lumi
 
-![Il viaggio di Lumi: dal Big Bang alla nascita della Terra](src/assets/images/social.svg)
+![Il viaggio di Lumi: dal Big Bang alla nascita della Terra](src/assets/images/social.png)
 
 An interactive picture book for children aged 7–9, in Italian: from the Big Bang
 to the birth of the Earth. It has four lessons of about 30 minutes each, and
@@ -35,16 +35,18 @@ src/
   _includes/scenes/        the stage of each page (illustration + activity), code only:
                            lezione-N/NN-*.vto matches the page with the same lesson and number;
                            quiz.vto is shared by the four quizzes
-  _includes/partials/      toc.vto (index dialog) · sprite.vto (cartoon SVG symbols) · medal.vto
+  _includes/partials/      toc.vto (index dialog) · sprite.vto (cut-out SVG symbols and the paper filters) · medal.vto
                            credits.vto (license footnote on cover + index)
-  assets/css/              base.css (fonts, tokens, layout, page transitions) · components.css · scenes.css
+  assets/css/              base.css (fonts, tokens, layout, page turn) · components.css · scenes.css · home.css
   assets/icons/            app icons: icon.svg is the source, the PNGs are rendered from it
-  assets/images/           social.svg (README banner and link preview card, text as paths) and social.png,
-                           rendered from it for og:image; left out of the offline cache
-  assets/fonts/            Baloo 2 + Nunito variable woff2 (latin, latin-ext) and their OFL texts
+  assets/images/           social.png, README banner and og:image, a render of the home page; left out of the
+                           offline cache
+  assets/textures/         kraft, paper, black card, cut edge: tileable WebP baked by tools/textures/
+  assets/fonts/            Caveat Brush, Patrick Hand, Stardos Stencil woff2 and their OFL texts
   assets/js/
     app.js                 navigation (arrows, keyboard, swipe, trackpad), TOC, progress, read-aloud
-    core.js                texts (t()), saved progress (localStorage), confetti, sounds, "activity done" stars
+    core.js                texts (t()), saved progress (localStorage), paper confetti, paper sounds, "activity done" stars
+    lamp.js                the desk lamp: pointer/tilt light and diorama parallax, lighter look on slow devices
     components.js          <scene-slider> <hold-button> <flip-card> <hot-spots> <sort-game>
                            <order-game> <tap-scene> <torch-reveal> <quiz-set> <nucleus-builder>
                            <fusion-game> <candy-jar> <anim-trigger> <name-cert>
@@ -110,8 +112,9 @@ Cross-document View Transitions (with forward/back types), `@scope`, CSS
 nesting, `@layer`, `@property`, container queries, `:has()`, `@starting-style`
 and `allow-discrete` transitions on `<dialog>`, `::details-content`, exclusive
 `<details name>`, `linear()` easing, `oklch()`/`color-mix()`/relative colours,
-`text-wrap: balance|pretty`, Service Worker + Web App Manifest (offline, installable), Web Animations, Web Audio (synthesized sounds) and
-the Speech Synthesis API (Italian read-aloud).
+`text-wrap: balance|pretty`, Service Worker + Web App Manifest (offline, installable), Web Animations, Web Audio (paper and board sounds synthesized from filtered noise), SVG filters
+(`feTurbulence`, `feDisplacementMap`, `feSpecularLighting` for rough cuts, torn paper and relief), 3D page turns,
+Device Orientation and Vibration, and the Speech Synthesis API (Italian read-aloud).
 
 ## How it was made
 
@@ -126,8 +129,8 @@ and illustrations). Two people reviewed the work.
 - **Content** (texts in `src/content/`, illustrations in `src/_includes/scenes/`,
   `src/_includes/layouts/home.vto` and `src/_includes/partials/sprite.vto`):
   [CC0 1.0](LICENSE-CONTENT), public domain.
-- **Fonts** (bundled in `src/assets/fonts/`): [Baloo 2](src/assets/fonts/OFL-Baloo2.txt)
-  and [Nunito](src/assets/fonts/OFL-Nunito.txt), under the SIL Open Font License 1.1.
+- **Fonts** (bundled in `src/assets/fonts/`): [Caveat Brush](src/assets/fonts/OFL-CaveatBrush.txt),
+  [Patrick Hand](src/assets/fonts/OFL-PatrickHand.txt) and [Stardos Stencil](src/assets/fonts/OFL-StardosStencil.txt), under the SIL Open Font License 1.1.
 
 You can use, copy, adapt and share the book, also in class or commercially,
 without asking permission and without having to credit anyone. Only the fonts

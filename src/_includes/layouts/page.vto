@@ -9,7 +9,7 @@ layout: layouts/base.vto
       {{ /for }}
       <svg class="journey-rocket" style="--pos: {{ index / (total - 1) }}" viewBox="0 0 64 64" aria-hidden="true"><use href="#rocket"/></svg>
     </div>
-    <p class="journey-when"><span aria-hidden="true">⏳</span> {{ when || lessonInfo.when }}</p>
+    <p class="journey-when">{{ when || lessonInfo.when }}</p>
   </div>
 
   <article class="slide">

@@ -68,11 +68,55 @@ export const progress = {
 
 export const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-// ---------- Sound (tiny synthesized chimes, no audio files) ----------
+// ---------- Sound (synthesized, no audio files): a book made of paper and board ----------
 let audio;
+let noiseBuffer;
 function ctx() {
   audio ??= new AudioContext();
   return audio;
+}
+
+function noise(ac) {
+  if (!noiseBuffer) {
+    noiseBuffer = ac.createBuffer(1, ac.sampleRate * 1.2, ac.sampleRate);
+    const d = noiseBuffer.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+  }
+  return noiseBuffer;
+}
+
+/** A burst of filtered noise: every rustle, scratch and thud is one of these. */
+function rustle(ac, at, { dur, freq, q = 0.8, gain = 0.2, type = "bandpass", sweep = freq }) {
+  const src = ac.createBufferSource();
+  src.buffer = noise(ac);
+  const filter = ac.createBiquadFilter();
+  filter.type = type;
+  filter.Q.value = q;
+  filter.frequency.setValueAtTime(freq, at);
+  filter.frequency.exponentialRampToValueAtTime(sweep, at + dur);
+  const env = ac.createGain();
+  env.gain.setValueAtTime(0.0001, at);
+  env.gain.exponentialRampToValueAtTime(gain, at + Math.min(0.012, dur / 4));
+  env.gain.exponentialRampToValueAtTime(0.0001, at + dur);
+  src.connect(filter).connect(env).connect(ac.destination);
+  src.start(at, Math.random() * 0.5);
+  src.stop(at + dur + 0.05);
+}
+
+/** A knock on hollow cardboard: a short low tone with a papery click on top. */
+function knock(ac, at, freq, gain = 0.28) {
+  const osc = ac.createOscillator();
+  const env = ac.createGain();
+  osc.type = "sine";
+  osc.frequency.setValueAtTime(freq * 1.5, at);
+  osc.frequency.exponentialRampToValueAtTime(freq, at + 0.03);
+  env.gain.setValueAtTime(0.0001, at);
+  env.gain.exponentialRampToValueAtTime(gain, at + 0.006);
+  env.gain.exponentialRampToValueAtTime(0.0001, at + 0.17);
+  osc.connect(env).connect(ac.destination);
+  osc.start(at);
+  osc.stop(at + 0.2);
+  rustle(ac, at, { dur: 0.03, freq: 2400, gain: gain * 0.5 });
 }
 
 export function sound(kind = "ding") {
@@ -80,31 +124,43 @@ export function sound(kind = "ding") {
   try {
     const ac = ctx();
     const now = ac.currentTime;
-    const notes = {
-      ding: [[880, 0], [1320, 0.08]],
-      win: [[660, 0], [880, 0.1], [1100, 0.2], [1320, 0.3]],
-      oops: [[300, 0], [220, 0.12]],
-      pop: [[520 + Math.random() * 300, 0]],
-      boom: [[90, 0], [60, 0.1]],
-    }[kind] ?? [[660, 0]];
-    for (const [freq, at] of notes) {
-      const osc = ac.createOscillator();
-      const gain = ac.createGain();
-      osc.type = kind === "boom" ? "sawtooth" : "triangle";
-      osc.frequency.setValueAtTime(freq, now + at);
-      if (kind === "boom") osc.frequency.exponentialRampToValueAtTime(30, now + at + 0.5);
-      gain.gain.setValueAtTime(0.0001, now + at);
-      gain.gain.exponentialRampToValueAtTime(kind === "boom" ? 0.25 : 0.18, now + at + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + at + (kind === "boom" ? 0.7 : 0.35));
-      osc.connect(gain).connect(ac.destination);
-      osc.start(now + at);
-      osc.stop(now + at + 0.8);
-    }
+    const play = {
+      // a bright knock, then one higher: "you got it"
+      ding() {
+        knock(ac, now, 520);
+        knock(ac, now + 0.09, 780);
+      },
+      win() {
+        [440, 554, 660, 880].forEach((f, i) => knock(ac, now + i * 0.1, f));
+      },
+      // a dull, sagging thud
+      oops() {
+        knock(ac, now, 150, 0.3);
+        knock(ac, now + 0.12, 105, 0.26);
+      },
+      // a flicked scrap of paper
+      pop() {
+        rustle(ac, now, { dur: 0.05, freq: 1500 + Math.random() * 1500, q: 1.4, gain: 0.3 });
+      },
+      // a heavy box dropped on the floor
+      boom() {
+        knock(ac, now, 62, 0.5);
+        rustle(ac, now, { dur: 0.7, freq: 500, sweep: 90, type: "lowpass", gain: 0.34 });
+        rustle(ac, now + 0.02, { dur: 0.3, freq: 2600, sweep: 900, gain: 0.08 });
+      },
+      // a stiff page swinging over and landing
+      flip() {
+        rustle(ac, now, { dur: 0.3, freq: 900, sweep: 3600, q: 0.6, gain: 0.1 });
+        knock(ac, now + 0.3, 110, 0.14);
+      },
+    }[kind] ?? (() => knock(ac, now, 330));
+    play();
+    if (kind === "ding" || kind === "win" || kind === "boom") navigator.vibrate?.(kind === "boom" ? 40 : 12);
   } catch { /* no audio available */ }
 }
 
-// ---------- Confetti ----------
-const COLORS = ["#ffd23f", "#ff5d8f", "#6fd3ff", "#7ee8b8", "#b28cff", "#ff8a3d"];
+// ---------- Confetti: snippets of paper that tumble as they fall ----------
+const COLORS = ["#efbd38", "#dd6682", "#7fbfd6", "#8dc9a6", "#9a7dc0", "#dd7f38", "#f6f0e3"];
 
 export function confetti(el, amount = 36) {
   if (reduceMotion) return;
@@ -118,23 +174,24 @@ export function confetti(el, amount = 36) {
     if (i % 3 === 0) bit.style.borderRadius = "50%";
     document.body.append(bit);
     const angle = Math.random() * Math.PI * 2;
-    const dist = 80 + Math.random() * 180;
+    const dist = 70 + Math.random() * 170;
     const dx = Math.cos(angle) * dist;
-    const dy = Math.sin(angle) * dist - 120;
+    const dy = Math.sin(angle) * dist - 130;
+    const sway = (Math.random() - 0.5) * 80;
+    const axis = `${Math.random().toFixed(2)},${Math.random().toFixed(2)},${Math.random().toFixed(2)}`;
+    const spin = 360 + Math.random() * 900;
     bit.animate(
       [
-        { transform: "translate(-50%,-50%) rotate(0) scale(1)", opacity: 1 },
+        { transform: `translate(-50%,-50%) rotate3d(${axis},0deg)`, opacity: 1 },
+        { transform: `translate(${dx}px, ${dy}px) rotate3d(${axis},${spin * 0.4}deg)`, opacity: 1, offset: 0.3 },
         {
-          transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720}deg) scale(1)`,
+          transform: `translate(${dx + sway}px, ${dy + 240}px) rotate3d(${axis},${spin * 0.75}deg)`,
           opacity: 1,
-          offset: 0.6,
+          offset: 0.75,
         },
-        {
-          transform: `translate(${dx * 1.1}px, ${dy + 260}px) rotate(${Math.random() * 1080}deg) scale(.6)`,
-          opacity: 0,
-        },
+        { transform: `translate(${dx - sway * 0.4}px, ${dy + 420}px) rotate3d(${axis},${spin}deg)`, opacity: 0 },
       ],
-      { duration: 1400 + Math.random() * 700, easing: "cubic-bezier(.2,.7,.3,1)" },
+      { duration: 1700 + Math.random() * 900, easing: "cubic-bezier(.16,.7,.5,1)" },
     ).finished.then(() => bit.remove());
   }
 }
