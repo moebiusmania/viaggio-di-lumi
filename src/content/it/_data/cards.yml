@@ -1,0 +1,10 @@
+# Texts of the printable sheet of cards at /cards/ (not linked from the book)
+title: "Biglietti da stampare"
+hint: "Stampa su un foglio A4, al 100%, senza margini. Vanno bene sia a colori sia in bianco e nero. Poi ritaglia lungo le linee tratteggiate."
+print: "🖨️ Stampa"
+card:
+  name: "Il viaggio di Lumi"
+  tagline: "Dal Big Bang alla nascita della Terra"
+  action: "Inquadra il codice e parti!"
+  url: "moebiusmania.github.io/viaggio-di-lumi"
+  qr: "Codice QR del sito"

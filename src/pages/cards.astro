@@ -1,0 +1,98 @@
+---
+import caveat from "../assets/fonts/caveat-brush-latin.woff2?url";
+import patrick from "../assets/fonts/patrick-hand-latin.woff2?url";
+import Sprite from "../components/Sprite.astro";
+import text from "../content/it/_data/cards.yml";
+import { link } from "../lib/text";
+
+// the journey of the four lessons, the same colours as --l1…--l4 in base.css
+const JOURNEY = ["#e8669a", "#4ab8e0", "#e8b92e", "#3fc29a"];
+const { title, hint, print, card } = text;
+---
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>{title}</title>
+  <style set:html={`
+    @font-face { font-family: "Caveat Brush"; src: url("${caveat}") format("woff2"); }
+    @font-face { font-family: "Patrick Hand"; src: url("${patrick}") format("woff2"); }
+  `} is:inline></style>
+  <style is:inline>
+    /* A4, 2 × 4 cards. The 10 mm margin keeps everything clear of what printers can't reach. */
+    @page { size: A4 portrait; margin: 0; }
+    * { box-sizing: border-box; margin: 0; }
+    body { background: #d9d6e4; color: #1d1846; font-family: "Patrick Hand", "Comic Sans MS", sans-serif; }
+    .tools { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: center; max-width: 210mm; margin: auto; padding: 1rem; font-size: 1.1rem; }
+    .tools p { flex: 1 1 20rem; }
+    .tools button { padding: .5rem 1.2rem; border: 2px solid #1d1846; border-radius: .4rem; background: #ffd23f; color: inherit; font: inherit; cursor: pointer; }
+    .sheet {
+      display: grid;
+      grid-template: repeat(4, 69mm) / repeat(2, 95mm);
+      place-content: center;
+      width: 210mm;
+      height: 297mm;
+      margin: 0 auto 2rem;
+      background: #fff;
+      overflow: hidden;
+    }
+    /* Colour lives in the SVGs: browsers often skip CSS backgrounds when printing.
+       Black on white for the words and the code, so nothing depends on colour. */
+    .card {
+      display: grid;
+      grid-template: "strip strip" auto "words qr" 1fr "url url" auto / 1fr 41mm;
+      column-gap: 2mm;
+      align-items: center;
+      padding: 5mm 6mm 4mm;
+      border: .25mm dashed #000;
+      /* neighbours share one cutting line */
+      margin: 0 0 -.25mm;
+      overflow: hidden;
+    }
+    .card:nth-child(odd) { margin-right: -.25mm; }
+    .strip { grid-area: strip; display: block; width: 100%; height: 1.6mm; }
+    .words { grid-area: words; display: grid; gap: 1.5mm; }
+    .brand { display: flex; align-items: center; gap: 1.5mm; }
+    .brand svg { flex: none; width: 11mm; height: 11mm; overflow: visible; }
+    h2 { font: 400 7.6mm/.95 "Caveat Brush", "Comic Sans MS", cursive; text-wrap: balance; }
+    .tagline { font-size: 4mm; line-height: 1.1; }
+    .action { font: 400 5mm/1.05 "Caveat Brush", "Comic Sans MS", cursive; }
+    .qr { grid-area: qr; display: block; width: 41mm; height: 41mm; }
+    .url { grid-area: url; font-size: 4.3mm; line-height: 1; letter-spacing: .02em; text-align: center; }
+    .sprite { position: absolute; width: 0; height: 0; }
+    @media print {
+      body { background: none; }
+      .tools { display: none; }
+      .sheet { margin: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="tools">
+    <p>{hint}</p>
+    <button type="button" onclick="print()">{print}</button>
+  </div>
+  <main class="sheet">
+    {Array.from({ length: 8 }, () => (
+      <section class="card">
+        <svg class="strip" viewBox="0 0 4 1" preserveAspectRatio="none" aria-hidden="true">
+          {JOURNEY.map((fill, i) => <rect x={i} width="1" height="1" fill={fill} />)}
+        </svg>
+        <div class="words">
+          <div class="brand">
+            <svg viewBox="-4 -4 108 108" aria-hidden="true"><use href="#lumi"/></svg>
+            <h2>{card.name}</h2>
+          </div>
+          <p class="tagline">{card.tagline}</p>
+          <p class="action">{card.action}</p>
+        </div>
+        <img class="qr" src={link("/qrcode.svg")} alt={card.qr}>
+        <p class="url">{card.url}</p>
+      </section>
+    ))}
+  </main>
+  <Sprite />
+</body>
+</html>

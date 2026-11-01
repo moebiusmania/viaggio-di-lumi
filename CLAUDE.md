@@ -53,6 +53,9 @@ by number, but a rename changes the URL, and saved progress is keyed by URL. Add
 `lessons.yml`, a content folder, a scenes folder, and a `--lN` colour token plus its `[data-lesson="N"]` accent rule
 in `base.css`. Adding a language means copying `src/content/it/` to a new folder and adding it to `BOOKS`. A book not at `/` also needs an entry in `books` in `astro.config.mjs`.
 
+`src/pages/cards.astro` (`/cards/`) is a standalone printable A4 sheet, outside the books and the service workers, with its
+texts in `it/_data/cards.yml`. Nothing may link to it.
+
 **Page anatomy.** The `.md` body is Lumi's speech bubble (or the intro on a `kind: cover` page and the diploma
 bubble on `kind: cert`). Frontmatter holds `title`, `when`, `task`, `fact`, `kind`, and the scene's own texts,
 named descriptively: `slider`, `steps`, `cards`, `spots`, `chips`, `bins`, `labels`, `button(s)`, `caption`,

@@ -44,8 +44,9 @@ const offline = () => ({
       const dest = fileURLToPath(dir);
       const paths = (await walk(dest)).map((file) => relative(dest, file).split("\\").join("/")).filter((path) => {
         const name = path.split("/").at(-1);
-        // the social card is only for link previews, the app never shows it
-        return name !== "sw.js" && !name.startsWith(".") && !path.startsWith("assets/images/social.");
+        // the social card is only for link previews, and the printable cards aren't part of any book
+        return name !== "sw.js" && !name.startsWith(".") && !path.startsWith("assets/images/social.")
+          && !path.startsWith("cards/") && path !== "qrcode.svg";
       });
       const template = await readFile(new URL("./src/lib/sw-template.js", import.meta.url), "utf8");
 
