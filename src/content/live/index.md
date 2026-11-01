@@ -16,7 +16,6 @@ howto:
   - "Sfoglia le pagine con le frecce della tastiera..."
   - "...oppure tocca le frecce in basso, o scorri col dito sullo schermo."
   - "Il pulsante **Indice** in alto ti porta in qualunque pagina."
-  - "Il fumetto in alto fa leggere la pagina ad alta voce."
   - "Ogni attività completata ti regala una stella. Riesci a raccoglierle tutte?"
 grownups: "**Per i grandi:** ogni lezione alterna brevi letture e giochi, e le ultime due finiscono con un quiz. I progressi restano salvati su questo dispositivo."
 ---

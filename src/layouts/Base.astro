@@ -8,7 +8,7 @@ import Toc from "../components/Toc.astro";
 import { fill, link } from "../lib/text";
 
 const { page } = Astro.props;
-const { lang, lesson, index, title, ui, url, home, lessonInfo, jsText } = page;
+const { lang, lesson, index, title, ui, url, home, lessonInfo, jsText, readAloud } = page;
 const absolute = (path: string) => new URL(link(path), Astro.site).href;
 const full = `${title} · ${ui.app.name}`;
 ---
@@ -80,12 +80,14 @@ const full = `${title} · ${ui.app.name}`;
         :title="$store.book.soundLabel">
         <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sound"/></svg><span class="sr-only">{ui.topbar.sound}</span>
       </button>
-      <button class="icon-btn" type="button" data-read aria-pressed="false" title={ui.topbar.read}
-        x-show="$store.book.canRead"
-        @click="$store.book.toggleReading()"
-        :aria-pressed="String($store.book.reading)">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-read"/></svg><span class="sr-only">{ui.topbar.read}</span>
-      </button>
+      {readAloud && (
+        <button class="icon-btn" type="button" data-read aria-pressed="false" title={ui.topbar.read}
+          x-show="$store.book.canRead"
+          @click="$store.book.toggleReading()"
+          :aria-pressed="String($store.book.reading)">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-read"/></svg><span class="sr-only">{ui.topbar.read}</span>
+        </button>
+      )}
       <button class="icon-btn toc-btn" type="button" aria-haspopup="dialog" title={ui.topbar.tocTitle}
         @click="$store.book.openToc()">
         <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-menu"/></svg><span>{ui.topbar.toc}</span>

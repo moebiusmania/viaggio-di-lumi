@@ -27,7 +27,7 @@ async function walk(dir) {
 /** The folder of each book in dist/, and the prefix of its offline cache. See BOOKS in src/lib/book.ts. */
 const books = [
   { home: "", prefix: "lumi-" },
-  { home: "lessons/", prefix: "lessons-" },
+  { home: "live/", prefix: "live-" },
 ];
 
 /**

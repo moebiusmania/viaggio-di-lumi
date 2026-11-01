@@ -40,7 +40,7 @@ are filled by `fill()` in templates and by `t(key, vars)` in JS; a YAML list giv
 item. Keep AUTHORING.md in sync when frontmatter conventions change.
 
 **Pages form one linear book per content folder.** `BOOKS` in `src/lib/book.ts` lists the folders, each with its language,
-address and progress key: `it` is served at `/`, and `lessons` is a shorter edition at `/lessons/` that nothing in the
+address, progress key and read-aloud switch: `it` is served at `/`, and `live` is a shorter edition at `/live/` that nothing in the
 main book may link to. Books share the scenes and can skip pages: files keep their numbers, so gaps are fine. `src/lib/book.ts` derives `lang`, `home`, `url`, `lesson` and
 `order` from each file's path (`content/it/lezione-N/NN-*.md`, the folder only needs to end in `-N`), and
 matches the page to its scene: `src/scenes/lezione-N/NN-*.astro` with the same lesson and
