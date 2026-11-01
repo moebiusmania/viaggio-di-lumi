@@ -87,7 +87,7 @@ const ICONS = [
               <span>{l.subtitle}</span>
               <small>{fill(lessonCard, { pages: l.pages.length })}</small>
             </span>
-            <span class="lesson-card-medal" title={medal} :data-earned={`$store.book.medals.includes(${l.n}) ? '' : null`}><svg viewBox="0 0 100 130" aria-hidden="true"><use href="#medal"/></svg></span>
+            {l.quiz && <span class="lesson-card-medal" title={medal} :data-earned={`$store.book.medals.includes(${l.n}) ? '' : null`}><svg viewBox="0 0 100 130" aria-hidden="true"><use href="#medal"/></svg></span>}
           </a>
         </li>
       ))}

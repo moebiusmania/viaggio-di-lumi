@@ -1,12 +1,15 @@
 import type { APIRoute } from "astro";
-import { appOf, LANGS } from "../../lib/book";
+import { appOf, BOOKS } from "../../lib/book";
 
-/** One web app manifest per language, with the name and description from _data/ui.yml */
+/** One web app manifest per book, with the name and description from _data/ui.yml */
 export const getStaticPaths = () =>
-  LANGS.map((lang, i) => ({ params: { lang: i ? lang : undefined }, props: { lang, up: i ? "../" : "" } }));
+  BOOKS.map(({ folder, lang, home }) => ({
+    params: { lang: home.replace(/^\/|\/$/g, "") || undefined },
+    props: { folder, lang, up: home === "/" ? "" : "../" },
+  }));
 
-export const GET: APIRoute = ({ props: { lang, up } }) => {
-  const app = appOf(lang);
+export const GET: APIRoute = ({ props: { folder, lang, up } }) => {
+  const app = appOf(folder);
   const icon = (src: string, sizes: string, type: string, purpose = "any") => ({
     src: up + src,
     sizes,

@@ -13,7 +13,7 @@ const absolute = (path: string) => new URL(link(path), Astro.site).href;
 const full = `${title} · ${ui.app.name}`;
 ---
 <!doctype html>
-<html lang={lang} data-lesson={lesson || 0} data-index={index ?? -1} data-offline={import.meta.env.PROD ? "" : undefined}>
+<html lang={lang} data-lesson={lesson || 0} data-index={index ?? -1} data-offline={import.meta.env.PROD ? link(home) : undefined}>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">

@@ -1,0 +1,16 @@
+- n: 1
+  title: Il Big Bang
+  subtitle: Tutto comincia con un... BUM!
+  when: 13,8 miliardi di anni fa
+- n: 2
+  title: Stelle e galassie
+  subtitle: Si accendono le prime luci del cosmo
+  when: Da 13,6 miliardi di anni fa
+- n: 3
+  title: La nascita del Sole
+  subtitle: Una nube, un disco... e una stella tutta nostra
+  when: 4,6 miliardi di anni fa
+- n: 4
+  title: La nascita della Terra
+  subtitle: Dal fuoco agli oceani, ecco la nostra casa
+  when: 4,5 miliardi di anni fa

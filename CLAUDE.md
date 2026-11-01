@@ -26,7 +26,7 @@ There are no tests and no linter or formatter. Verify changes by running `bun ru
 **Texts and code are strictly separate.** Authors must be able to edit every word without touching code:
 
 ```
-src/content/<lang>/            TEXT ONLY: index.md, lezione-N/NN-*.md, _data/lessons.yml, _data/ui.yml
+src/content/<book>/            TEXT ONLY: index.md, lezione-N/NN-*.md, _data/lessons.yml, _data/ui.yml
 src/layouts/                   Base.astro (shell) · Slide.astro (book page) · Home.astro (cover markup)
 src/scenes/                    one code-only scene per page (lezione-N/NN-*.astro) + shared quiz.astro
 src/components/, src/assets/   code, no literal text
@@ -39,18 +39,19 @@ the page's `strings:` and overrides `ui.yml`'s `js:` keys with the same name, e.
 are filled by `fill()` in templates and by `t(key, vars)` in JS; a YAML list given to `t()` yields a random
 item. Keep AUTHORING.md in sync when frontmatter conventions change.
 
-**Pages form one linear book per language.** `LANGS` in `src/lib/book.ts` lists the content folders. The first one is
-served at `/`, the others at `/<lang>/`. `src/lib/book.ts` derives `lang`, `home`, `url`, `lesson` and
+**Pages form one linear book per content folder.** `BOOKS` in `src/lib/book.ts` lists the folders, each with its language,
+address and progress key: `it` is served at `/`, and `lessons` is a shorter edition at `/lessons/` that nothing in the
+main book may link to. Books share the scenes and can skip pages: files keep their numbers, so gaps are fine. `src/lib/book.ts` derives `lang`, `home`, `url`, `lesson` and
 `order` from each file's path (`content/it/lezione-N/NN-*.md`, the folder only needs to end in `-N`), and
 matches the page to its scene: `src/scenes/lezione-N/NN-*.astro` with the same lesson and
 number (`kind: quiz` pages use the shared `scenes/quiz.astro`). It throws if a scene is missing. It then orders the
-slides per language and injects `prev`/`next`, `index`, `total`, `pageNum`, `lessonTotal`, `lessonInfo`,
+slides per book and injects `prev`/`next`, `index`, `total`, `pageNum`, `lessonTotal`, `lessonInfo`,
 `lastLesson`, a shared `toc`, and `jsText` (the JSON of texts for the JS). `src/pages/[...lang]/manifest.webmanifest.ts` writes one
-manifest per language from `ui.yml`'s `app:` block. Adding a page means a `.md` in every content
-language plus a scene with the same number. Content files can be renamed or translated because scenes are matched
+manifest per book from `ui.yml`'s `app:` block. Adding a page means a `.md` in the content
+folders that want it plus a scene with the same number. Content files can be renamed or translated because scenes are matched
 by number, but a rename changes the URL, and saved progress is keyed by URL. Adding a lesson means an entry in
 `lessons.yml`, a content folder, a scenes folder, and a `--lN` colour token plus its `[data-lesson="N"]` accent rule
-in `base.css`. Adding a language means copying `src/content/it/` to `src/content/<lang>/` and adding it to `LANGS`.
+in `base.css`. Adding a language means copying `src/content/it/` to a new folder and adding it to `BOOKS`. A book not at `/` also needs an entry in `books` in `astro.config.mjs`.
 
 **Page anatomy.** The `.md` body is Lumi's speech bubble (or the intro on a `kind: cover` page and the diploma
 bubble on `kind: cert`). Frontmatter holds `title`, `when`, `task`, `fact`, `kind`, and the scene's own texts,
@@ -107,8 +108,8 @@ filled shapes lose the `#1d1846` outline (open strokes stay as felt tip) and eac
 brown: `--tx-board` is undyed, so multiply it on a palette colour. Bare kraft only shows in cut edges and thickness.
 
 **Offline / service worker.** Production builds set `data-offline` on `<html>`, which gates SW registration.
-After a build, the `astro:build:done` hook in `astro.config.mjs` walks `dist/`, hashes every file, and writes `sw.js`
-from the `src/lib/sw-template.js` template by replacing `"__VERSION__"` and `__FILES__`. Any output change bumps the version. Paths in
+After a build, the `astro:build:done` hook in `astro.config.mjs` walks `dist/`, hashes the files, and writes one `sw.js` per book
+(so neither lists the other) from the `src/lib/sw-template.js` template by replacing `"__VERSION__"`, `__PREFIX__`, `__ROOT__` and `__FILES__`. Any output change bumps the version. Paths in
 the precache list are relative so the site works under a GitHub Pages sub-path.
 
 **Base path.** Always pass internal URLs through `link()` (`link("/assets/...")`, `link(home)`) in templates; don't

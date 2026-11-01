@@ -105,7 +105,7 @@ const UPDATE_EVERY = 30 * 60 * 1000;
 const standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
 
 async function registerOffline() {
-  const reg = await navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`, {
+  const reg = await navigator.serviceWorker.register(`${html.dataset.offline}sw.js`, {
     updateViaCache: "none", // always fetch sw.js from the network when checking
   });
   // every page turn loads a new document, so the last check time is kept in storage

@@ -85,7 +85,7 @@ has its own illustration in `src/scenes/`.
 1. Copy `src/content/it/` to `src/content/<code>/`, e.g. `src/content/en/`.
 2. Translate every `.md` file and both files in `_data/`. In `ui.yml`, set `locale` (e.g. `en-GB`): it picks the
    read-aloud voice and the date format.
-3. Ask a developer to add the language code to `LANGS` in `src/lib/book.ts`.
+3. Ask a developer to add the language code to `BOOKS` in `src/lib/book.ts`.
 
 You can translate the file and folder names too (`lezione-1/03-palloncino.md` → `lesson-1/03-balloon.md`), as long
 as the numbers stay the same. The translated book is served at `/<code>/` (e.g. `/en/lesson-1/03-balloon/`).

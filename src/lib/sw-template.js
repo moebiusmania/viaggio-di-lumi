@@ -11,9 +11,13 @@
 const VERSION = "__VERSION__";
 const FILES = __FILES__;
 
-const PREFIX = "lumi-";
+// Each book has its own worker and cache. Prefixes must not overlap, since a worker
+// deletes every other cache with its prefix.
+const PREFIX = "__PREFIX__";
 const CACHE = PREFIX + VERSION;
 const HOME = new URL("./", self.location).href;
+// the site root: a book under it also loads the shared /_astro and /assets files
+const ROOT = new URL("__ROOT__", self.location).href;
 
 self.addEventListener("install", (event) => {
   event.waitUntil((async () => {
@@ -34,7 +38,7 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
   const req = event.request;
-  if (req.method !== "GET" || !req.url.startsWith(HOME)) return;
+  if (req.method !== "GET" || !req.url.startsWith(ROOT)) return;
 
   event.respondWith((async () => {
     const cache = await caches.open(CACHE);

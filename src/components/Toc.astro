@@ -23,7 +23,7 @@ const current = (href: string) => (href === url ? "page" : undefined);
             <span class="toc-title">{l.title}<small>{l.subtitle}</small></span>
             <span class="toc-progress" style="--p: 0"
               :style={`{ '--p': $store.book.lessonShare(${l.n}) }`}
-              :class={`{ complete: $store.book.medals.includes(${l.n}) }`}></span>
+              :class={l.quiz ? `{ complete: $store.book.medals.includes(${l.n}) }` : `{ complete: $store.book.lessonShare(${l.n}) === 1 }`}></span>
           </summary>
           <ol class="toc-pages">
             {l.pages.map((p) => (

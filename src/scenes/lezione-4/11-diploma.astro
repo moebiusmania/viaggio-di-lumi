@@ -30,7 +30,7 @@ const { content, diploma, form, n, toc, total } = Astro.props;
       <p><Fragment set:html={md(diploma.text)} /></p>
       <div class="cert-stats">
         <span><Fragment set:html={fill(diploma.stars, { n: "<b data-stars>0</b>" })} /></span>
-        <span><Fragment set:html={fill(diploma.medals, { n: "<b data-medals>0</b>", total: toc.length })} /></span>
+        <span><Fragment set:html={fill(diploma.medals, { n: "<b data-medals>0</b>", total: toc.filter((l) => l.quiz).length })} /></span>
       </div>
       <p class="cert-date" data-date></p>
       <svg class="cert-lumi" viewBox="-4 -4 108 108" aria-hidden="true"><use href="#lumi"/></svg>

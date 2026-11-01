@@ -78,7 +78,7 @@ left over from a production build, so live reload keeps working.
 
 ## Texts and code are separate
 
-Every text lives in `src/content/<lang>/`. Authors edit Markdown and YAML there without touching any code. See
+Every text lives in `src/content/<book>/`. Authors edit Markdown and YAML there without touching any code. See
 [AUTHORING.md](AUTHORING.md). A page is a `.md` file. Its frontmatter holds the page details and the words of its
 activity, and its body is Lumi's speech bubble:
 
@@ -108,8 +108,7 @@ The JS never contains text. `Base.astro` writes a JSON blob with `_data/ui.yml`'
 `strings:`, and components read it with `t("key", { n })`. `{name}` placeholders work the same way in templates,
 through the `fill()` helper.
 
-**Languages.** `LANGS` in `src/lib/book.ts` lists the content folders. The first one is served at `/`, the others at
-`/<lang>/`, each with its own page chain, TOC, manifest, read-aloud voice and date format (`ui.yml` → `app.locale`).
+**Languages.** `BOOKS` in `src/lib/book.ts` lists the content folders and the address of each, with its own page chain, TOC, manifest, read-aloud voice and date format (`ui.yml` → `app.locale`).
 Content files can be renamed or translated freely, because scenes are matched by lesson and page number.
 
 ## Modern platform features used

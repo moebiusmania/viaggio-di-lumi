@@ -24,37 +24,59 @@ async function walk(dir) {
   return files.flat();
 }
 
+/** The folder of each book in dist/, and the prefix of its offline cache. See BOOKS in src/lib/book.ts. */
+const books = [
+  { home: "", prefix: "lumi-" },
+  { home: "lessons/", prefix: "lessons-" },
+];
+
 /**
- * Offline support: once the site is written, list every file in it and write
- * sw.js from the src/lib/sw-template.js template. Its VERSION is a hash of all the files,
- * so any change to the book makes browsers download the new version.
- * Paths are relative to sw.js, so they work under any base path.
+ * Offline support: once the site is written, write one sw.js per book from the
+ * src/lib/sw-template.js template, listing that book's pages and the shared files.
+ * Its VERSION is a hash of those files, so any change to the book makes browsers
+ * download the new version. Each worker knows only its own book, so sw.js never
+ * gives away the other one. Paths are relative to sw.js, so they work under any base path.
  */
 const offline = () => ({
   name: "lumi-offline",
   hooks: {
     "astro:build:done": async ({ dir, logger }) => {
       const dest = fileURLToPath(dir);
-      const hash = createHash("sha256");
-      const files = [];
-      for (const file of await walk(dest)) {
-        const path = relative(dest, file).split("\\").join("/");
+      const paths = (await walk(dest)).map((file) => relative(dest, file).split("\\").join("/")).filter((path) => {
+        const name = path.split("/").at(-1);
         // the social card is only for link previews, the app never shows it
-        if (path === "sw.js" || path.split("/").at(-1).startsWith(".") || path.startsWith("assets/images/social.")) {
-          continue;
-        }
-        // pages are served as folders: "lezione-1/00-copertina/index.html" -> "lezione-1/00-copertina/"
-        const url = path === "index.html" ? "./" : path.replace(/(^|\/)index\.html$/, "$1");
-        files.push(url);
-        hash.update(url).update(await readFile(file));
-      }
-      const version = hash.digest("hex").slice(0, 12);
+        return name !== "sw.js" && !name.startsWith(".") && !path.startsWith("assets/images/social.");
+      });
       const template = await readFile(new URL("./src/lib/sw-template.js", import.meta.url), "utf8");
-      const sw = template
-        .replace('"__VERSION__"', JSON.stringify(version))
-        .replace("__FILES__", JSON.stringify(files, null, 2));
-      await writeFile(join(dest, "sw.js"), sw);
-      logger.info(`Service worker: ${files.length} files, version ${version}`);
+
+      for (const { home, prefix } of books) {
+        const root = "../".repeat(home.split("/").length - 1) || "./";
+        const inBook = (path) => (home ? path.startsWith(home) : !books.some((b) => b.home && path.startsWith(b.home)));
+        const hash = createHash("sha256");
+        const files = [];
+        for (const path of paths) {
+          let url;
+          if (inBook(path)) {
+            // pages are served as folders: "lezione-1/00-copertina/index.html" -> "lezione-1/00-copertina/"
+            const own = path.slice(home.length);
+            url = own === "index.html" ? "./" : own.replace(/(^|\/)index\.html$/, "$1");
+          } else if (home && /^(_astro|assets)\//.test(path)) {
+            url = root + path;
+          } else {
+            continue;
+          }
+          files.push(url);
+          hash.update(url).update(await readFile(join(dest, path)));
+        }
+        const version = hash.digest("hex").slice(0, 12);
+        const sw = template
+          .replace('"__VERSION__"', JSON.stringify(version))
+          .replace("__PREFIX__", prefix)
+          .replace("__ROOT__", root)
+          .replace("__FILES__", JSON.stringify(files, null, 2));
+        await writeFile(join(dest, home, "sw.js"), sw);
+        logger.info(`Service worker for /${home}: ${files.length} files, version ${version}`);
+      }
     },
   },
 });

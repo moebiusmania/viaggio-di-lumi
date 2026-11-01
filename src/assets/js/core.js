@@ -1,10 +1,8 @@
 // Shared helpers: saved progress, celebrations and little sounds.
 
-const KEY = "lumi-v1";
-
 // ---------- Texts ----------
 // Every text the scripts show comes from the page (see layouts/Base.astro): the shared
-// ones from content/<lang>/_data/ui.yml, plus the `strings` of the page's .md file.
+// ones from content/<book>/_data/ui.yml, plus the `strings` of the page's .md file.
 const TEXT = (() => {
   try {
     return JSON.parse(document.getElementById("lumi-text")?.textContent ?? "{}");
@@ -22,6 +20,9 @@ export function t(key, vars = {}) {
 
 /** Language of the page, e.g. "it-IT" (read-aloud voice, dates) */
 export const locale = TEXT.locale ?? document.documentElement.lang;
+
+// each book keeps its own progress, under the key given in src/lib/book.ts
+const KEY = TEXT.progressKey;
 
 function load() {
   try {
