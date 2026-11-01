@@ -100,11 +100,11 @@ container queries, `oklch()`, cross-document View Transitions) — no need to ad
 
 **The cardboard look.** Everything should be something you could build from board and paper, lit by one lamp at the
 top left, so shadows fall down and right. Materials are tiles in `src/assets/textures/` baked by `tools/textures/bake.js`
-(`--tx-kraft`, `--tx-grain`, …), multiplied on a colour with `background-blend-mode`. Cut edges use `#cut`, `#torn` and
+(`--tx-board`, `--tx-grain`, …), multiplied on a colour with `background-blend-mode`. Cut edges use `#cut`, `#torn` and
 `#cutout`, the SVG filters at the top of `components/Sprite.astro`. `scenes.css` turns inline SVG into paper automatically:
-filled shapes lose the `#2c1d11` outline (open strokes stay as felt tip) and each top-level piece of a `.scene` gets
-`#cutout`. `.scene` is a diorama: back wall, art, `::before` frame, `::after` grain. Only pick colours from the muted
-paper palette.
+filled shapes lose the `#1d1846` outline (open strokes stay as felt tip) and each top-level piece of a `.scene` gets
+`#cutout`. `.scene` is a diorama: back wall, art, `::before` frame, `::after` grain. The book is dyed card, not plain
+brown: `--tx-board` is undyed, so multiply it on a palette colour. Bare kraft only shows in cut edges and thickness.
 
 **Offline / service worker.** Production builds set `data-offline` on `<html>`, which gates SW registration.
 After a build, the `astro:build:done` hook in `astro.config.mjs` walks `dist/`, hashes every file, and writes `sw.js`

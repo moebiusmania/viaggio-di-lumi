@@ -22,8 +22,8 @@ export const GET: APIRoute = ({ props: { lang, up } }) => {
     start_url: "./",
     scope: "./",
     display: "standalone",
-    background_color: "#84623f",
-    theme_color: "#c49a6c",
+    background_color: "#1b1446",
+    theme_color: "#1b1446",
     categories: ["education", "kids", "books"],
     icons: [
       icon("assets/icons/icon-192.png", "192x192", "image/png"),

@@ -2,7 +2,7 @@
 import "../assets/css/main.css";
 import caveat from "../assets/fonts/caveat-brush-latin.woff2?url";
 import patrick from "../assets/fonts/patrick-hand-latin.woff2?url";
-import kraft from "../assets/textures/kraft.webp?url";
+import board from "../assets/textures/board.webp?url";
 import Sprite from "../components/Sprite.astro";
 import Toc from "../components/Toc.astro";
 import { fill, link } from "../lib/text";
@@ -19,7 +19,7 @@ const full = `${title} · ${ui.app.name}`;
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>{full}</title>
   <meta name="description" content={ui.app.description}>
-  <meta name="theme-color" content="#c49a6c">
+  <meta name="theme-color" content="#1b1446">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content={ui.app.name}>
   <meta property="og:title" content={full}>
@@ -38,7 +38,7 @@ const full = `${title} · ${ui.app.name}`;
   <meta name="apple-mobile-web-app-title" content={ui.app.shortName}>
   <link rel="preload" href={caveat} as="font" type="font/woff2" crossorigin>
   <link rel="preload" href={patrick} as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href={kraft} as="image" type="image/webp">
+  <link rel="preload" href={board} as="image" type="image/webp">
   <script is:inline>
     // Decide which way the page turns before the first paint (forward or back).
     (() => {

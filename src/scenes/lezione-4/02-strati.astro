@@ -5,12 +5,12 @@ const { labels, slider, steps } = Astro.props;
   <div class="scene">
     <svg viewBox="0 0 400 300" aria-hidden="true">
       <g class="planet">
-        <circle cx="140" cy="150" r="115" fill="#d9713c" stroke="#2c1d11" stroke-width="5"/>
-        <circle class="mantle" cx="140" cy="150" r="104" fill="#c95f39"/>
-        <circle class="core" cx="140" cy="150" r="50" fill="#b9b3c2" stroke="#2c1d11" stroke-width="4"/>
+        <circle cx="140" cy="150" r="115" fill="#ff7a3d" stroke="#1d1846" stroke-width="5"/>
+        <circle class="mantle" cx="140" cy="150" r="104" fill="#e8663a"/>
+        <circle class="core" cx="140" cy="150" r="50" fill="#b9b3c2" stroke="#1d1846" stroke-width="4"/>
         <circle class="crust" cx="140" cy="150" r="111" fill="none" stroke="#7a5a44" stroke-width="10"/>
         {([[-70, -40], [60, -60], [-30, 70], [75, 40], [-85, 20], [20, -85], [40, 80], [-50, -75], [85, -20], [-10, 30]]).map((d) => (<>
-        <circle class="iron" cx="140" cy="150" r="9" fill="#8f8a9b" stroke="#2c1d11" stroke-width="2.5" style={`--dx: ${d[0]}; --dy: ${d[1]}`}/>
+        <circle class="iron" cx="140" cy="150" r="9" fill="#8f8a9b" stroke="#1d1846" stroke-width="2.5" style={`--dx: ${d[0]}; --dy: ${d[1]}`}/>
         </>))}
         <g class="labels">
           <text class="label" x="140" y="156" text-anchor="middle" font-size="15">{labels.core}</text>
@@ -19,10 +19,10 @@ const { labels, slider, steps } = Astro.props;
         </g>
       </g>
       <g class="peach">
-        <circle cx="325" cy="150" r="58" fill="#e6aa78" stroke="#2c1d11" stroke-width="5"/>
+        <circle cx="325" cy="150" r="58" fill="#ffb37a" stroke="#1d1846" stroke-width="5"/>
         <circle cx="325" cy="150" r="52" fill="#ffd7a1"/>
-        <ellipse cx="325" cy="150" rx="22" ry="28" fill="#a0522d" stroke="#2c1d11" stroke-width="4"/>
-        <path d="M325 92 q10 -22 30 -18 q-8 16 -30 18 z" fill="#5fae80" stroke="#2c1d11" stroke-width="3"/>
+        <ellipse cx="325" cy="150" rx="22" ry="28" fill="#a0522d" stroke="#1d1846" stroke-width="4"/>
+        <path d="M325 92 q10 -22 30 -18 q-8 16 -30 18 z" fill="#3ddc97" stroke="#1d1846" stroke-width="3"/>
         <text class="label" x="325" y="235" text-anchor="middle" font-size="16">{labels.peach}</text>
       </g>
     </svg>

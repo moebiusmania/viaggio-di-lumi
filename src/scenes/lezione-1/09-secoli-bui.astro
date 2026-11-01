@@ -6,9 +6,9 @@ const { hint } = Astro.props;
     {([[18, 25, 1], [72, 20, 0.8], [45, 55, 1.2], [15, 78, 0.9], [80, 72, 1]]).map((c) => (<>
     <span class="cloud" data-find style={`--x: ${c[0]}%; --y: ${c[1]}%; --s: ${c[2]}`}>
       <svg viewBox="0 0 120 80" aria-hidden="true">
-        <path d="M20 62 Q2 60 8 44 Q6 26 28 28 Q34 8 58 14 Q80 4 90 26 Q116 26 110 48 Q116 66 94 64 Z" fill="#8d9bd0" stroke="#2c1d11" stroke-width="4" stroke-linejoin="round"/>
-        <path d="M44 40 q5 4 10 0 M66 40 q5 4 10 0" fill="none" stroke="#2c1d11" stroke-width="3" stroke-linecap="round"/>
-        <text x="30" y="58" font-size="12" font-weight="800" fill="#2c1d11">H</text><text x="84" y="58" font-size="12" font-weight="800" fill="#2c1d11">He</text>
+        <path d="M20 62 Q2 60 8 44 Q6 26 28 28 Q34 8 58 14 Q80 4 90 26 Q116 26 110 48 Q116 66 94 64 Z" fill="#9aa7ff" stroke="#1d1846" stroke-width="4" stroke-linejoin="round"/>
+        <path d="M44 40 q5 4 10 0 M66 40 q5 4 10 0" fill="none" stroke="#1d1846" stroke-width="3" stroke-linecap="round"/>
+        <text x="30" y="58" font-size="12" font-weight="800" fill="#1d1846">H</text><text x="84" y="58" font-size="12" font-weight="800" fill="#1d1846">He</text>
       </svg>
     </span>
     </>))}
@@ -28,8 +28,8 @@ const { hint } = Astro.props;
         cursor: pointer;
         animation: float 4s ease-in-out infinite;
         &:nth-child(2n) { animation-delay: -2s; }
-        &.found { z-index: 3; filter: drop-shadow(0 0 12px #8d9bd0); animation: placed .6s var(--ease-bounce), float 4s 0.6s ease-in-out infinite; }
-        &.found path:first-child { fill: #c3cbe6; }
+        &.found { z-index: 3; filter: drop-shadow(0 0 12px #9aa7ff); animation: placed .6s var(--ease-bounce), float 4s 0.6s ease-in-out infinite; }
+        &.found path:first-child { fill: #c9d0ff; }
       }
       .dark {
         position: absolute;

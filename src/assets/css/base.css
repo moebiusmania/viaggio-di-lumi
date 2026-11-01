@@ -59,43 +59,43 @@
     interpolate-size: allow-keywords;
 
     /* Materials: baked in tools/textures/, tileable, loaded once */
-    --tx-kraft: url("../textures/kraft.webp");
+    --tx-board: url("../textures/board.webp");
     --tx-grain: url("../textures/grain.webp");
     --tx-paper: url("../textures/paper.webp");
     --tx-night: url("../textures/night.webp");
     --tx-edge: url("../textures/edge.webp");
     --tx-ribs: url("../textures/ribs.webp");
 
-    /* Ink: a felt-tip pen on brown card */
-    --ink: #2c1d11;
-    --ink-soft: #5e4832;
-    --stamp: #a7321f;
+    /* Ink: an indigo felt-tip pen */
+    --ink: oklch(23% 0.09 285);
+    --ink-soft: oklch(40% 0.08 285);
+    --stamp: oklch(46% 0.17 358);
 
-    /* Board */
+    /* Bare board, where a cut shows the inside of the card */
     --kraft: #c49a6c;
-    --kraft-light: #fff3df;
+    --kraft-light: oklch(98.5% 0.022 92);
     --kraft-side: #a57f54;
     --kraft-dark: #6e5236;
     --kraft-deep: #3d2b1b;
-    --paper: #f6f0e3;
-    --paper-2: #e9dec8;
-    --space-1: #10142c;
-    --space-2: #1a2147;
-    --space-3: #2a2a5c;
+    --paper: oklch(98.5% 0.022 92);
+    --paper-2: oklch(94.5% 0.045 88);
+    --space-1: oklch(17% 0.07 285);
+    --space-2: oklch(27% 0.13 295);
+    --space-3: oklch(36% 0.16 310);
 
-    /* Construction paper: matt, slightly dusty colours */
-    --sun: #efbd38;
-    --gold: #dca026;
-    --orange: #dd7f38;
-    --red: #c9463a;
-    --pink: #dd7188;
-    --purple: #7a5ba8;
-    --blue: #3f6cae;
-    --sky: #80b4cc;
-    --mint: #7dbb9c;
-    --green: #5a975d;
-    --brown: #875f3e;
-    --rock: #93826f;
+    /* Dyed card */
+    --sun: oklch(88% 0.17 92);
+    --gold: oklch(80% 0.17 75);
+    --orange: oklch(74% 0.18 52);
+    --red: oklch(64% 0.22 28);
+    --pink: oklch(73% 0.18 358);
+    --purple: oklch(62% 0.2 295);
+    --blue: oklch(62% 0.17 255);
+    --sky: oklch(81% 0.12 225);
+    --mint: oklch(84% 0.14 170);
+    --green: oklch(70% 0.17 148);
+    --brown: oklch(56% 0.09 55);
+    --rock: oklch(62% 0.03 60);
 
     --l1: var(--pink);
     --l2: var(--sky);
@@ -115,9 +115,9 @@
 
     /* Light comes from a lamp at the top left. Each value stacks the visible
        thickness of the board, then its contact shadow, then its soft shadow. */
-    --lift-1: 0 1px 1px oklch(20% .03 60 / .5), 1px 2px 3px oklch(20% .03 60 / .35);
-    --lift-2: 0 1px 1px oklch(20% .03 60 / .55), 2px 4px 6px oklch(20% .03 60 / .35), 4px 9px 16px oklch(20% .03 60 / .2);
-    --lift-3: 0 2px 2px oklch(20% .03 60 / .6), 4px 8px 12px oklch(20% .03 60 / .35), 10px 20px 36px oklch(20% .03 60 / .32);
+    --lift-1: 0 1px 1px oklch(13% .07 285 / .5), 1px 2px 3px oklch(13% .07 285 / .35);
+    --lift-2: 0 1px 1px oklch(13% .07 285 / .55), 2px 4px 6px oklch(13% .07 285 / .35), 4px 9px 16px oklch(13% .07 285 / .2);
+    --lift-3: 0 2px 2px oklch(13% .07 285 / .6), 4px 8px 12px oklch(13% .07 285 / .35), 10px 20px 36px oklch(13% .07 285 / .32);
     --thick: 0 3px 0 var(--kraft-side), 0 4px 0 var(--kraft-dark), 0 5px 0 var(--kraft-side);
     --shadow: var(--lift-2);
     --shadow-sm: var(--lift-1);
@@ -139,7 +139,7 @@
 }
 
 @layer base {
-  html { scrollbar-gutter: stable; background: var(--kraft-dark); }
+  html { scrollbar-gutter: stable; background: var(--space-1); }
   html:has(.book) { scrollbar-gutter: auto; overflow: hidden; }
 
   body {
@@ -189,13 +189,18 @@
 
   .sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
 
-  /* The work table: a big scuffed sheet of board, darker than the book on it */
+  /* The work table: a big sheet of board dyed night blue, with the colours bleeding into it */
   .desk {
     position: fixed;
     inset: 0;
     z-index: -1;
-    background: var(--tx-kraft) 0 0 / 760px, #a5917c;
-    background-blend-mode: multiply;
+    background:
+      radial-gradient(60vmax 45vmax at 12% 8%, oklch(46% 0.2 300 / .6), transparent 70%),
+      radial-gradient(55vmax 40vmax at 92% 95%, oklch(52% 0.19 350 / .42), transparent 70%),
+      radial-gradient(40vmax 30vmax at 80% 15%, oklch(52% 0.15 240 / .42), transparent 70%),
+      var(--tx-board) 0 0 / 760px,
+      var(--space-2);
+    background-blend-mode: normal, normal, normal, multiply, normal;
   }
 
   /* The pool of light from the desk lamp. It lives on its own composited layer and
@@ -235,9 +240,10 @@
     align-items: center;
     gap: 1rem;
     padding: .4rem clamp(.75rem, 2vw, 1.5rem) .5rem;
-    background: var(--tx-kraft) 120px 40px / 760px, #f0e0c8;
+    background: var(--tx-board) 120px 40px / 760px, var(--space-1);
     background-blend-mode: multiply;
-    box-shadow: 0 1px 0 var(--kraft-light) inset, var(--lift-2);
+    color: var(--paper);
+    box-shadow: 0 1px 0 oklch(100% 0 0 / .14) inset, var(--lift-2);
 
     /* the corrugated cross-section shows where the strip was cut */
     &::after {
@@ -247,7 +253,7 @@
       height: 11px;
       background: var(--tx-edge) 0 0 / auto 100%;
       filter: url(#cut-fine);
-      box-shadow: 0 3px 6px oklch(15% .03 60 / .5);
+      box-shadow: 0 3px 6px oklch(13% .07 285 / .5);
     }
   }
 
@@ -261,7 +267,7 @@
     line-height: 1;
     white-space: nowrap;
 
-    & b { color: var(--stamp); font-size: 1em; }
+    & b { color: var(--sun); font-size: 1em; }
     & span { @media (width < 36rem) { display: none; } }
     & svg { width: 2.7rem; transition: rotate .6s var(--ease-bounce); filter: url(#cutout); overflow: visible; }
     &:hover svg { rotate: 72deg; }
@@ -283,6 +289,7 @@
 
   /* A strip of coloured masking tape */
   .pill {
+    color: var(--ink);
     padding: 0 .8rem;
     background: var(--tx-grain) 0 0 / 300px, var(--accent);
     background-blend-mode: multiply;
@@ -299,6 +306,7 @@
 
   /* A little tag on a string */
   .star-count {
+    color: var(--ink);
     display: flex;
     align-items: center;
     gap: .2rem;
@@ -307,7 +315,7 @@
     background-blend-mode: multiply;
     border-radius: 2px 10px 10px 2px;
     clip-path: polygon(10% 0, 100% 0, 100% 100%, 10% 100%, 0 50%);
-    filter: drop-shadow(1px 2px 1px oklch(15% .03 60 / .5));
+    filter: drop-shadow(1px 2px 1px oklch(13% .07 285 / .5));
     font-family: var(--font-head);
     font-size: 1.45rem;
     line-height: 1.2;
@@ -403,7 +411,7 @@
     grid-template-rows: minmax(0, 1fr);
     min-height: 0;
     margin: 0 10px 14px 1.1rem;
-    background: var(--tx-kraft) 0 0 / 760px, var(--kraft-light);
+    background: var(--tx-board) 0 0 / 760px, var(--kraft-light);
     background-blend-mode: multiply;
     color: var(--ink);
     border-radius: 6px var(--radius) var(--radius) 6px;
@@ -413,7 +421,7 @@
       3px 2px 0 var(--kraft-side), 4px 3px 0 var(--kraft-dark),
       6px 4px 0 var(--kraft), 7px 5px 0 var(--kraft-dark),
       9px 6px 0 var(--kraft-side), 10px 7px 0 var(--kraft-deep),
-      18px 22px 34px oklch(15% .04 60 / .55);
+      18px 22px 34px oklch(13% .07 285 / .55);
 
     /* the spine: bare ribs held by a strip of cloth tape in the colour of the lesson */
     &::before {
@@ -429,7 +437,7 @@
         var(--accent);
       background-blend-mode: normal, normal, multiply;
       border-radius: 5px 3px 3px 5px;
-      filter: url(#cut) drop-shadow(2px 1px 2px oklch(15% .03 60 / .55));
+      filter: url(#cut) drop-shadow(2px 1px 2px oklch(13% .07 285 / .55));
     }
 
     /* bottom cut edge of the page */
@@ -465,25 +473,25 @@
     & h1 {
       font-size: clamp(2.3rem, 1.5rem + 2.6vw, 3.5rem);
       /* felt tip soaks a little into the card */
-      text-shadow: 0 0 1px oklch(20% .04 60 / .55);
+      text-shadow: 0 0 1px oklch(13% .07 285 / .55);
     }
   }
 
-  /* Rubber stamp */
+  /* A label of dyed card, printed with a rubber stamp */
   .kicker {
     align-self: flex-start;
-    padding: .12rem .6rem 0;
-    color: var(--stamp);
-    border: 2.5px solid currentColor;
-    border-radius: 5px;
+    padding: .14rem .65rem 0;
+    color: var(--ink);
+    background: var(--tx-grain) 0 0 / 300px, var(--accent);
+    background-blend-mode: multiply;
+    border-radius: 4px;
+    box-shadow: var(--lift-1);
     font-family: var(--font-stamp);
     font-size: .95rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: .08em;
     rotate: -1.1deg;
-    opacity: .86;
-    mix-blend-mode: multiply;
   }
 
   .slide-body {
@@ -528,6 +536,7 @@
   .bubble {
     position: relative;
     isolation: isolate;
+    color: var(--ink);
     display: grid;
     gap: .55rem;
     padding: 1rem 1.25rem 1.1rem;
@@ -539,7 +548,7 @@
       position: absolute;
       z-index: -1;
       inset: 0;
-      background: var(--tx-paper) 0 0 / 420px, var(--paper);
+      background: var(--tx-paper) 0 0 / 420px, #fff;
       background-blend-mode: multiply;
       filter: url(#torn);
     }
@@ -553,12 +562,12 @@
       left: -13px;
       width: 24px;
       height: 26px;
-      background: var(--paper);
+      background: #fff;
       clip-path: polygon(100% 0, 0 45%, 100% 100%);
-      filter: drop-shadow(-1px 2px 1px oklch(15% .03 60 / .4));
+      filter: drop-shadow(-1px 2px 1px oklch(13% .07 285 / .4));
     }
 
-    & strong { color: var(--stamp); }
+    & strong { color: oklch(from var(--accent) calc(l - .34) calc(c + .03) h); }
   }
 
   /* Notes cut from coloured card */
@@ -588,14 +597,14 @@
   }
 
   .task {
-    --note: color-mix(in oklch, var(--accent) 72%, var(--paper));
-    --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none' stroke='%232c1d11' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M20 3.5a16.5 16.5 0 1 1-.4 0M20 11a9 9 0 1 1-.3 0'/%3E%3Ccircle cx='20' cy='20' r='2.6' fill='%232c1d11'/%3E%3C/svg%3E");
+    --note: color-mix(in srgb, var(--accent) 62%, #fff);
+    --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none' stroke='%231d1846' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M20 3.5a16.5 16.5 0 1 1-.4 0M20 11a9 9 0 1 1-.3 0'/%3E%3Ccircle cx='20' cy='20' r='2.6' fill='%231d1846'/%3E%3C/svg%3E");
     rotate: -.35deg;
   }
 
   .fact {
     --note: var(--paper-2);
-    --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none' stroke='%232c1d11' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 4c-7 0-12 5-12 11.500 0 4.500 2.500 7 4.500 9.500 1 1.500 1 2.500 1 4h13c0-1.500 0-2.500 1-4 2-2.500 4.500-5 4.500-9.500C32 9 27 4 20 4zM15 34h10M17 37.500h6'/%3E%3C/svg%3E");
+    --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none' stroke='%231d1846' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 4c-7 0-12 5-12 11.500 0 4.500 2.500 7 4.500 9.500 1 1.500 1 2.500 1 4h13c0-1.500 0-2.500 1-4 2-2.500 4.500-5 4.500-9.500C32 9 27 4 20 4zM15 34h10M17 37.500h6'/%3E%3C/svg%3E");
     rotate: .3deg;
     font-size: .98em;
     /* stitched with a sewing machine */
@@ -647,9 +656,9 @@
     gap: 1rem;
     padding: .4rem .55rem;
     border-radius: var(--cut);
-    background: var(--tx-kraft) 300px 80px / 760px, #f0e0c8;
+    background: var(--tx-board) 300px 80px / 760px, var(--space-1);
     background-blend-mode: multiply;
-    box-shadow: inset 1px 1px 0 oklch(100% 0 0 / .3), var(--thick), 3px 11px 14px oklch(15% .04 60 / .5);
+    box-shadow: inset 1px 1px 0 oklch(100% 0 0 / .3), var(--thick), 3px 11px 14px oklch(13% .07 285 / .5);
   }
 
   .nav-arrow {
@@ -665,7 +674,7 @@
     background: var(--tx-grain) 0 0 / 300px, var(--paper-2);
     background-blend-mode: multiply;
     color: var(--ink);
-    box-shadow: 0 1px 0 oklch(100% 0 0 / .5) inset, 0 3px 0 #b09a78, 0 5px 0 var(--kraft-dark), 1px 6px 5px oklch(15% .03 60 / .5);
+    box-shadow: 0 1px 0 oklch(100% 0 0 / .5) inset, 0 3px 0 #b09a78, 0 5px 0 var(--kraft-dark), 1px 6px 5px oklch(13% .07 285 / .5);
     text-decoration: none;
     font-family: var(--font-head);
     font-size: 1.55rem;
@@ -674,9 +683,9 @@
 
     & svg { width: 1.8rem; flex-shrink: 0; }
 
-    &.next { --bg: var(--sun); background-color: var(--sun); padding-inline: 1.2rem .9rem; box-shadow: 0 1px 0 oklch(100% 0 0 / .4) inset, 0 3px 0 #b98c22, 0 5px 0 var(--kraft-dark), 1px 6px 5px oklch(15% .03 60 / .5); }
+    &.next { --bg: var(--sun); background-color: var(--sun); padding-inline: 1.2rem .9rem; box-shadow: 0 1px 0 oklch(100% 0 0 / .4) inset, 0 3px 0 #b98c22, 0 5px 0 var(--kraft-dark), 1px 6px 5px oklch(13% .07 285 / .5); }
     &:hover { translate: 0 -1px; }
-    &:active, &.pressed { translate: 0 4px; box-shadow: 0 1px 0 var(--kraft-dark), 0 2px 2px oklch(15% .03 60 / .5); }
+    &:active, &.pressed { translate: 0 4px; box-shadow: 0 1px 0 var(--kraft-dark), 0 2px 2px oklch(13% .07 285 / .5); }
     &.next:hover svg { animation: nudge .6s ease-in-out infinite alternate; }
   }
 
@@ -697,7 +706,7 @@
       width: 1rem;
       height: 1rem;
       border-radius: 50%;
-      background: var(--kraft-deep);
+      background: oklch(36% .12 295);
       box-shadow: var(--hole);
       transition: scale .3s var(--ease-bounce);
       &:hover { scale: 1.2; }
@@ -716,7 +725,7 @@
       }
       &[data-visited]::after { scale: 1; }
       &[data-done]::after { background-color: var(--sun); }
-      &[aria-current] { scale: 1.25; outline: 2.5px solid var(--ink); outline-offset: 2.5px; }
+      &[aria-current] { scale: 1.25; outline: 2.5px solid var(--paper); outline-offset: 2.5px; }
       &[aria-current]::after { scale: 1; }
     }
   }

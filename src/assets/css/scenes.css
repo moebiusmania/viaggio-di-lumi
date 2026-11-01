@@ -3,8 +3,8 @@
 
 /* Pieces cut from card have no outline. Only open strokes (mouths, lines, rings) stay:
    they are drawn on the paper with a felt tip. */
-.scene svg [stroke="#2c1d11"]:not([fill="none"], line, polyline),
-.hero-art svg [stroke="#2c1d11"]:not([fill="none"], line, polyline) { stroke: none; }
+.scene svg [stroke="#1d1846"]:not([fill="none"], line, polyline),
+.hero-art svg [stroke="#1d1846"]:not([fill="none"], line, polyline) { stroke: none; }
 
 /* Each top-level piece is cut out with its own rough edge, relief and cast shadow… */
 .scene > svg > :is(g, circle, ellipse, path, rect, polygon, use) { filter: url(#cutout); }

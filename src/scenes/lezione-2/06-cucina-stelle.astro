@@ -5,10 +5,10 @@ const { spots } = Astro.props;
 <hot-spots>
   <div class="scene">
     <svg viewBox="0 0 400 300" aria-hidden="true">
-      {([[140, '#efbd38'], [115, '#e6a24a'], [90, '#dd7f38'], [66, '#dd6682'], [44, '#9a7dc0'], [22, '#8a8f9e']]).map((l) => (<>
-      <circle cx="200" cy="150" r={l[0]} fill={l[1]} stroke="#2c1d11" stroke-width="4"/>
+      {([[140, '#ffd23f'], [115, '#ffb347'], [90, '#ff8a3d'], [66, '#ff5d8f'], [44, '#b28cff'], [22, '#8a8f9e']]).map((l) => (<>
+      <circle cx="200" cy="150" r={l[0]} fill={l[1]} stroke="#1d1846" stroke-width="4"/>
       </>))}
-      <path d="M200 150 L200 5 A145 145 0 0 1 345 150 Z" fill="#2c1d11" opacity=".35"/>
+      <path d="M200 150 L200 5 A145 145 0 0 1 345 150 Z" fill="#1d1846" opacity=".35"/>
     </svg>
     <button class="spot" style="--x: 50%; --y: 7%" data-label={spots[0].label} data-tip={md(spots[0].tip)}></button>
     <button class="spot" style="--x: 68%; --y: 26%" data-label={spots[1].label} data-tip={md(spots[1].tip)}></button>

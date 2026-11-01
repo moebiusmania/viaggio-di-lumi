@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <!-- App icon: Lumi cut out of card, on corrugated board. Full bleed, Lumi inside the maskable safe zone. -->
+  <!-- App icon: Lumi cut out of card, on night-blue corrugated board. Full bleed, Lumi inside the maskable safe zone. -->
   <defs>
     <filter id="board" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
       <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" seed="3"/>
@@ -7,21 +7,21 @@
       <feComposite in2="SourceGraphic" operator="over"/>
     </filter>
     <pattern id="flutes" width="30" height="30" patternUnits="userSpaceOnUse">
-      <rect width="30" height="30" fill="#c9a77e"/>
+      <rect width="30" height="30" fill="#2d2170"/>
       <rect width="15" height="30" fill="#000" opacity=".045"/>
     </pattern>
     <filter id="cast" x="-20%" y="-20%" width="150%" height="150%">
-      <feDropShadow dx="7" dy="13" stdDeviation="9" flood-color="#2a1a0c" flood-opacity=".55"/>
+      <feDropShadow dx="7" dy="13" stdDeviation="9" flood-color="#0b0824" flood-opacity=".55"/>
     </filter>
   </defs>
   <rect width="512" height="512" fill="url(#flutes)" filter="url(#board)"/>
   <g transform="translate(256 256) scale(3.2) translate(-50 -51)" filter="url(#cast)">
     <path transform="translate(1.500 4.500)" d="M50 8 L64.100 34.600 L93.700 39.800 L72.800 61.400 L77 91.200 L50 78 L23 91.200 L27.200 61.400 L6.300 39.800 L35.900 34.600 Z" fill="#6e5236"/>
     <path transform="translate(.8 2.400)" d="M50 8 L64.100 34.600 L93.700 39.800 L72.800 61.400 L77 91.200 L50 78 L23 91.200 L27.200 61.400 L6.300 39.800 L35.900 34.600 Z" fill="#a57f54"/>
-    <path d="M50 8 L64.100 34.600 L93.700 39.800 L72.800 61.400 L77 91.200 L50 78 L23 91.200 L27.200 61.400 L6.300 39.800 L35.900 34.600 Z" fill="#efbd38"/>
-    <ellipse cx="34" cy="59" rx="4" ry="2.600" fill="#d97f8e" opacity=".75"/><ellipse cx="66" cy="59" rx="4" ry="2.600" fill="#d97f8e" opacity=".75"/>
-    <ellipse cx="41" cy="53" rx="3.600" ry="4.400" fill="#2c1d11"/><ellipse cx="59" cy="53" rx="3.600" ry="4.400" fill="#2c1d11"/>
+    <path d="M50 8 L64.100 34.600 L93.700 39.800 L72.800 61.400 L77 91.200 L50 78 L23 91.200 L27.200 61.400 L6.300 39.800 L35.900 34.600 Z" fill="#ffd23f"/>
+    <ellipse cx="34" cy="59" rx="4" ry="2.600" fill="#ff7aa2" opacity=".75"/><ellipse cx="66" cy="59" rx="4" ry="2.600" fill="#ff7aa2" opacity=".75"/>
+    <ellipse cx="41" cy="53" rx="3.600" ry="4.400" fill="#1d1846"/><ellipse cx="59" cy="53" rx="3.600" ry="4.400" fill="#1d1846"/>
     <circle cx="42.200" cy="51.400" r="1.300" fill="#fff"/><circle cx="60.200" cy="51.400" r="1.300" fill="#fff"/>
-    <path d="M45 59.500 Q50 65 55 59.500" fill="none" stroke="#2c1d11" stroke-width="2.400" stroke-linecap="round"/>
+    <path d="M45 59.500 Q50 65 55 59.500" fill="none" stroke="#1d1846" stroke-width="2.400" stroke-linecap="round"/>
   </g>
 </svg>

@@ -4,7 +4,7 @@
 import { confetti, pageDone, reduceMotion, restartAnimation, sound, t } from "./core.js";
 
 const TAU = Math.PI * 2;
-const INK = "#2c1d11";
+const INK = "#1d1846";
 const rand = (a, b) => a + Math.random() * (b - a);
 const pick = (list) => list[Math.floor(Math.random() * list.length)];
 
@@ -80,7 +80,7 @@ MODES.bang = (host) => {
   let parts = [];
   let flash = 0;
   let ring = 0;
-  const COLORS = ["#ffffff", "#f6e6a6", "#efbd38", "#e0943f", "#dd6682", "#a784c4", "#7fbfd6"];
+  const COLORS = ["#ffffff", "#fff3a3", "#ffd23f", "#ff9f43", "#ff5d8f", "#c38cff", "#6fd3ff"];
 
   function boom() {
     const { w, h } = host;
@@ -183,7 +183,7 @@ MODES.bang = (host) => {
 /* ---------- Hot quark soup that cools into protons and neutrons ---------- */
 MODES.soup = (host) => {
   let temp = 1;
-  const QUARK = ["#c9534f", "#62a97c", "#4a86bf"];
+  const QUARK = ["#ff5d6c", "#43d18a", "#4ba3ff"];
   let parts = [];
   let groups = [];
 
@@ -279,13 +279,13 @@ MODES.soup = (host) => {
         groups.forEach((g, gi) => {
           const [mx, my] = centre(gi);
           ctx.globalAlpha = Math.min(1, (bind - 0.3) * 2);
-          ball(ctx, mx, my, 17, g.kind === "p" ? "#ecb7bf" : "#d3cfd9");
+          ball(ctx, mx, my, 17, g.kind === "p" ? "#ffb3c9" : "#d7d3e6");
           ctx.globalAlpha = 1;
         });
       }
       for (const p of parts) {
         if (p.type === "q") ball(ctx, p.x, p.y, p.r, p.c);
-        else if (p.type === "e") ball(ctx, p.x, p.y, p.r, "#f2cf63");
+        else if (p.type === "e") ball(ctx, p.x, p.y, p.r, "#ffe066");
         else {
           ctx.strokeStyle = "#fffbe0";
           ctx.lineWidth = 2;
@@ -304,7 +304,7 @@ MODES.soup = (host) => {
         ctx.textBaseline = "middle";
         groups.forEach((g, gi) => {
           const [mx, my] = centre(gi);
-          ball(ctx, mx + 15, my - 15, 8, g.kind === "p" ? "#dd6682" : "#8a8f9e");
+          ball(ctx, mx + 15, my - 15, 8, g.kind === "p" ? "#ff5d8f" : "#8a8f9e");
           ctx.fillStyle = "#fff";
           ctx.fillText(g.kind === "p" ? "p" : "n", mx + 15, my - 15);
         });
@@ -463,7 +463,7 @@ MODES.gravity = (host) => {
         const r = radius(b.m);
         if (b.m >= 30) {
           glow(ctx, b.x, b.y, r * 3.2, "#ffd23faa");
-          ball(ctx, b.x, b.y, r, "#f2cf63");
+          ball(ctx, b.x, b.y, r, "#ffe066");
           face(ctx, b.x, b.y + r * 0.1, r * 0.9);
         } else if (b.m >= 8) {
           glow(ctx, b.x, b.y, r * 2.2, "#ff9f4366");
@@ -484,10 +484,10 @@ MODES.supernova = (host) => {
   let phase = "star";
   let clock = 0;
   let parts = [];
-  const ELEMENTS = [["C", "#3a3a3a"], ["O", "#7fbfd6"], ["Fe", "#c7743a"], ["Au", "#efbd38"], ["Si", "#9a7dc0"], [
+  const ELEMENTS = [["C", "#3a3a3a"], ["O", "#6fd3ff"], ["Fe", "#c7743a"], ["Au", "#ffd23f"], ["Si", "#b28cff"], [
     "Ca",
     "#ffffff",
-  ], ["N", "#8dc9a6"]];
+  ], ["N", "#7ee8b8"]];
 
   function explode() {
     const { w, h } = host;
@@ -500,7 +500,7 @@ MODES.supernova = (host) => {
         y: h / 2,
         vx: Math.cos(a) * v,
         vy: Math.sin(a) * v,
-        c: pick(["#dd6682", "#efbd38", "#7fbfd6", "#a784c4", "#e0943f"]),
+        c: pick(["#ff5d8f", "#ffd23f", "#6fd3ff", "#c38cff", "#ff9f43"]),
         r: rand(1.5, 3.5),
       };
     });
@@ -555,7 +555,7 @@ MODES.supernova = (host) => {
         glow(ctx, cx, cy, r * 1.8, "#ff5d3d88");
         const g = ctx.createRadialGradient(cx - r * 0.3, cy - r * 0.3, r * 0.1, cx, cy, r);
         g.addColorStop(0, "#ffd08a");
-        g.addColorStop(1, "#cb5136");
+        g.addColorStop(1, "#ff5d3d");
         ball(ctx, cx, cy, r, g);
         face(ctx, cx, cy + r * 0.1, r * 0.8, phase === "collapse" ? "wow" : "happy");
         return;
@@ -684,7 +684,7 @@ MODES.accretion = (host) => {
       // the young Sun
       const sr = rin * 0.55;
       glow(ctx, cx, cy, sr * 2.4, "#ffd23f99");
-      ball(ctx, cx, cy, sr, "#f2cf63");
+      ball(ctx, cx, cy, sr, "#ffe066");
       face(ctx, cx, cy + sr * 0.1, sr * 0.85);
       for (const b of bodies) {
         const x = cx + Math.cos(b.a) * b.R;
@@ -746,7 +746,7 @@ MODES.earth = (host) => {
         vx: Math.cos(a) * rand(40, 140),
         vy: Math.sin(a) * rand(40, 140),
         life: 1,
-        c: comets ? "#bfefff" : pick(["#efbd38", "#e0943f", "#cb5136"]),
+        c: comets ? "#bfefff" : pick(["#ffd23f", "#ff9f43", "#ff5d3d"]),
       });
     }
     if (comets) {
@@ -813,12 +813,12 @@ MODES.earth = (host) => {
       ctx.save();
       ctx.beginPath();
       ctx.arc(cx, cy, R, 0, TAU);
-      ctx.fillStyle = comets ? "#8d6e5a" : "#d9713c";
+      ctx.fillStyle = comets ? "#8d6e5a" : "#ff7a3d";
       ctx.fill();
       ctx.clip();
       if (!comets) {
         // glowing lava cracks and darker cooling crust patches
-        ctx.strokeStyle = "#f2cf63";
+        ctx.strokeStyle = "#ffe066";
         ctx.lineWidth = 3;
         const t = performance.now() / 1000;
         for (let i = 0; i < 6; i++) {
@@ -846,7 +846,7 @@ MODES.earth = (host) => {
           ctx.arc(cx + Math.cos(i * 1.9) * R * 0.6, cy + Math.sin(i * 1.9) * R * 0.55, R * 0.16, 0, TAU);
           ctx.fill();
         }
-        ctx.fillStyle = "#4a8fc0";
+        ctx.fillStyle = "#3fa9f5";
         for (const b of blobs) {
           ctx.beginPath();
           ctx.arc(cx + Math.cos(b.a) * b.d * R, cy + Math.sin(b.a) * b.d * R, b.r * R, 0, TAU);

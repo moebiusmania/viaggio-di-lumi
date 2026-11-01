@@ -44,7 +44,7 @@ src/
   components/              Toc.astro · Sprite.astro (cut-out SVG symbols and the paper filters) · Medal.astro
                            Credits.astro (license footnote on cover + index)
   assets/css/              base.css (fonts, tokens, layout, page turn) · components.css · scenes.css · home.css
-  assets/textures/         kraft, paper, black card, cut edge: tileable WebP baked by tools/textures/
+  assets/textures/         board, paper, black card, cut edge: tileable WebP baked by tools/textures/
   ../public/assets/         icons (icon.svg is the source of the PNGs) · social.png (README banner and og:image,
                            left out of the offline cache) · font licenses
   assets/fonts/            Caveat Brush, Patrick Hand, Stardos Stencil woff2 (OFL texts in public/assets/fonts/)

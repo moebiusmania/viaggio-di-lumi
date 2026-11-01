@@ -119,47 +119,29 @@ function toCanvas(w, h, pixel) {
   return c;
 }
 
-/* ---------- Kraft liner: the brown face of a cardboard box ---------- */
-export function kraft(size = 1024) {
-  const coarse = fibreLayer(size, 11, {
-    count: 34000,
-    length: 22,
-    width: 0.9,
-    angle: Math.PI / 2,
-    spread: 2.4,
-    alpha: 0.11,
-  });
+/* ---------- Undyed board: the same sheet as kraft, in greys, to multiply on any colour ---------- */
+export function board(size = 1024) {
+  const fibres = fibreLayer(size, 11, { count: 34000, length: 22, width: 0.9, angle: Math.PI / 2, spread: 2.4, alpha: 0.11 });
   const fine = fibreLayer(size, 12, { count: 90000, length: 12, width: 0.8, angle: 0, spread: TAU, alpha: 0.16 });
   const blotch = fbm(5, 3, 5);
   const pulp = fbm(6, 128, 3);
   const wander = fbm(7, 4, 3);
   const FLUTES = 34;
-
   const height = new Float32Array(size * size);
   const flute = new Float32Array(size * size);
   for (let y = 0, i = 0; y < size; y++) {
     for (let x = 0; x < size; x++, i++) {
       const u = x / size, v = y / size;
-      // the corrugated sheet pressing through the liner, not perfectly straight
       const f = Math.sin((u + (wander(u, v) - 0.5) * 0.035) * FLUTES * TAU);
       flute[i] = f;
-      height[i] = coarse[i] * 0.3 + fine[i] * 0.3 + (pulp(u, v) - 0.5) * 0.16 + f * 0.05;
+      height[i] = fibres[i] * 0.3 + fine[i] * 0.3 + (pulp(u, v) - 0.5) * 0.16 + f * 0.05;
     }
   }
   const light = shade(height, size, size, 1.5);
-  const r = rng(99);
-  const specks = new Map();
-  for (let i = 0; i < 2600; i++) {
-    const big = r() < 0.08;
-    specks.set(Math.floor(r() * size) + Math.floor(r() * size) * size, big ? 0.55 : 0.78);
-  }
   return toCanvas(size, size, (x, y, i) => {
-    const u = x / size, v = y / size;
-    const b = 0.8 + blotch(u, v) * 0.4;
-    const band = 1 + flute[i] * 0.04; // soft stripes: the giveaway of corrugated board
-    const fibreTint = coarse[i] * 0.36 + fine[i] * 0.2;
-    const k = b * band * light[i] * (specks.get(i) ?? 1);
-    return [(0.75 + fibreTint) * k, (0.6 + fibreTint * 0.92) * k, (0.43 + fibreTint * 0.72) * k];
+    const b = 0.9 + blotch(x / size, y / size) * 0.14;
+    const v = b * (1 + flute[i] * 0.035) * light[i] * (1 + fibres[i] * 0.28 + fine[i] * 0.14);
+    return [v, v, v];
   });
 }
 
@@ -273,7 +255,7 @@ export function ribs(w = 256, h = 256) {
 }
 
 export const TEXTURES = {
-  kraft: [kraft, 0.8],
+  board: [board, 0.8],
   grain: [grain, 0.78],
   paper: [paper, 0.72],
   night: [night, 0.7],

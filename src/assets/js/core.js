@@ -160,7 +160,7 @@ export function sound(kind = "ding") {
 }
 
 // ---------- Confetti: snippets of paper that tumble as they fall ----------
-const COLORS = ["#efbd38", "#dd6682", "#7fbfd6", "#8dc9a6", "#9a7dc0", "#dd7f38", "#f6f0e3"];
+const COLORS = ["#ffd23f", "#ff5d8f", "#6fd3ff", "#7ee8b8", "#b28cff", "#ff8a3d", "#fff7e6"];
 
 export function confetti(el, amount = 36) {
   if (reduceMotion) return;
