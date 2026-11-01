@@ -9,8 +9,8 @@ import { getCollection } from "astro:content";
  * entry in `books` in astro.config.mjs for its offline support.
  */
 export const BOOKS = [
-  { folder: "it", lang: "it", home: "/", progress: "lumi-v1", readAloud: true },
-  { folder: "live", lang: "it", home: "/live/", progress: "lumi-live-v1", readAloud: false },
+  { folder: "it", lang: "it", home: "/", progress: "lumi-v1", readAloud: true, music: false },
+  { folder: "live", lang: "it", home: "/live/", progress: "lumi-live-v1", readAloud: false, music: true },
 ];
 
 const yml = (file: string) =>
@@ -47,7 +47,7 @@ async function build() {
     }
   }
 
-  for (const { folder, lang, home, progress, readAloud } of BOOKS) {
+  for (const { folder, lang, home, progress, readAloud, music } of BOOKS) {
     const ui = yml(`${folder}/_data/ui.yml`);
     const lessons = yml(`${folder}/_data/lessons.yml`);
     const own = entries.filter((e) => e.id.startsWith(`${folder}/`));
@@ -58,6 +58,7 @@ async function build() {
         lang,
         home,
         readAloud,
+        music,
         ui,
         lessons,
         content: entry.rendered?.html ?? "",

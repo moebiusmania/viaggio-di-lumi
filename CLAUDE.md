@@ -40,7 +40,7 @@ are filled by `fill()` in templates and by `t(key, vars)` in JS; a YAML list giv
 item. Keep AUTHORING.md in sync when frontmatter conventions change.
 
 **Pages form one linear book per content folder.** `BOOKS` in `src/lib/book.ts` lists the folders, each with its language,
-address, progress key and read-aloud switch: `it` is served at `/`, and `live` is a shorter edition at `/live/` that nothing in the
+address, progress key, and read-aloud and music switches: `it` is served at `/`, and `live` is a shorter edition at `/live/` that nothing in the
 main book may link to. Books share the scenes and can skip pages: files keep their numbers, so gaps are fine. `src/lib/book.ts` derives `lang`, `home`, `url`, `lesson` and
 `order` from each file's path (`content/it/lezione-N/NN-*.md`, the folder only needs to end in `-N`), and
 matches the page to its scene: `src/scenes/lezione-N/NN-*.astro` with the same lesson and
@@ -92,6 +92,8 @@ Gotchas:
 - `store.js` — the Alpine store `book`: stars, medals, visited marks, sound, read-aloud, index. The `x-*` attributes in
   `Base.astro`, `Toc.astro`, `Slide.astro` and `Home.astro` read it. Components never touch it: they save through
   `progress` and fire `lumi:progress`, and `app.js` then calls `sync()`.
+- `music.js` — background music synthesized with Web Audio, loaded only in books with `music: true`. Page turns end the
+  audio, so the chord comes from the clock and the next page carries on from it.
 - `app.js` — navigation (arrows/keyboard/swipe/trackpad), SW registration, starts Alpine.
 
 **CSS** is layered: `main.css` declares `@layer reset, tokens, base, layout, components, scenes, pages;` and imports

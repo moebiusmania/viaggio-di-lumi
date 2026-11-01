@@ -20,6 +20,11 @@ document.addEventListener("lumi:progress", () => {
   counter?.classList.add("bump");
 });
 
+// ---------- Background music: back on after a page turn ----------
+if (progress.state.music && document.querySelector("[data-music]")) {
+  import("./music.js").then((m) => m.startMusic());
+}
+
 // ---------- Table of contents ----------
 const toc = document.getElementById("toc");
 

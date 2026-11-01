@@ -6,7 +6,7 @@ import Base from "./Base.astro";
 const { page } = Astro.props;
 const {
   kicker, heading, subtitle, content, start, resume, art, toc, ui, lang, lessonsTitle, lessonCard, medal, howtoTitle,
-  howto, grownups, readAloud,
+  howto, grownups, readAloud, music,
 } = page;
 
 const ICONS = [
@@ -14,6 +14,7 @@ const ICONS = [
   '<svg viewBox="0 0 24 24"><use href="#i-tap"/></svg>',
   '<svg viewBox="0 0 24 24"><use href="#i-menu"/></svg>',
   ...(readAloud ? ['<svg viewBox="0 0 24 24"><use href="#i-sound"/></svg>'] : []),
+  ...(music ? ['<svg viewBox="0 0 24 24"><use href="#i-music"/></svg>'] : []),
   '<svg viewBox="-4 -4 108 108"><use href="#star"/></svg>',
 ];
 ---

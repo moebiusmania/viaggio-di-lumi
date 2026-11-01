@@ -29,6 +29,7 @@ Alpine.store("book", {
   medals: [...progress.state.medals],
   last: progress.state.last ?? "",
   sound: progress.state.sound,
+  music: Boolean(progress.state.music),
   reading: false,
   canRead: Boolean(synth),
 
@@ -62,6 +63,13 @@ Alpine.store("book", {
     this.sound = !this.sound;
     progress.set("sound", this.sound);
     sound("ding");
+  },
+
+  async toggleMusic() {
+    this.music = !this.music;
+    progress.set("music", this.music);
+    const { startMusic, stopMusic } = await import("./music.js");
+    this.music ? startMusic() : stopMusic();
   },
 
   openToc() {

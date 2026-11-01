@@ -63,6 +63,7 @@
   &:hover { translate: 0 -1px; }
   &:active { translate: 0 3px; box-shadow: inset 0 1px 0 oklch(100% 0 0 / .5), 0 1px 1px oklch(13% .07 285 / .6); }
   &[aria-pressed="true"][data-read] { background-color: var(--sun); animation: pulse-ring 1.2s infinite; }
+  &[aria-pressed="true"][data-music] { background-color: var(--sun); }
   &[aria-pressed="false"][data-sound] .wave { opacity: 0; }
   &.toc-btn { background-color: var(--sun); padding-inline: .8rem 1rem; border-radius: var(--cut-sm); }
 }
